@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\models\form\LoginForm;
+use frontend\models\searchFrom\GameSearch;
 
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -70,7 +71,16 @@ class SiteController extends Controller {
 //        }
         
         $this->layout = '@frontend/views/layouts/main';
-        return $this->render('index');
+
+        $searchModel = new GameSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+        
+//        return $this->render('index');
     }
 
     /**
