@@ -1,41 +1,43 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
-
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Game Notificator: Вход';
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<div class="login_page">
+    <div class="login_page__container">
+        <div class="login_page__wrapper">
+            <div class="login_page__wrapper__logo">
+                <?= Html::img('@web/images/logo.png', ['alt' => 'logo']) ?>
+                <a href="https://play.google.com/store/apps/details?id=com.gamenotificator">
+                    <?= Html::img('@web/images/button.png', ['alt' => 'logo']) ?>
+                </a>
+                <a href="mailto:inbox@gamenotificator.net">inbox@gamenotificator.net</a>
+            </div>
+            <div class="login_page__wrapper__form">
+                <h4>Game Notificator</h4>
+                <?php 
+                    $form = ActiveForm::begin([
+                        'id' => 'login-form',
+                        'validateOnChange' => false,
+                        'validateOnBlur' => false,
+                    ]); 
+                ?>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                    <?= $form->field($model, 'username')->textInput() ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                    <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                    <div class="form-group">
+                        <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    </div>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?php ActiveForm::end(); ?>
 
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
 </div>

@@ -10,6 +10,11 @@ body {
     padding: 0 0 60px;
 }
 
+.navbar-inverse {
+    background: #000000;
+    background: linear-gradient(-135deg,#643f7b,#000000);
+}
+
 .wrap > .container {
     padding: 70px 15px 20px;
 }
@@ -118,3 +123,71 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+/** LOGIN PAGE  **/
+.login_page {
+    width: 100%;
+    margin: 0 auto;
+}
+.login_page__container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: #000000;
+    background: linear-gradient(-135deg,#643f7b,#000000);
+}
+.login_page__wrapper {
+    width: 960px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 130px 130px 33px 95px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4);
+}
+.login_page__wrapper__logo {
+    width: 265px;
+    text-align: center;
+}
+.login_page__wrapper__logo img {
+    max-width: 100%;
+}
+.login_page__wrapper__logo a {
+    color: #fff;
+}
+.login_page__wrapper__form {
+    width: 361px;
+    color: #fff;
+}
+.login_page__wrapper__form h4 {
+    font-size: 24px;
+    color: #fff;
+    line-height: 1.2;
+    text-align: center;
+    width: 100%;
+    display: block;
+    padding-bottom: 54px;
+}
+.login_page__wrapper__form form {
+    
+}
+.login_page__wrapper__form button {
+    width: 100%;
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+.login_page__wrapper__form button:hover {
+    background-color: #1abc9c;
+    border-color: #1abc9c;
+}
+.login_page__wrapper__form .has-error .control-label {
+    color: #e74c3c;
+}
+/** END LOGIN PAGE  **/
