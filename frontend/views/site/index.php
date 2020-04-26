@@ -10,8 +10,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="site-index">
     <div class="col-md-3 site-index__options">
-        <?= Html::a('Добавить публикацию', ['game/index'], ['class' => 'new_game_link btn-success']) ?>
-        Ждут публикацию
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <?= Html::a('Добавить публикацию', ['game/index'], ['class' => 'new_game_link btn-success']) ?>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">Ждут публикацию</div>
+            <div class="panel-body">
+                // TODO
+            </div>
+        </div>
     </div>
     <div class="col-md-9 site-index__table">
         <?=
@@ -28,28 +37,31 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'published',
                         'content' => function($data){
-                            return $data ? 'Опубликовано' : 'Ждет публикации';
+                            return $data->published 
+                                    ? '<span class="label label-success">Опубликовано</span>' 
+                                    : '<span class="label label-default">Ждет публикации</span>';
                         }
                     ],
                     [
-                        'attribute' => 'website',
-                        'format' => 'raw',
-                        'content' => function($data){
-                            return Html::a('Перейти', $data->website, ['target' => '_blank']);
+                        'attribute' => 'platform',
+                        'label' => 'Платформы',
+                        'content' => function($data) {
+                            $platfroms = $data->gamePlatformReleases;
+                            $text = '';
+                            foreach ($platfroms as $platfrom) {
+                                $text .= '<span class="label label-info">' . $platfrom->platform->name_platform . '</span><br />';
+                            }
+                            return $text;
                         }
                     ],
                     [
-                        'attribute' => 'youtube',
+                        'attribute' => 'links',
+                        'label' => 'Ссылки',
                         'format' => 'raw',
                         'content' => function($data){
-                            return Html::a('Перейти', $data->youtube, ['target' => '_blank']);
-                        }
-                    ],
-                    [
-                        'attribute' => 'twitch',
-                        'format' => 'raw',
-                        'content' => function($data){
-                            return Html::a('Перейти', $data->twitch, ['target' => '_blank']);
+                            return Html::a('Website', $data->website, ['target' => '_blank']) . '<br />' .
+                                    Html::a('YouTube', $data->youtube, ['target' => '_blank']) . '<br />' .
+                                    Html::a('Twitch', $data->twitch, ['target' => '_blank']);
                         }
                     ],
                     [

@@ -61,44 +61,48 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-5">
             <div class="panel panel-info">
                 <div class="panel-heading">Платформы</div>
-                <?php $platform = new GamePlatformRelease(); ?>
-                <table id="platforms-list" class="table">
-                    <tbody>
-                        <?php // Формируем поле для добавления платформы ?>
-                        <?php foreach ($model->gamePlatformReleases as $key => $_platform) : ?>
-                            <tr>
+                <div class="panel-body">
+                    
+                    <?php $platform = new GamePlatformRelease(); ?>
+                    <table id="platforms-list" class="table">
+                        <tbody>
+                            <?php // Формируем поле для добавления платформы ?>
+                            <?php foreach ($model->gamePlatformReleases as $key => $_platform) : ?>
+                                <tr>
+                                    <?=
+                                        $this->render('new_platform', [
+                                            'key' => $_platform->isNewRecord ? (strpos($key, 'new') !== false ? $key : 'new' . $key) : $_question->id,
+                                            'form' => $form,
+                                            'platform' => $_platform,
+                                            'platforms' => $platforms
+                                        ])
+                                    ?>
+                                </tr>
+                            <?php endforeach; ?>
+                            <?php // Поля для новой платформы  ?>
+                            <tr id="platform-new-item-block" style="display: none;">
                                 <?=
                                     $this->render('new_platform', [
-                                        'key' => $_platform->isNewRecord ? (strpos($key, 'new') !== false ? $key : 'new' . $key) : $_question->id,
+                                        'key' => '__id__',
                                         'form' => $form,
-                                        'platform' => $_platform,
+                                        'platform' => $platform,
                                         'platforms' => $platforms
                                     ])
                                 ?>
                             </tr>
-                        <?php endforeach; ?>
-                        <?php // Поля для новой платформы  ?>
-                        <tr id="platform-new-item-block" style="display: none;">
-                            <?=
-                                $this->render('new_platform', [
-                                    'key' => '__id__',
-                                    'form' => $form,
-                                    'platform' => $platform,
-                                    'platforms' => $platforms
-                                ])
-                            ?>
-                        </tr>
-                    </tbody>
-                </table>
-                <?=
-                    Html::a('Добавить платформу', 'javascript:void(0);', [
-                        'id' => 'platform-new-button',
-                        'class' => 'add-platform-btn'
-                    ])
-                ?>
+                        </tbody>
+                    </table>
+                    <?=
+                        Html::a('Добавить платформу', 'javascript:void(0);', [
+                            'id' => 'platform-new-button',
+                            'class' => 'add-platform-btn'
+                        ])
+                    ?>
+                </div>
             </div>
             <div class="panel panel-info">
                 <div class="panel-heading">Жанры</div>
+                <div class="panel-body">
                     <?=
                         $form->field($model, 'genres_list')
                             ->checkboxList($genres, ['id' => 'id',
@@ -111,6 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             )
                             ->label(false);
                     ?>
+                </div>
             </div>
 
         </div>

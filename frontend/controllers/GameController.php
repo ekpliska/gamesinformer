@@ -70,6 +70,7 @@ class GameController extends Controller {
                     }
                 }
                 $transaction->commit();
+                Yii::$app->session->setFlash('success', ['message' => 'Публикация успешно создана']);
                 return $this->redirect(['update', 'id' => $model->id]);
             } catch (\Exception $ex) {
                 $transaction->rollBack();
@@ -137,6 +138,7 @@ class GameController extends Controller {
                     }
                 }
                 $transaction->commit();
+                Yii::$app->session->setFlash('success', ['message' => 'Данные публикации успешно обновлены']);
                 return $this->redirect(['update', 'id' => $model->id]);
             } catch (\Exception $ex) {
                 $transaction->rollBack();

@@ -37,14 +37,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '' => 'site/index',
+                'login' => 'site/login',
+                'game/<id:[\d-]+>' => 'game/update',
+                'game/create' => 'game/index',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use common\models\GamePlatformRelease;
 
 $this->title = 'Игра: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Игры', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Игры', 'url' => ['site/index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['update', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Просмотр';
 
@@ -23,19 +23,6 @@ $this->params['breadcrumbs'][] = 'Просмотр';
     ]); ?>
     
     <div class="row">
-        
-        <?php if (Yii::$app->session->hasFlash('success')) : ?>
-            <?php $message = Yii::$app->session->getFlash('success')['message'] ?>
-            <div class="alert-message" data-notification-status="success">
-                <?= $message ?>
-            </div>
-        <?php endif; ?>
-        <?php if (Yii::$app->session->hasFlash('error')) : ?>
-            <?php $message = Yii::$app->session->getFlash('error')['message'] ?>
-            <div class="alert-message" data-notification-status="error">
-                <?= $message ?>
-            </div>
-        <?php endif; ?>
     
         <div class="col-md-7">
             
