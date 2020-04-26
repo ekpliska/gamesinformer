@@ -33,7 +33,7 @@ class m200425_132230_add_table__game_platform_release extends Migration {
         );
         
         $this->addForeignKey(
-                'fk-game_platform_release-pltaform_id', 
+                'fk-game_platform_release-platform_id', 
                 '{{%game_platform_release}}', 
                 'platform_id', 
                 '{{%platform}}', 
@@ -49,7 +49,7 @@ class m200425_132230_add_table__game_platform_release extends Migration {
     public function safeDown() {
         $this->dropIndex('ind-game_platform_release__id', '{{%game_platform_release}}');
         $this->dropForeignKey('fk-game_platform_release-game_id', '{{%game_platform_release}}');
-        $this->dropForeignKey('fk-game_platform_release-pltaform_id', '{{%game_platform_release}}');
+        $this->dropForeignKey('fk-game_platform_release-platform_id', '{{%game_platform_release}}');
         $this->dropTable('{{%game_platform_release}}');
     }
 
