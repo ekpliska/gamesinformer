@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
 /**
  * Игры
@@ -27,6 +28,8 @@ use yii\data\ActiveDataProvider;
  * @property GamePlatformRelease[] $gamePlatformReleases
  */
 class Game extends ActiveRecord {
+    
+    public $genres_list;
 
     public static function tableName() {
         return 'game';
@@ -47,6 +50,8 @@ class Game extends ActiveRecord {
                 ['website', 'youtube', 'youtube_btnlink', 'twitch'], 
                 'url',
                 'message' => 'Вы указали некорректный  url адрес'],
+            
+            ['genres_list', 'safe']
         ];
     }
 
@@ -64,6 +69,14 @@ class Game extends ActiveRecord {
         return $this->hasMany(GamePlatformRelease::className(), ['game_id' => 'id']);
     }
     
+    public function getGenresList() {
+        $genres = $this->gameGenres;
+        return ArrayHelper::getColumn($genres, function($item) {
+            return $item->genre_id;
+        });
+    }
+
+
     public function attributeLabels() {
         return [
             'id' => 'ID',
@@ -80,6 +93,7 @@ class Game extends ActiveRecord {
             'twitch' => 'Twitch',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
+            'genres_list' => ''
         ];
     }
     

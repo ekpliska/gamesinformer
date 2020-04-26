@@ -4,9 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\GamePlatformRelease;
 
-$this->title = 'Новая публикация';
-$this->params['breadcrumbs'][] = ['label' => 'Игры', 'url' => ['site/index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Игра: ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Игры', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['update', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Просмотр';
+
 ?>
 
 <div class="game-create">
@@ -39,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
             
-            <?= $form->field($model, 'release_date')->textInput(['type' => 'date']); ?>
+            <?= $form->field($model, 'release_date')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->release_date))]); ?>
            
             <?= $form->field($model, 'website')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'youtube')->textInput(['maxlength' => true]) ?>
@@ -53,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ])
             ?>
             
-            <?= $form->field($model, 'publish_at')->textInput(['type' => 'date']); ?>
+            <?= $form->field($model, 'publish_at')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->release_date))]); ?>
 
             <?= $form->field($model, 'cover')->textInput(['maxlength' => true]) ?>
         </div>
@@ -69,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <tr>
                                 <?=
                                     $this->render('new_platform', [
-                                        'key' => $_platform->isNewRecord ? (strpos($key, 'new') !== false ? $key : 'new' . $key) : $_question->id,
+                                        'key' => $_platform->isNewRecord ? (strpos($key, 'new') !== false ? $key : 'new' . $key) : $_platform->id,
                                         'form' => $form,
                                         'platform' => $_platform,
                                         'platforms' => $platforms
@@ -99,11 +101,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="panel panel-info">
                 <div class="panel-heading">Жанры</div>
+                    <?php $lists = $model->genresList; ?>
                     <?=
                         $form->field($model, 'genres_list')
                             ->checkboxList($genres, ['id' => 'id',
-                                'item' => function($index, $label, $name, $value) {
-                                    $return = '<input type="checkbox" name="' . $name . '" value="' . ++$index . '" id="' . ++$index . '">';
+                                'item' => function($index, $label, $name, $checked, $value) use ($lists) {
+                                    $_checked = in_array($value, $lists) ? 'checked' : '';
+                                    $return = '<input type="checkbox" name="' . $name . '" value="' . $value . '" id="' . $index . '"' . $_checked . '>';
                                     $return .= '<label class="input-checkbox">' . ucwords($label);
                                     $return .= '</label><br />';
                                     return $return;
@@ -134,9 +138,9 @@ $this->params['breadcrumbs'][] = $this->title;
             });
             
             <?php
-                if (!Yii::$app->request->isPost && $model->isNewRecord) {
-                    echo "$('#platform-new-button').click();";
-                }
+            if (!Yii::$app->request->isPost && $model->isNewRecord) {
+                echo "$('#platform-new-button').click();";
+            }
             ?>
         </script>
 
@@ -145,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="row">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить изменения', ['class' => 'btn btn-success']) ?>
     </div>
     
     <?php ActiveForm::end(); ?>

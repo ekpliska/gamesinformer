@@ -207,4 +207,24 @@ a.desc:after {
     border-radius: 12px;
     text-align: center;
 }
+.panel {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+label.input-checkbox {
+    font-weight: normal;
+    padding-left: 10px;
+}
+.remove-platform-button {
+    background: #e74c3c;
+    outline: none;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    padding: 7px 10px;
+    border-radius: 4px;
+}
+.remove-platform-button:hover {
+    background: #c0392b;
+}
 /** END GAME PAGE **/

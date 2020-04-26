@@ -30,4 +30,8 @@ class Genre extends ActiveRecord {
             'name_genre' => 'Name Genre',
         ];
     }
+    
+    public function getGamePlatformReleases() {
+        return $this->hasMany(GameGenre::className(), ['genre_id' => 'id']);
+    }
 }
