@@ -1,18 +1,22 @@
 <?php
 
 namespace api\modules\v1\controllers;
+use Yii;
 use yii\rest\Controller;
+//use yii\filters\AccessControl;
+//use yii\filters\auth\HttpBasicAuth;
+//use yii\filters\auth\HttpBearerAuth;
+//use yii\web\ServerErrorHttpException;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use api\modules\v1\models\SignupFrom;
 
-use api\modules\v1\models\Game;
+class UserController extends Controller {
 
-class GamesController extends Controller {
-
-    public function behaviors() {
+    public function behaviors() {        
         return [
             'contentNegotiator' => [
                 'class' => ContentNegotiator::className(),
@@ -33,19 +37,24 @@ class GamesController extends Controller {
         ];
     }
 
-    public function actionIndex() {
-        $games = new Game();
-        return $games->find()->all();
+    public function actionSignUp() {
+        $model = new SignupFrom();
+        $model->load(Yii::$app->request->bodyParams, '');
+        if ($model->validate()) {
+            return $model;
+        }
+        return $model;
     }
     
-    public function actionView($id) {
-        $game = Game::findOne((int)$id);
-        
-        if (!$game) {
-            return [];
-        }
-        
-        return Game::findOne($id);
+    public function actionLogin() {
+        return ['actionLogin'];
+    }
+    
+    public function verbs() {
+        return [
+            'sign-up' => ['post'],
+            'login' => ['post'],
+        ];
     }
 
 }

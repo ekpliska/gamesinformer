@@ -11,6 +11,7 @@ return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),    
     'bootstrap' => ['log'],
+    'language' => 'ru',
     'modules' => [
         'v1' => [
             'basePath' => '@app/modules/v1',
@@ -27,6 +28,7 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
+            'loginUrl' => ['v1/user'],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -44,7 +46,16 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule', 
-                    'controller' => 'v1/games',
+                    'controller' => 'v1/game',
+                    'pluralize' => true,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/user',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST sign-up' => 'sign-up',
+                    ]
                 ]
             ],        
         ]
