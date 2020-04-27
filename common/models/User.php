@@ -5,7 +5,6 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -65,6 +64,10 @@ class User extends ActiveRecord implements IdentityInterface {
     public static function findByUsername($username) {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
+    
+    public static function findByEmail($email) {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    }
 
     public function getId() {
         return $this->getPrimaryKey();
@@ -76,6 +79,10 @@ class User extends ActiveRecord implements IdentityInterface {
     
     public function validateAuthKey($authKey) {
         return $this->getAuthKey() === $authKey;
+    }
+    
+    public function generateToken() {
+        $this->token = \Yii::$app->security->generateRandomString();
     }
     
     public function attributeLabels() {

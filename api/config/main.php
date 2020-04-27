@@ -56,6 +56,14 @@ return [
                     'extraPatterns' => [
                         'POST sign-up' => 'sign-up',
                     ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/sign-in',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST /' => 'index',
+                    ]
                 ]
             ],        
         ]
