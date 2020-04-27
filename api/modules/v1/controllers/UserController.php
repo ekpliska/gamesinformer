@@ -58,15 +58,22 @@ class UserController extends Controller {
     }
     
     public function actionIndex() {
-        return User::findOne(Yii::$app->user->id);
+        return $this->getUserProfile();
     }
     
     public function actionUpdate() {
-        return ['update profile'];
+        $user = $this->getUserProfile();
+        $model = new \api\modules\v1\models\EditProfile($user);
+        $model->load(Yii::$app->request->bodyParams, '');
+        return $model->save() ? $model : [];
     }
     
     public function actionResetPassword() {
         return ['reset password'];
+    }
+    
+    private function getUserProfile() {
+        return User::findOne(Yii::$app->user->id);
     }
     
     public function verbs() {
