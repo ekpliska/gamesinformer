@@ -6,13 +6,14 @@ use common\models\Game as GameBase;
 class Game extends GameBase {
     
     public function fields() {
+        
         return parent::fields() + [
             'gameGenres' => function() {
                 $geners = $this->gameGenres;
                 $result = [];
                 if ($geners) {
                     foreach ($geners as $gener) {
-                        $result += [
+                        $result[] = [
                             'genre_id' => $gener->genre->id,
                             'name_genre' => $gener->genre->name_genre
                         ];
@@ -25,7 +26,7 @@ class Game extends GameBase {
                 $result = [];
                 if ($platfroms) {
                     foreach ($platfroms as $platfrom) {
-                        $result += [
+                        $result[] = [
                             'patform_id' => $platfrom->platform_id,
                             'name_platform' => $platfrom->platform->name_platform,
                             'date_platform_release' => $platfrom->date_platform_release,
