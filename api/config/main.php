@@ -75,7 +75,16 @@ return [
                         'POST /update' => 'update',
                         'POST /reset-password' => 'reset-password',
                     ]
-                ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/meta',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET /platforms' => 'platforms',
+                        'GET /genres' => 'genres',
+                    ]
+                ],
             ],        
         ]
     ],
