@@ -27,8 +27,7 @@ return [
         ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => false,
-            'loginUrl' => ['v1/user'],
+            'enableAutoLogin' => false
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -41,13 +40,15 @@ return [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-//            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule', 
                     'controller' => 'v1/game',
                     'pluralize' => true,
+                    'extraPatterns' => [
+                        'GET /' => 'index',
+                    ]
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
@@ -63,6 +64,16 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST /' => 'index',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/user',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET /' => 'index',
+                        'POST /update' => 'update',
+                        'POST /reset-password' => 'reset-password',
                     ]
                 ]
             ],        

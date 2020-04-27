@@ -45,7 +45,7 @@ class SignInController extends Controller {
     
     public function verbs() {
         return [
-            'index' => ['post'],
+            'index' => ['POST'],
         ];
     }
 

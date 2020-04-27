@@ -2,12 +2,9 @@
 
 namespace api\modules\v1\controllers;
 use Yii;
-use yii\rest\Controller;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
-use yii\web\ServerErrorHttpException;
-use yii\filters\auth\CompositeAuth;
 use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
@@ -26,40 +23,45 @@ class GameController extends ActiveController {
         'collectionEnvelope' => 'data',
     ];
 
-    public function behaviors() {        
-        return [
-//            'authenticator' => [
-//                'authMethods' => [
-//                    HttpBasicAuth::className(),
-//                    HttpBearerAuth::className(),
-//                ]
-//            ],
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'roles' => ['@'],
-//                    ],
-//                ],
-//            ],
-            'contentNegotiator' => [
-                'class' => ContentNegotiator::className(),
-                'formats' => [
-                    'application/json' => Response::FORMAT_JSON
+    public function behaviors() {
+        
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator']['only'] = ['index', 'view', 'create', 'update', 'delete'];
+        $behaviors['authenticator']['authMethods'] = [
+            HttpBasicAuth::className(),
+            HttpBearerAuth::className(),
+        ];
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'only' => ['index', 'view', 'create', 'update', 'delete'],
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
                 ],
             ],
-            'verbFilter' => [
-                'class' => VerbFilter::className(),
-                'actions' => $this->verbs(),
-            ],
-            'authenticator' => [
-                'class' => CompositeAuth::className(),
-            ],
-            'rateLimiter' => [
-                'class' => RateLimiter::className(),
-            ],
         ];
+        
+        $behaviors['contentNegotiator'] = [
+            'class' => ContentNegotiator::className(),
+            'formats' => [
+                'application/json' => Response::FORMAT_JSON
+            ]
+        ];
+        
+        $behaviors['verbFilter'] = [
+            'class' => VerbFilter::className(),
+            'actions' => $this->verbs(),
+        ];
+        
+        $behaviors['rateLimiter'] = [
+            'class' => RateLimiter::className()
+        ];
+
+        return $behaviors;
+
     }
     
     public function actions() {
@@ -82,5 +84,13 @@ class GameController extends ActiveController {
         
         return $dataProvider;
     }
-
+    
+    public function verbs() {
+        parent::verbs();
+        return [
+            'index' => ['GET'],
+            'view' => ['GET'],
+        ];
+    }
+    
 }

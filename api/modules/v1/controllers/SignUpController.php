@@ -44,7 +44,7 @@ class SignUpController extends Controller {
 
     public function verbs() {
         return [
-            'index' => ['post']
+            'index' => ['POST']
         ];
     }
 
