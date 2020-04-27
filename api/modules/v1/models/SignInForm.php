@@ -16,9 +16,11 @@ class SignInForm extends Model {
     
     public function rules() {
         return [
-            [['email', 'password'], 'required'],
-            ['email', 'email'],
+            [['email'], 'required', 'message' => 'Не указан email'],
+            [['password'], 'required', 'message' => 'Не указан пароль'],
+            ['email', 'email', 'message' => 'Email некорректный'],
             ['password', 'validatePassword'],
+            ['password', 'string', 'length' => [6, 8]],
         ];
     }
     
@@ -33,14 +35,16 @@ class SignInForm extends Model {
     
     public function auth() {
         if ($this->validate()) {
-            $this->_user->generateToken();
-            return $this->_user->save() ? $this->_user->token : null;
-        } else {
-            return null;
+            $user = $this->_user;
+            $user->generateToken();
+            return $user->save() ? ['success' => true, 'token' => $user->token] : ['success' => false, 'error' => 'Произошла ошибка авторизации. Повторите позже!'];
         }
+        
+        return false;
     }
     
     protected function getUser() {
+//        var_dump($this->email); die();
         if ($this->_user === null) {
             $this->_user = User::findByEmail($this->email);
         }

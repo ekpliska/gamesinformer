@@ -42,10 +42,14 @@ class SignupFrom extends Model {
     public function register() {
         
         if ($this->validate()) {
-            return 'register';
+            $user = new User();
+            $user->email = $this->email;
+            $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
+            $user->generateToken();
+            return $user->save() ? ['success' => true, 'token' => $user->token] : ['success' => false, 'error' => 'Ошибка регистрации. Повторите позже!'];
         }
         
-        return false;
+        return ['success' => false, 'error' => 'Ошибка регистрации. Повторите позже!'];
         
     }
 

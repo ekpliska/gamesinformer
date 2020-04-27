@@ -3,10 +3,6 @@
 namespace api\modules\v1\controllers;
 use Yii;
 use yii\rest\Controller;
-//use yii\filters\AccessControl;
-//use yii\filters\auth\HttpBasicAuth;
-//use yii\filters\auth\HttpBearerAuth;
-//use yii\web\ServerErrorHttpException;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
@@ -14,7 +10,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use api\modules\v1\models\SignupFrom;
 
-class UserController extends Controller {
+class SignUpController extends Controller {
 
     public function behaviors() {        
         return [
@@ -37,23 +33,18 @@ class UserController extends Controller {
         ];
     }
 
-    public function actionSignUp() {
+    public function actionIndex() {
         $model = new SignupFrom();
         $model->load(Yii::$app->request->bodyParams, '');
         if ($model->validate()) {
-            return $model;
+            return $model->register();
         }
         return $model;
     }
-    
-    public function actionLogin() {
-        return ['actionLogin'];
-    }
-    
+
     public function verbs() {
         return [
-            'sign-up' => ['post'],
-            'login' => ['post'],
+            'index' => ['post']
         ];
     }
 

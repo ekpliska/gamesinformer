@@ -51,10 +51,10 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/user',
+                    'controller' => 'v1/sign-up',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'POST sign-up' => 'sign-up',
+                        'POST /' => 'index',
                     ]
                 ],
                 [

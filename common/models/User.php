@@ -27,7 +27,7 @@ class User extends ActiveRecord implements IdentityInterface {
     
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
+    const STATUS_ACTIVE = 1;
     
     public function behaviors() {
         return [
@@ -83,6 +83,10 @@ class User extends ActiveRecord implements IdentityInterface {
     
     public function generateToken() {
         $this->token = \Yii::$app->security->generateRandomString();
+    }
+    
+    public function validatePassword($password) {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
     
     public function attributeLabels() {
