@@ -53,6 +53,15 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
     
+    public function afterSave($insert, $changedAttributes) {
+        
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $this->username = stristr($this->email, '@');
+        }
+        
+    }
+    
     public static function findIdentity($id) {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }

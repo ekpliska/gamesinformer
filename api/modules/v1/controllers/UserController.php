@@ -1,7 +1,16 @@
 <?php
 
 namespace api\modules\v1\controllers;
+use Yii;
 use yii\rest\Controller;
+use yii\filters\AccessControl;
+use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\HttpBearerAuth;
+use yii\filters\ContentNegotiator;
+use yii\filters\RateLimiter;
+use yii\filters\VerbFilter;
+use yii\web\Response;
+use api\modules\v1\models\User;
 
 /**
  * Профиль пользователя
@@ -49,7 +58,7 @@ class UserController extends Controller {
     }
     
     public function actionIndex() {
-        return ['profile'];
+        return User::findOne(Yii::$app->user->id);
     }
     
     public function actionUpdate() {

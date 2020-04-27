@@ -44,6 +44,7 @@ class SignupFrom extends Model {
         if ($this->validate()) {
             $user = new User();
             $user->email = $this->email;
+            $user->username = substr($this->email, 0, strrpos($this->email, '@'));
             $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
             $user->generateToken();
             return $user->save() ? ['success' => true, 'token' => $user->token] : ['success' => false, 'error' => 'Ошибка регистрации. Повторите позже!'];
