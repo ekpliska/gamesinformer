@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $name_platform
+ * @property string $logo_path
  *
  * @property GamePlatformRelease[] $gamePlatformReleases
  */
@@ -21,7 +22,8 @@ class Platform extends ActiveRecord {
     public function rules() {
         return [
             [['name_platform'], 'required'],
-            [['name_platform'], 'string', 'max' => 255],
+            [['name_platform'], 'string', 'max' => 70],
+            [['logo_path'], 'string', 'max' => 255],
             [['name_platform'], 'unique'],
         ];
     }

@@ -15,23 +15,24 @@ class m200425_124137_add_table__platform extends Migration {
 
         $this->createTable('{{%platform}}', [
             'id' => $this->primaryKey(),
-            'name_platform' => $this->string()->notNull()->unique(),
-                ], $tableOptions);
+            'name_platform' => $this->string(70)->notNull()->unique(),
+            'logo_path' => $this->string(255)->notNull(),
+        ], $tableOptions);
 
         $this->createIndex('ind-platform__id', '{{%platform}}', 'id');
 
         $this->batchInsert('{{%platform}}', ['name_platform'], [
-            ['2DS/3DS'],
-            ['Android'],
-            ['PC'],
-            ['PC VR'],
-            ['PS VR'],
-            ['PS Vita'],
-            ['PlayStation 4'],
-            ['Stadia'],
-            ['Switch'],
-            ['Xbox One'],
-            ['iOS']
+            ['2DS/3DS', '/images/platforms_logo/23ds.png'],
+            ['Android', '/images/platforms_logo/android.png'],
+            ['PC', '/images/platforms_logo/pc.png'],
+            ['PC VR', '/images/platforms_logo/pcvr.png'],
+            ['PS VR', '/images/platforms_logo/psvr.png'],
+            ['PS Vita', '/images/platforms_logo/psvita.png'],
+            ['PlayStation 4', '/images/platforms_logo/ps4.png'],
+            ['Stadia', '/images/platforms_logo/stadia.png'],
+            ['Switch', '/images/platforms_logo/switch.png'],
+            ['Xbox One', '/images/platforms_logo/xbox1.png'],
+            ['iOS', '/images/platforms_logo/ios.png']
         ]);
     }
 
