@@ -1,6 +1,7 @@
 <?php
 
 namespace api\modules\v1\controllers;
+use Yii;
 use yii\rest\Controller;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBasicAuth;
@@ -12,9 +13,18 @@ use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 
+use yii\rest\ActiveController;
+use yii\data\ActiveDataProvider;
 use api\modules\v1\models\Game;
 
-class GameController extends Controller {
+class GameController extends ActiveController {
+    
+    public $modelClass = 'api\modules\v1\models\Game';
+    
+    public $serializer = [
+        'class' => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'data',
+    ];
 
     public function behaviors() {        
         return [
@@ -51,27 +61,26 @@ class GameController extends Controller {
             ],
         ];
     }
+    
+    public function actions() {
+        $actions = parent::actions();
+        unset($actions['create']);
+        unset($actions['update']);
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        return $actions;
+    }
+    
+    public function prepareDataProvider() {
+        
+        $games = Game::find()
+                ->where(['published' => true])
+                ->orderBy(['release_date' => SORT_ASC]);
 
-    public function actionIndex() {
-        $games = new Game();
-        return $games->find()->all();
-    }
-    
-    public function actionView($id) {
-        $game = Game::findOne((int)$id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $games
+        ]);
         
-        if (!$game) {
-            return [];
-        }
-        
-        return Game::findOne($id);
-    }
-    
-    public function verbs() {
-        return [
-            'index' => ['get'],
-            'view' => ['get'],
-        ];
+        return $dataProvider;
     }
 
 }
