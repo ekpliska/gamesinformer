@@ -73,7 +73,7 @@ return [
                     'extraPatterns' => [
                         'GET /' => 'index',
                         'POST /update' => 'update',
-                        'POST /reset-password' => 'reset-password',
+                        'POST /change-password' => 'change-password',
                     ]
                 ],
                 [

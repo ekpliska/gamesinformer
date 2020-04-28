@@ -30,7 +30,17 @@ class EditProfile extends Model {
             ['username', 'string', 'max' => 70],
             ['email', 'email'],
             ['photo', 'safe'],
+            ['photo', 'checkBase64'],
         ];
+    }
+    
+    public function checkBase64($attribute, $param) {
+        
+        if (!$this->hasErrors()) {
+            if (!base64_decode($this->photo, true)) {
+                $this->addError($attribute, 'Загружаемое изображение не соотвествует формату base64');
+            }
+        }
     }
     
     public function save() {
@@ -38,7 +48,14 @@ class EditProfile extends Model {
             return false;
         }
         
-        return $this->uploadImage($this->photo, $this->_user->id);
+        $user = $this->_user;
+        if ($this->photo) {
+            $user->photo = $this->uploadImage($this->photo, $user->id);
+        }
+        $user->username = $this->username;
+        $user->email = $this->email;
+        
+        return $user->save(false) ? true : false;
         
     }
     
@@ -61,17 +78,12 @@ class EditProfile extends Model {
         // Задаем уникальное имя для загруженного файла
         $file_name = uniqid(). '.png';
         $file_path = $folder_path . $file_name;
-
-        // Записываем в БД пути загруженных вложений
-        $user = $this->_user;
-        $user->photo = $file_path;
-        $user->save(false);
-            
+        
         // Записываем изображение в файл
         $imageSave = imagejpeg($rotated_img, $file_path, 70);
         imagedestroy($source_img);
         
-        return true;
+        return $file_path;
         
     }
     

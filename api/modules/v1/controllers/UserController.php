@@ -11,6 +11,8 @@ use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use api\modules\v1\models\User;
+use api\modules\v1\models\EditProfile;
+use api\modules\v1\models\ChangePassword;
 
 /**
  * Профиль пользователя
@@ -21,7 +23,7 @@ class UserController extends Controller {
 
         $behaviors = parent::behaviors();
 
-        $behaviors['authenticator']['only'] = ['index', 'update', 'reset-password'];
+        $behaviors['authenticator']['only'] = ['index', 'update', 'change-password'];
         $behaviors['authenticator']['authMethods'] = [
             HttpBasicAuth::className(),
             HttpBearerAuth::className(),
@@ -63,13 +65,22 @@ class UserController extends Controller {
     
     public function actionUpdate() {
         $user = $this->getUserProfile();
-        $model = new \api\modules\v1\models\EditProfile($user);
+        $model = new EditProfile($user);
         $model->load(Yii::$app->request->bodyParams, '');
-        return $model->save() ? $model : [];
+        return $model->save() ? ['success' => true] : $model;
     }
     
-    public function actionResetPassword() {
-        return ['reset password'];
+    public function actionChangePassword() {
+        $user = $this->getUserProfile();
+        $model = new ChangePassword($user);
+        $model->load(Yii::$app->request->bodyParams, '');
+        
+        if ($result = $model->changePassword()) {
+            return $result;
+        } else {
+            return $model;
+        }
+        
     }
     
     private function getUserProfile() {
@@ -80,7 +91,7 @@ class UserController extends Controller {
         return [
             'index' => ['GET'],
             'update' => ['POST'],
-            'reset-password' => ['POST'],
+            'change-password' => ['POST'],
         ];
     }
 
