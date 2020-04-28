@@ -21,7 +21,7 @@ class m200425_124137_add_table__platform extends Migration {
 
         $this->createIndex('ind-platform__id', '{{%platform}}', 'id');
 
-        $this->batchInsert('{{%platform}}', ['name_platform'], [
+        $this->batchInsert('{{%platform}}', ['name_platform', 'logo_path'], [
             ['2DS/3DS', '/images/platforms_logo/23ds.png'],
             ['Android', '/images/platforms_logo/android.png'],
             ['PC', '/images/platforms_logo/pc.png'],
