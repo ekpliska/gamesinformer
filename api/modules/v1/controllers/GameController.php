@@ -27,22 +27,22 @@ class GameController extends ActiveController {
         
         $behaviors = parent::behaviors();
 
-        $behaviors['authenticator']['only'] = ['index', 'view', 'create', 'update', 'delete'];
-        $behaviors['authenticator']['authMethods'] = [
-            HttpBasicAuth::className(),
-            HttpBearerAuth::className(),
-        ];
-
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'only' => ['index', 'view', 'create', 'update', 'delete'],
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
-        ];
+//        $behaviors['authenticator']['only'] = ['index', 'view', 'create', 'update', 'delete'];
+//        $behaviors['authenticator']['authMethods'] = [
+//            HttpBasicAuth::className(),
+//            HttpBearerAuth::className(),
+//        ];
+//
+//        $behaviors['access'] = [
+//            'class' => AccessControl::className(),
+//            'only' => ['index', 'view', 'create', 'update', 'delete'],
+//            'rules' => [
+//                [
+//                    'allow' => true,
+//                    'roles' => ['@'],
+//                ],
+//            ],
+//        ];
         
         $behaviors['contentNegotiator'] = [
             'class' => ContentNegotiator::className(),
