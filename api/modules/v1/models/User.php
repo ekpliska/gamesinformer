@@ -13,7 +13,10 @@ class User extends UserBase {
             'email',
             'photo',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'platforms' => function() {
+                return $this->userPlatforms;
+            }
         ];
     }
     

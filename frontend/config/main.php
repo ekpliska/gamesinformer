@@ -45,6 +45,8 @@ return [
                 'login' => 'site/login',
                 'game/<id:[\d-]+>' => 'game/update',
                 'game/create' => 'game/index',
+                'users/<id:[\d-]+>' => 'user/view',
+                'users' => 'user/index',
             ],
         ],
     ],
