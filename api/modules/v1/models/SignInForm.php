@@ -44,7 +44,6 @@ class SignInForm extends Model {
     }
     
     protected function getUser() {
-//        var_dump($this->email); die();
         if ($this->_user === null) {
             $this->_user = User::findByEmail($this->email);
         }

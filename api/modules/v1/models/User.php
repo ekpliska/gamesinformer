@@ -21,7 +21,8 @@ class User extends UserBase {
                     foreach ($platforms as $platform) {
                         $result[] = [
                             'id' => $platform->platform_id,
-                            'name' => $platform->platform->name_platform
+                            'name' => $platform->platform->name_platform,
+                            'logo_path' => $platform->platform->logo_path
                         ];
                     }
                 }
