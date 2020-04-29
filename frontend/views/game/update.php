@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = 'Просмотр';
             
             <?= $form->field($model, 'publish_at')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->release_date))]); ?>
 
-            <?php if (empty($model->cover)) : ?>
+            <?php if (!empty($model->cover)) : ?>
                 <div class="text-center">
                     <img src="<?= Yii::getAlias('@api') . $model->cover ?>" class="img-thumbnail" alt="avatar">
                 </div>
