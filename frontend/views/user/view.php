@@ -27,10 +27,15 @@
                 <li class="list-group-item text-muted">
                     Платформы
                 </li>
-<!--                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>-->
+                <?php if ($user->userPlatforms) : ?>
+                <?php foreach ($user->userPlatforms as $item) : ?>
+                    <li class="list-group-item text-left">
+                        <strong>
+                            <?= $item->platform->name_platform ?>
+                        </strong>
+                    </li>
+                <?php endforeach; ?>
+                <?php endif; ?>
             </ul>
 
         </div><!--/col-3-->
