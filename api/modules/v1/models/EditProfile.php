@@ -4,6 +4,8 @@ namespace api\modules\v1\models;
 use Yii;
 use yii\base\Model;
 use api\modules\v1\models\User;
+use common\models\Platform;
+use common\models\UserPlatform;
 
 /**
  * Редактирование профиля
@@ -15,7 +17,9 @@ class EditProfile extends Model {
     public $username;
     public $email;
     public $photo;
-    
+    public $platforms = [];
+
+
     private $_user;
 
 
@@ -31,6 +35,7 @@ class EditProfile extends Model {
             ['email', 'email'],
             ['photo', 'safe'],
             ['photo', 'checkBase64'],
+            ['platforms', 'safe']
         ];
     }
     
@@ -47,10 +52,24 @@ class EditProfile extends Model {
         if (!$this->validate()) {
             return false;
         }
-        
+
         $user = $this->_user;
         if ($this->photo) {
             $user->photo = $this->uploadImage($this->photo, $user->id);
+        }
+        if (is_array($this->platforms) && $this->platforms) {
+            if ($user->userPlatforms) {
+                UserPlatform::deleteAll(['user_id' => $user->id]);
+            }
+            foreach ($this->platforms as $platform) {
+                $user_pl = new UserPlatform();
+                if (!Platform::findOne($platform)) {
+                    continue;
+                }
+                $user_pl->user_id = $user->id;
+                $user_pl->platform_id = $platform;
+                $user_pl->save();
+            }
         }
         $user->username = $this->username;
         $user->email = $this->email;

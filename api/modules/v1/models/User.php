@@ -15,7 +15,17 @@ class User extends UserBase {
             'created_at',
             'updated_at',
             'platforms' => function() {
-                return $this->userPlatforms;
+                $platforms = $this->userPlatforms;
+                $result = [];
+                if ($platforms) {
+                    foreach ($platforms as $platform) {
+                        $result[] = [
+                            'id' => $platform->platform_id,
+                            'name' => $platform->platform->name_platform
+                        ];
+                    }
+                }
+                return $result;
             }
         ];
     }
