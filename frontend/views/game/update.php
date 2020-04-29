@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = 'Просмотр';
 
             <?php if (!empty($model->cover)) : ?>
                 <div class="text-center">
-                    <img src="<?= Yii::getAlias('@api') . $model->cover ?>" class="img-thumbnail" alt="avatar">
+                    <img src="<?= 'http://api.gamenotificator.net' . $model->cover ?>" class="img-thumbnail" alt="avatar">
                 </div>
             <?php endif; ?>
             
