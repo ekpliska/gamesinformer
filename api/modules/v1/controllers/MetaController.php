@@ -7,8 +7,8 @@ use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
-use common\models\Platform;
-use common\models\Genre;
+use api\modules\v1\models\Platform;
+use api\modules\v1\models\Genre;
 
 /**
  * Мета данные
