@@ -14,8 +14,8 @@ class Game extends GameBase {
                 if ($geners) {
                     foreach ($geners as $gener) {
                         $result[] = [
-                            'genre_id' => $gener->genre->id,
-                            'name_genre' => $gener->genre->name_genre
+                            'id' => $gener->genre->id,
+                            'name' => $gener->genre->name_genre
                         ];
                     }
                 }
@@ -27,8 +27,8 @@ class Game extends GameBase {
                 if ($platfroms) {
                     foreach ($platfroms as $platfrom) {
                         $result[] = [
-                            'patform_id' => $platfrom->platform_id,
-                            'name_platform' => $platfrom->platform->name_platform,
+                            'id' => $platfrom->platform_id,
+                            'name' => $platfrom->platform->name_platform,
                             'date_platform_release' => $platfrom->date_platform_release,
                             'logo_path' => $platfrom->platform->logo_path,
                         ];

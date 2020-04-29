@@ -12,7 +12,7 @@ use yii\web\Response;
 
 use yii\rest\ActiveController;
 use yii\data\ActiveDataProvider;
-use api\modules\v1\models\Game;
+use api\modules\v1\models\GameSearch;
 
 class GameController extends ActiveController {
     
@@ -74,15 +74,9 @@ class GameController extends ActiveController {
     
     public function prepareDataProvider() {
         
-        $games = Game::find()
-                ->where(['published' => true])
-                ->orderBy(['release_date' => SORT_ASC]);
+        $searchModel = new GameSearch();
+        return $searchModel->search(Yii::$app->request->queryParams);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $games
-        ]);
-        
-        return $dataProvider;
     }
     
     public function verbs() {
