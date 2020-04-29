@@ -3,7 +3,7 @@
 namespace api\modules\v1\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Game;
+use api\modules\v1\models\Game;
 
 class GameSearch extends Game {
  
