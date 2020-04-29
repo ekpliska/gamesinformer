@@ -54,8 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
             
             <?= $form->field($model, 'publish_at')->textInput(['type' => 'date']); ?>
-
-            <?= $form->field($model, 'cover')->textInput(['maxlength' => true]) ?>
+            
+            <?= $form->field($model, 'cover_file')->fileInput(['accept' => 'image/*']) ?>
+            
         </div>
     
         <div class="col-md-5">

@@ -29,6 +29,7 @@ use yii\helpers\ArrayHelper;
 class Game extends ActiveRecord {
     
     public $genres_list;
+    public $cover_file;
 
     public static function tableName() {
         return 'game';
@@ -37,7 +38,7 @@ class Game extends ActiveRecord {
     public function rules() {
         return [
             [
-                ['title', 'release_date', 'publish_at', 'cover', 'website', 'youtube', 'youtube_btnlink'],
+                ['title', 'release_date', 'publish_at', 'website', 'youtube', 'youtube_btnlink'],
                 'required',
                 'message' => 'Данное поле должно быть заполнено'],
             [['description'], 'string'],
@@ -50,10 +51,33 @@ class Game extends ActiveRecord {
                 'url',
                 'message' => 'Вы указали некорректный  url адрес'],
             
-            ['genres_list', 'safe']
+            [['genres_list', 'cover_file'], 'safe'],
+            
+            [['cover_file'], 'file', 'extensions' => 'png, jpg, jpeg']
+            
         ];
     }
-
+    
+    public function beforeSave($insert) {
+        
+        $current_image = $this->cover;
+        
+        $file = \yii\web\UploadedFile::getInstance($this, 'cover_file');
+        
+        if ($file) {
+            
+            $this->cover = $file;
+            $dir = Yii::getAlias('@api/web');
+            $file_name = '/uploads/covers/' . time() . '.' . $this->cover->extension;
+            $this->cover->saveAs($dir . $file_name);
+            $this->cover = $file_name;
+            @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
+            
+        }
+        
+        return parent::beforeSave($insert);
+    }
+    
     /**
      * Связь с жанрами
      */
@@ -75,7 +99,6 @@ class Game extends ActiveRecord {
         });
     }
 
-
     public function attributeLabels() {
         return [
             'id' => 'ID',
@@ -92,7 +115,8 @@ class Game extends ActiveRecord {
             'twitch' => 'Twitch',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
-            'genres_list' => ''
+            'genres_list' => '',
+            'cover_file' => 'Обложка'
         ];
     }
     

@@ -44,7 +44,14 @@ $this->params['breadcrumbs'][] = 'Просмотр';
             
             <?= $form->field($model, 'publish_at')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->release_date))]); ?>
 
-            <?= $form->field($model, 'cover')->textInput(['maxlength' => true]) ?>
+            <?php if (empty($model->cover)) : ?>
+                <div class="text-center">
+                    <img src="<?= Yii::getAlias('@api') . $model->cover ?>" class="img-thumbnail" alt="avatar">
+                </div>
+            <?php endif; ?>
+            
+            <?= $form->field($model, 'cover_file')->fileInput(['accept' => 'image/*']) ?>
+            
         </div>
     
         <div class="col-md-5">
