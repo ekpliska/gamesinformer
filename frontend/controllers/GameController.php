@@ -4,7 +4,6 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use common\models\Game;
 use common\models\Platform;
@@ -47,7 +46,7 @@ class GameController extends Controller {
             try {
                 $platform_release = Yii::$app->request->post('GamePlatformRelease');
                 if (!$model->save()) {
-                    Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз']);
+                    Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз!']);
                     return $this->redirect(Yii::$app->request->referrer);
                 } else {
                     foreach ($platform_release as $item) {
@@ -70,7 +69,7 @@ class GameController extends Controller {
                     }
                 }
                 $transaction->commit();
-                Yii::$app->session->setFlash('success', ['message' => 'Публикация успешно создана']);
+                Yii::$app->session->setFlash('success', ['message' => 'Публикация успешно создана!']);
                 return $this->redirect(['update', 'id' => $model->id]);
             } catch (\Exception $ex) {
                 $transaction->rollBack();
@@ -107,7 +106,7 @@ class GameController extends Controller {
                 $platform_release = Yii::$app->request->post('GamePlatformRelease');
                 
                 if (!$model->save()) {
-                    Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз']);
+                    Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз!']);
                     return $this->redirect(Yii::$app->request->referrer);
                 } else {
                     if ($platform_release) {
@@ -138,7 +137,7 @@ class GameController extends Controller {
                     }
                 }
                 $transaction->commit();
-                Yii::$app->session->setFlash('success', ['message' => 'Данные публикации успешно обновлены']);
+                Yii::$app->session->setFlash('success', ['message' => 'Данные публикации успешно обновлены!']);
                 return $this->redirect(['update', 'id' => $model->id]);
             } catch (\Exception $ex) {
                 $transaction->rollBack();
@@ -151,5 +150,19 @@ class GameController extends Controller {
             'genres' => $genres
         ]);
     }
+    
+    public function actionDelete($id) {
+        
+        $game = Game::findOne(['id' => $id]);
+        
+        if (!$game->delete()) {
+            Yii::$app->session->setFlash('error', ['message' => 'Извините, во время удаления публикации произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз']);
+        } else {
+            Yii::$app->session->setFlash('success', ['message' => 'Публикация была успешно удалена!']);
+        }
+        
+        return $this->redirect(['/']);
+    }
+
 
 }

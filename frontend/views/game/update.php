@@ -144,6 +144,13 @@ $this->params['breadcrumbs'][] = 'Просмотр';
 
     <div class="row">
         <?= Html::submitButton('Сохранить изменения', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Вы дейсвительно хотите удалить выбранную публикацию?',
+                'method' => 'post',
+            ],
+        ]) ?>
     </div>
     
     <?php ActiveForm::end(); ?>

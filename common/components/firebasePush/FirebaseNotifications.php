@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 class FirebaseNotifications extends BaseObject
 {
 
-    public $authKey = 'AAAAxdIzpbo:APA91bFZd9yB7Wz6x7C6qu9ALLy2spVRYfI-4aWPJqOR6Hj2OQH8ZRVbgv_2leI5JBALbZBZuEvnraHO67biB-AQBEkGlrhoKszzebhBTln6vQM3P2D5JCYkVgbjBJOUvBDRjNA9kgX4';
+    public $authKey = 'AAAAraqLcZk:APA91bELnuzD9C_n5ZrHpyhz6x6APJ_ULOvW6VEEz6GZ1RIwJnLQzOY2ODrZclBSGzS5e3fJEFVQlDI0f69NP3YYTtPDNlLmB2PlIfEHk99CmD4_J_AJ8fSYi8EwWN-Ccse5s_K1uB2V';
     public $timeout = 5;
     public $sslVerifyHost = false;
     public $sslVerifyPeer = false;
