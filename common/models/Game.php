@@ -98,6 +98,14 @@ class Game extends ActiveRecord {
             return $item->genre_id;
         });
     }
+    
+    public static function getWaitingPublish() {
+        return Game::find()
+                ->where(['published' => false])
+                ->orderBy(['publish_at' => SORT_DESC])
+                ->asArray()
+                ->all();
+    }
 
     public function attributeLabels() {
         return [

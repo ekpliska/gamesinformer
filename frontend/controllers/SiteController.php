@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\Game;
 
 /**
  * Site controller
@@ -56,18 +57,21 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
         
-//        if (Yii::$app->user->isGuest) {
-//            return $this->redirect('site/login');
-//        }
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('site/login');
+        }
         
         $this->layout = '@frontend/views/layouts/main';
 
         $searchModel = new GameSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $waiting_publish = Game::getWaitingPublish();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'waiting_publish' => $waiting_publish,
         ]);
         
     }
