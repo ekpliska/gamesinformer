@@ -85,6 +85,11 @@ return [
                         'GET /genres' => 'genres',
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/token-push',
+                    'pluralize' => false
+                ],
             ],        
         ]
     ],

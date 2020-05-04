@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = 'Просмотр';
                 ])
             ?>
             
-            <?= $form->field($model, 'publish_at')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->release_date))]); ?>
+            <?= $form->field($model, 'publish_at')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->publish_at))]); ?>
 
             <?php if (!empty($model->cover)) : ?>
                 <div class="text-center">
