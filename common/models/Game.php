@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use common\models\TokenPushMobile;
 
 /**
  * Игры
@@ -61,6 +62,15 @@ class Game extends ActiveRecord {
     public function beforeSave($insert) {
         
         $current_image = $this->cover;
+        
+        // Отправляем пуш уведомление, если публикация соотвествует текущей дате
+        if ($insert) {
+            $current_date = strtotime(date('Y-m-d 00:00:00'));
+            $release_date = strtotime($this->publish_at);
+            if ($current_date == $release_date) {
+                TokenPushMobile::send('Состоялся релиз новой игры', $this->title);
+            }
+        }
         
         $file = \yii\web\UploadedFile::getInstance($this, 'cover_file');
         

@@ -17,12 +17,12 @@ class GameController extends Controller {
                 ->where(['published' => 0])
                 ->all();
         
-        $current_date = (date('Y-m-d 00:00:00'));
+        $current_date = strtotime(date('Y-m-d 00:00:00'));
         $new_publishies = 0;
         
         if (count($games)) {
             foreach ($games as $game) {
-                $release_date = ($game->publish_at);
+                $release_date = strtotime($game->publish_at);
                 if ($current_date == $release_date) {
                     $game->published = true;
                     $game->save(false);
