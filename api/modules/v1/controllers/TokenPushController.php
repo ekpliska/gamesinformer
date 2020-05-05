@@ -22,21 +22,21 @@ class TokenPushController extends Controller {
 
         $behaviors = parent::behaviors();
 
-        $behaviors['authenticator']['only'] = ['index'];
-        $behaviors['authenticator']['authMethods'] = [
-            HttpBasicAuth::className(),
-            HttpBearerAuth::className(),
-        ];
-
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'only' => ['index'],
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
+//        $behaviors['authenticator']['only'] = ['index'];
+//        $behaviors['authenticator']['authMethods'] = [
+//            HttpBasicAuth::className(),
+//            HttpBearerAuth::className(),
+//        ];
+//
+//        $behaviors['access'] = [
+//            'class' => AccessControl::className(),
+//            'only' => ['index'],
+//            'rules' => [
+//                [
+//                    'allow' => true,
+//                    'roles' => ['@'],
+//                ],
+//            ],
         ];
 
         $behaviors['contentNegotiator'] = [
