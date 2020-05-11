@@ -37,7 +37,7 @@ class TokenPushController extends Controller {
 //                    'roles' => ['@'],
 //                ],
 //            ],
-        ];
+//        ];
 
         $behaviors['contentNegotiator'] = [
             'class' => ContentNegotiator::className(),

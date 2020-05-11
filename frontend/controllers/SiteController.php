@@ -1,5 +1,7 @@
 <?php
+
 namespace frontend\controllers;
+
 use frontend\models\form\LoginForm;
 use frontend\models\searchFrom\GameSearch;
 use Yii;
@@ -17,8 +19,12 @@ class SiteController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup', 'index'],
+//                'only' => ['logout', 'signup', 'index'],
                 'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['login'],
+                    ],
                     [
                         'actions' => ['signup'],
                         'allow' => true,
@@ -56,33 +62,32 @@ class SiteController extends Controller {
      * Игры
      */
     public function actionIndex() {
-        
+
         if (Yii::$app->user->isGuest) {
             return $this->redirect('site/login');
         }
-        
+
         $this->layout = '@frontend/views/layouts/main';
 
         $searchModel = new GameSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+
         $waiting_publish = Game::getWaitingPublish();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'waiting_publish' => $waiting_publish,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'waiting_publish' => $waiting_publish,
         ]);
-        
     }
 
     /**
      * Авторизация
      */
     public function actionLogin() {
-        
+
         $this->layout = '@frontend/views/layouts/login-layouts';
-        
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -94,7 +99,7 @@ class SiteController extends Controller {
             $model->password = '';
 
             return $this->render('login', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }

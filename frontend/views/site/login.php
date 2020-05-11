@@ -1,10 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Game Notificator: Вход';
+$this->title = 'GameNotificator: Вход';
 ?>
 
 <div class="login_page">
@@ -18,7 +17,7 @@ $this->title = 'Game Notificator: Вход';
                 <a href="mailto:inbox@gamenotificator.net">inbox@gamenotificator.net</a>
             </div>
             <div class="login_page__wrapper__form">
-                <h4>Game Notificator</h4>
+                <h4>GameNotificator</h4>
                 <?php 
                     $form = ActiveForm::begin([
                         'id' => 'login-form',

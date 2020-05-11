@@ -17,7 +17,7 @@ use common\models\TokenPushMobile;
  * @property string $publish_at
  * @property int|null $published
  * @property string $cover
- * @property string $website
+ * @property string|null $website
  * @property string $youtube
  * @property string $youtube_btnlink
  * @property string|null $twitch
@@ -39,7 +39,7 @@ class Game extends ActiveRecord {
     public function rules() {
         return [
             [
-                ['title', 'release_date', 'publish_at', 'website', 'youtube', 'youtube_btnlink'],
+                ['title', 'release_date', 'publish_at', 'youtube', 'youtube_btnlink'],
                 'required',
                 'message' => 'Данное поле должно быть заполнено'],
             [['description'], 'string'],
