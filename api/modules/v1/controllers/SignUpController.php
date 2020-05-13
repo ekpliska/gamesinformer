@@ -36,10 +36,27 @@ class SignUpController extends Controller {
     public function actionIndex() {
         $model = new SignupFrom();
         $model->load(Yii::$app->request->bodyParams, '');
-        if ($model->validate()) {
-            return $model->register();
+        
+        if (!$model->validate()) {
+            Yii::$app->response->statusCode = 422;
+            return [
+                'success' => false,
+                'errors' => $model->getErrorSummary($model->errors),
+            ];
         }
-        return $model;
+        
+        if ($result = $model->register()) {
+            return [
+                'success' => true,
+                'token' => $result->token,
+            ];
+        }
+        
+        Yii::$app->response->statusCode = 500;
+        return [
+            'success' => false,
+            'errors' => [],
+        ];
     }
 
     public function verbs() {

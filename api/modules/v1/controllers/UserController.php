@@ -67,7 +67,17 @@ class UserController extends Controller {
         $user = $this->getUserProfile();
         $model = new EditProfile($user);
         $model->load(Yii::$app->request->bodyParams, '');
-        return $model->save() ? ['success' => true] : $model;
+        if ($model->save() && $model->validate()) {
+            return [
+                'success' => true,
+            ];
+        } else {
+            Yii::$app->response->statusCode = 422;
+            return [
+                'success' => false,
+                'errors' => $model->getErrorSummary($model->errors)
+            ];
+        }
     }
     
     public function actionChangePassword() {
@@ -75,11 +85,23 @@ class UserController extends Controller {
         $model = new ChangePassword($user);
         $model->load(Yii::$app->request->bodyParams, '');
         
-        if ($result = $model->changePassword()) {
-            return $result;
-        } else {
-            return $model;
+        if (!$model->validate()) {
+            Yii::$app->response->statusCode = 422;
+            return [
+                'success' => false,
+                'errors' => $model->getErrorSummary($model->errors),
+            ];
         }
+        
+        if ($result = $model->changePassword()) {
+            return ['success' => true];
+        }
+        
+        Yii::$app->response->statusCode = 500;
+        return [
+            'success' => false,
+            'errors' => [],
+        ];
         
     }
     

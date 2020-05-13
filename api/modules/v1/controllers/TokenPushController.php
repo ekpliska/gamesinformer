@@ -22,22 +22,22 @@ class TokenPushController extends Controller {
 
         $behaviors = parent::behaviors();
 
-//        $behaviors['authenticator']['only'] = ['index'];
-//        $behaviors['authenticator']['authMethods'] = [
-//            HttpBasicAuth::className(),
-//            HttpBearerAuth::className(),
-//        ];
-//
-//        $behaviors['access'] = [
-//            'class' => AccessControl::className(),
-//            'only' => ['index'],
-//            'rules' => [
-//                [
-//                    'allow' => true,
-//                    'roles' => ['@'],
-//                ],
-//            ],
-//        ];
+        $behaviors['authenticator']['only'] = ['index'];
+        $behaviors['authenticator']['authMethods'] = [
+            HttpBasicAuth::className(),
+            HttpBearerAuth::className(),
+        ];
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'only' => ['index'],
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+        ];
 
         $behaviors['contentNegotiator'] = [
             'class' => ContentNegotiator::className(),
@@ -64,18 +64,24 @@ class TokenPushController extends Controller {
             Yii::$app->response->statusCode = 400;
             return [
                 'success' => false,
-                'message' => 'Отсутствуют обязательный параметр token'
+                'errors' => [
+                    'Отсутствуют обязательный параметр token',
+                ],
             ];
         }
 
         $model = new PushNotification();
         if ($model->setPushToken($token)) {
             return [
-                'success' => true
+                'success' => true,
             ];
         }
 
-        throw new BadRequestHttpException;
+        Yii::$app->response->statusCode = 500;
+        return [
+            'success' => false,
+            'errors' => [],
+        ];
     }
 
     public function verbs() {

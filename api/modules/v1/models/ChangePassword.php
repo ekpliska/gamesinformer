@@ -47,11 +47,7 @@ class ChangePassword extends Model {
             $user = $this->_user;
             $user->password_hash = Yii::$app->security->generatePasswordHash($this->new_password);
             $user->generateToken();
-            
-            if (!$user->save()) {
-                return ['success' => false, 'error' => 'Произошла ошибка смены пароля. Повторите позже!'];
-            }
-            return ['success' => true, 'token' => $user->token];
+            return $user->save() ? true : false;
         }
         
         return false;

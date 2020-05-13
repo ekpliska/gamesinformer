@@ -37,7 +37,7 @@ class SignInForm extends Model {
         if ($this->validate()) {
             $user = $this->_user;
             $user->generateToken();
-            return $user->save() ? ['success' => true, 'token' => $user->token] : ['success' => false, 'error' => 'Произошла ошибка авторизации. Повторите позже!'];
+            return $user->save() ? $user->token : false;
         }
         
         return false;

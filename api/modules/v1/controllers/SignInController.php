@@ -36,11 +36,27 @@ class SignInController extends Controller {
     public function actionIndex() {
         $model = new SignInForm();
         $model->load(Yii::$app->request->bodyParams, '');
-        if ($token = $model->auth()) {
-            return $token;
-        } else {
-            return $model;
+        
+        if (!$model->validate()) {
+            Yii::$app->response->statusCode = 422;
+            return [
+                'success' => false,
+                'errors' => $model->getErrorSummary($model->errors)
+            ];
         }
+ 
+        if ($token = $model->auth()) {
+            return [
+                'success' => true,
+                'token' => $token
+            ];
+        }
+        
+        Yii::$app->response->statusCode = 500;
+        return [
+            'success' => false,
+            'errors' => [],
+        ];
     }
     
     public function verbs() {
