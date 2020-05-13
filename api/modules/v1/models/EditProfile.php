@@ -83,7 +83,7 @@ class EditProfile extends Model {
         $data = base64_decode($base64_string);
 
         // Создание нового изображения из потока представленного строкой
-        $source_img = @imagecreatefromstring($data);
+        $source_img = imagecreatefromstring($data);
         if (!$source_img) {
             return false;
         }
