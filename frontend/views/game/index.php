@@ -55,6 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <?= $form->field($model, 'publish_at')->textInput(['type' => 'date']); ?>
             
+            <div class="alert alert-warning">
+                <strong>Внимание!</strong>
+                Для использования в качестве обложки превью из YouTube ролика обязательно указывайте полную ссылку 
+                содержащую <code>watch?v=<КОД_ВИДЕО></code>.
+                <br />
+                Например: <code>https://www.youtube.com/watch?v=BODEmT7OKWg</code>
+            </div>
+            
             <?= $form->field($model, 'cover_file')->fileInput(['accept' => 'image/*']) ?>
             
         </div>
