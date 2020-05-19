@@ -75,14 +75,19 @@ class Game extends ActiveRecord {
         $file = \yii\web\UploadedFile::getInstance($this, 'cover_file');
         
         if ($file) {
-            
             $this->cover = $file;
             $dir = Yii::getAlias('@api/web');
             $file_name = '/uploads/covers/' . time() . '.' . $this->cover->extension;
             $this->cover->saveAs($dir . $file_name);
             $this->cover = $file_name;
             @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
-            
+        } else {
+            $youtube = $this->youtube;
+            $pos = strpos($youtube, 'watch?v=');
+            if ($pos) {
+                $youtube_code = substr($youtube, $pos + 8);
+                $this->cover = "https://img.youtube.com/vi/{$youtube_code}/hqdefault.jpg";
+            }
         }
         
         return parent::beforeSave($insert);

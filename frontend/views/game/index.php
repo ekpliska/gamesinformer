@@ -107,8 +107,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?=
                         $form->field($model, 'genres_list')
                             ->checkboxList($genres, ['id' => 'id',
-                                'item' => function($index, $label, $name, $value) {
-                                    $return = '<input type="checkbox" name="' . $name . '" value="' . ++$index . '" id="' . ++$index . '">';
+                                'item' => function($index, $label, $name, $checked, $value) {
+                                    $return = '<input type="checkbox" name="' . $name . '" value="' . $value . '" id="' . $index . '">';
                                     $return .= '<label class="input-checkbox">' . ucwords($label);
                                     $return .= '</label><br />';
                                     return $return;

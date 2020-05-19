@@ -46,7 +46,10 @@ $this->params['breadcrumbs'][] = 'Просмотр';
 
             <?php if (!empty($model->cover)) : ?>
                 <div class="text-center">
-                    <img src="<?= 'http://api.gamenotificator.net' . $model->cover ?>" class="img-thumbnail" alt="avatar">
+                    <img 
+                        src="<?= 'http://api.gamenotificator.net' . $model->cover ?>" 
+                        class="img-thumbnail" alt="avatar" 
+                        onerror="this.onerror=null;this.src='<?= $model->cover ?>';">
                 </div>
             <?php endif; ?>
             
