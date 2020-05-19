@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'youtube_btnlink')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'twitch')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'description')->textarea(['rows' => 15]) ?>
             <?=
                 $form->field($model, 'published')->checkbox([
                     'template' => '<div class="col-md-1">{label}</div><div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>'
