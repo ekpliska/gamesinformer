@@ -80,8 +80,16 @@ class FirebaseNotifications extends BaseObject
     public function sendNotification($tokens = [], $notification, $options = []) {
         $body = [
             'registration_ids' => $tokens,
-            'notification' => $notification,
         ];
+        
+        if ($notification) {
+            $body['notification'] = $notification;
+        }
+        
+        if (count($options)) {
+            $body['data'] = $options;
+        }
+        
         $body = ArrayHelper::merge($body, $options);
         return $this->send($body);
     }

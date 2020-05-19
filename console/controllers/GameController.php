@@ -32,7 +32,7 @@ class GameController extends Controller {
         }
         
         if ($new_publishies > 0) {
-            TokenPushMobile::send(Yii::$app->name, $new_publishies);
+            TokenPushMobile::send(Yii::$app->name, null, ['daily_games_count' => $new_publishies]);
         }
         
         
