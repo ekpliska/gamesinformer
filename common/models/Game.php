@@ -82,7 +82,6 @@ class Game extends ActiveRecord {
             $this->cover = $file_name;
             @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
         } elseif (!$file && $this->cover == null) {
-            var_dump($this->cover); die();
             $youtube = $this->youtube;
             $pos = strpos($youtube, 'watch?v=');
             if ($pos) {
