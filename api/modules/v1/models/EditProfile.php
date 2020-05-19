@@ -99,7 +99,7 @@ class EditProfile extends Model {
         $imageSave = imagejpeg($rotated_img, $file_path, 70);
         imagedestroy($source_img);
 
-        return $file_path;
+        return '/' . $file_path;
     }
 
 }
