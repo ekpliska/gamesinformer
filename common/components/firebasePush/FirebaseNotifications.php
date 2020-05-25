@@ -93,8 +93,14 @@ class FirebaseNotifications extends BaseObject {
         }
         
         if (count($iOSOptions) > 0) {
-            $body['aps'] = $iOSOptions;
+            $body['apns'] = [
+                "payload" => [
+                    "aps" => $iOSOptions,
+                ]
+            ];
         }
+        
+        var_dump(json_encode($body)); die();
         
 //        $body = ArrayHelper::merge($body, $options);
         return $this->send($body);
