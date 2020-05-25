@@ -35,7 +35,12 @@ class TestController extends Controller {
         $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
         $tokens = ArrayHelper::getColumn($_tokens, 'token');
         $notes = new FirebaseNotifications();
-        $result = $notes->sendNotification($tokens, null, ['daily_games_count' => 7], ['badge' => 9]);
+        $result = $notes->sendNotification(
+                $tokens, [
+                    "title" => "Test mess",
+                    "body" => "Test body", 
+                    "badge" => "5"
+                ], ['daily_games_count' => 7], ['badge' => 9]);
         echo '<pre>';
         var_dump($result);
     }

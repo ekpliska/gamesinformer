@@ -99,7 +99,9 @@ class FirebaseNotifications extends BaseObject {
                 ]
             ];
         }
-                
+        
+        var_dump(json_encode($body));
+        
 //        $body = ArrayHelper::merge($body, $options);
         return $this->send($body);
     }
