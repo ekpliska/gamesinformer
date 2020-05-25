@@ -37,9 +37,7 @@ class TestController extends Controller {
         $notes = new FirebaseNotifications();
         $result = $notes->sendNotification(
                 $tokens, [
-                    "title" => "Test mess",
-                    "body" => "Test body", 
-                    "badge" => 5,
+                    "badge" => 15,
                 ], ['daily_games_count' => 7], ['badge' => 9]);
         echo '<pre>';
         var_dump($result);
