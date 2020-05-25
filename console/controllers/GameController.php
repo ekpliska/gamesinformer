@@ -33,16 +33,16 @@ class GameController extends Controller {
             }
         }
         
-//        if ($new_publishies > 0) {
+        if ($new_publishies > 0) {
             $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
             $tokens = ArrayHelper::getColumn($_tokens, 'token');
             $notes = new FirebaseNotifications();
             $notes->sendNotification(
                     $tokens, 
-                    ["badge" => 1], 
-                    ['daily_games_count' => 1]
+                    ["badge" => $new_publishies], 
+                    ['daily_games_count' => $new_publishies]
              );
-//        }
+        }
         
         
     }

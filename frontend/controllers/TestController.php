@@ -29,18 +29,18 @@ class TestController extends Controller {
     }
 
     /**
-     * Игры, сохранение
+     * Для теста пушей
      */
     public function actionDaily() {
-        $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
-        $tokens = ArrayHelper::getColumn($_tokens, 'token');
-        $notes = new FirebaseNotifications();
-        $result = $notes->sendNotification(
-                $tokens, [
-                    "badge" => 15,
-                ], ['daily_games_count' => 7]);
-        echo '<pre>';
-        var_dump($result);
+//        $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
+//        $tokens = ArrayHelper::getColumn($_tokens, 'token');
+//        $notes = new FirebaseNotifications();
+//        $result = $notes->sendNotification(
+//                $tokens, [
+//                    "badge" => 15,
+//                ], ['daily_games_count' => 7]);
+//        echo '<pre>';
+//        var_dump($result);
     }
 
     /*
@@ -48,9 +48,9 @@ class TestController extends Controller {
      */
 
     public function actionPush() {
-        $result = TokenPushMobile::send('Состоялся релиз новой игры', 'Название игры');
-        echo '<pre>';
-        var_dump($result);
+//        $result = TokenPushMobile::send('Состоялся релиз новой игры', 'Название игры');
+//        echo '<pre>';
+//        var_dump($result);
     }
     
 }
