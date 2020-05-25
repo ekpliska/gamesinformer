@@ -39,7 +39,7 @@ class TestController extends Controller {
                 $tokens, [
                     "title" => "Test mess",
                     "body" => "Test body", 
-                    "badge" => "5"
+                    "badge" => 5,
                 ], ['daily_games_count' => 7], ['badge' => 9]);
         echo '<pre>';
         var_dump($result);
