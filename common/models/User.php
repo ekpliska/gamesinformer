@@ -107,4 +107,9 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getUserPlatforms() {
         return $this->hasMany(UserPlatform::className(), ['user_id' => 'id']);
     }
+    
+    public function getUserFavorite() {
+        return $this->hasMany(Favorite::className(), ['user_uid' => 'id']);
+    }
+    
 }

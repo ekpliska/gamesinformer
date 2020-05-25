@@ -3,6 +3,8 @@
 namespace api\modules\v1\models;
 use yii\helpers\Url;
 use common\models\Game as GameBase;
+use api\modules\v1\models\User;
+use common\models\Favorite;
 
 class Game extends GameBase {
     
@@ -46,6 +48,21 @@ class Game extends GameBase {
                     }
                 }
                 return $result;
+            },
+            'is_favorite' => function() {
+                $headers = getallheaders();
+                if (isset($headers['authorization'])) {
+                    $token = trim(substr($headers['authorization'], 6));
+                    $user = User::find()->where(['token' => $token])->asArray()->one();
+                    if (!$user) {
+                        return false;
+                    }
+                    $favorite = Favorite::find()->andWhere(['AND', ['user_uid' => $user['id']], ['game_id' => $this->id]])->asArray()->one();
+                    if ($favorite) {
+                        return true;
+                    }
+                }
+                return false;
             },
         ];
     }

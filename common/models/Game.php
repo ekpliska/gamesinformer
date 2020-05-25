@@ -121,7 +121,7 @@ class Game extends ActiveRecord {
                 ->asArray()
                 ->all();
     }
-
+    
     public function attributeLabels() {
         return [
             'id' => 'ID',

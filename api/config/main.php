@@ -87,6 +87,15 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/favorite',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET add/<id:[\d-]+>' => 'add',
+                        'GET remove/<id:[\d-]+>' => 'remove',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/token-push',
                     'pluralize' => false
                 ],
