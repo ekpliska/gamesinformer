@@ -38,7 +38,7 @@ class TestController extends Controller {
         $result = $notes->sendNotification(
                 $tokens, [
                     "badge" => 15,
-                ], ['daily_games_count' => 7], ['badge' => 9]);
+                ], ['daily_games_count' => 7]);
         echo '<pre>';
         var_dump($result);
     }

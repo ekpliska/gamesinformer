@@ -79,7 +79,7 @@ class FirebaseNotifications extends BaseObject {
      * @param array  $options other FCM options https://firebase.google.com/docs/cloud-messaging/http-server-ref#downstream-http-messages-json
      * @return mixed
      */
-    public function sendNotification($tokens = [], $notification, $options = [], $iOSOptions = []) {
+    public function sendNotification($tokens = [], $notification, $options = []) {
         $body = [
             'registration_ids' => $tokens,
         ];
@@ -91,16 +91,6 @@ class FirebaseNotifications extends BaseObject {
         if (count($options) > 0) {
             $body['data'] = $options;
         }
-        
-        if (count($iOSOptions) > 0) {
-            $body['apns'] = [
-                "payload" => [
-                    "aps" => $iOSOptions,
-                ]
-            ];
-        }
-        
-        var_dump(json_encode($body));
         
 //        $body = ArrayHelper::merge($body, $options);
         return $this->send($body);
