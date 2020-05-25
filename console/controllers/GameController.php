@@ -3,7 +3,9 @@
 namespace console\controllers;
 use Yii;
 use yii\console\Controller;
+use yii\helpers\ArrayHelper;
 use common\models\Game;
+use common\components\firebasePush\FirebaseNotifications;
 use common\models\TokenPushMobile;
 
 /**
@@ -32,7 +34,10 @@ class GameController extends Controller {
         }
         
         if ($new_publishies > 0) {
-            TokenPushMobile::send(Yii::$app->name, null, ['daily_games_count' => $new_publishies]);
+            $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
+            $tokens = ArrayHelper::getColumn($_tokens, 'token');
+            $notes = new FirebaseNotifications();
+            $notes->sendNotification($tokens, null, ['daily_games_count' => $new_publishies]);
         }
         
         

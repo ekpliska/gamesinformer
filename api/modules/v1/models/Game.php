@@ -1,13 +1,24 @@
 <?php
 
 namespace api\modules\v1\models;
+use yii\helpers\Url;
 use common\models\Game as GameBase;
 
 class Game extends GameBase {
     
     public function fields() {
         
-        return parent::fields() + [
+        return [
+            'id', 'title', 'description', 'series', 
+            'release_date', 
+            'publish_at', 'published', 
+            'website', 'youtube', 'youtube_btnlink', 'twitch',
+            'cover' => function() {
+                if (strpos($this->cover, 'youtube.com')) {
+                    return $this->cover;
+                }
+                return Url::home(true) . ltrim($this->cover, '/');
+            },
             'gameGenres' => function() {
                 $geners = $this->gameGenres;
                 $result = [];

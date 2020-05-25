@@ -3,6 +3,7 @@
 namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use common\components\firebasePush\FirebaseNotifications;
 
 /**
@@ -64,7 +65,6 @@ class TokenPushMobile extends ActiveRecord {
         
         
         $_tokens = self::find()
-                ->where(['user_uid' => $user_id])
                 ->andWhere(['enabled' => true])
                 ->asArray()
                 ->all();
