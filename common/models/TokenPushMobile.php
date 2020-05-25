@@ -20,24 +20,18 @@ class TokenPushMobile extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['user_uid', 'token'], 'required'],
-            [['user_uid'], 'integer'],
             [['token'], 'string', 'max' => 255],
             [['token'], 'unique'],
             ['enabled', 'integer'],
-            [['user_uid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_uid' => 'id']],
+            ['is_auth', 'integer'],
         ];
-    }
-
-    public function getUser() {
-        return $this->hasOne(User::className(), ['id' => 'user_uid']);
     }
     
     /*
      * Установка токена мобильного устройства
      * {"push_token":"key"}
      */
-    public function setPushToken($_token) {
+    public function setPushToken($_token, $user_id = null) {
         
         // Проверяем наличие токена
         $push_token = TokenPushMobile::findOne(['token' => $_token]);
@@ -45,13 +39,10 @@ class TokenPushMobile extends ActiveRecord {
         // Если токена не существует то добавляем его в базу
         if (!$push_token) {
             $new_token = new TokenPushMobile();
-            $new_token->user_uid = Yii::$app->user->id;
+//            $new_token->user_uid = Yii::$app->user->id;
             $new_token->token = $_token;
+            $new_token->is_auth = $user_id ? true : false;
             return $new_token->save(false) ? true : false;
-        } // Если токен сущeствует, то проверяем его принадлежность текущему пользователю
-        elseif ($push_token && $push_token->user_uid != Yii::$app->getUser()->id) { 
-            $push_token->user_uid = Yii::$app->user->id;
-            return $push_token->save(false) ? true : false;
         }
         
         return false;
@@ -66,6 +57,7 @@ class TokenPushMobile extends ActiveRecord {
         
         $_tokens = self::find()
                 ->andWhere(['enabled' => true])
+                ->andWhere(['is_auth' => true])
                 ->asArray()
                 ->all();
         
@@ -90,7 +82,6 @@ class TokenPushMobile extends ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'user_uid' => 'User Uid',
             'token' => 'Token',
             'enabled' => 'Enabled',
         ];
