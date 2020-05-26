@@ -44,7 +44,7 @@ class Favorite extends ActiveRecord {
     public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_uid']);
     }
-    
+
     static public function add($game_id) {
         $favorite = Favorite::find()->andWhere(['AND', ['user_uid' => Yii::$app->user->id], ['game_id' => $game_id]])->one();
         if ($favorite) {

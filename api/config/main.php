@@ -90,6 +90,7 @@ return [
                     'controller' => 'v1/favorite',
                     'pluralize' => false,
                     'extraPatterns' => [
+                        'GET /' => 'index',
                         'GET add/<id:[\d-]+>' => 'add',
                         'GET remove/<id:[\d-]+>' => 'remove',
                     ]

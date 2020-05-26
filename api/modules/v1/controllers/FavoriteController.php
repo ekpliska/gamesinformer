@@ -24,7 +24,7 @@ class FavoriteController extends Controller {
 
         $behaviors = parent::behaviors();
 
-        $behaviors['authenticator']['only'] = ['add', 'remove'];
+        $behaviors['authenticator']['only'] = ['index', 'add', 'remove'];
         $behaviors['authenticator']['authMethods'] = [
             HttpBasicAuth::className(),
             HttpBearerAuth::className(),
@@ -32,7 +32,7 @@ class FavoriteController extends Controller {
 
         $behaviors['access'] = [
             'class' => AccessControl::className(),
-            'only' => ['add', 'remove'],
+            'only' => ['index', 'add', 'remove'],
             'rules' => [
                 [
                     'allow' => true,
@@ -58,6 +58,14 @@ class FavoriteController extends Controller {
         ];
 
         return $behaviors;
+    }
+    
+    public function actionIndex() {
+        $user = User::findOne(\Yii::$app->user->id);
+        return [
+            'success' => true,
+            'favorite' => $user->userFavoriteGames(),
+        ];
     }
 
     public function actionAdd($id) {
