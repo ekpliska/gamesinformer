@@ -1,7 +1,7 @@
 <?php
 
 namespace api\modules\v1\models;
-
+use yii\helpers\Url;
 use common\models\User as UserBase;
 
 class User extends UserBase {
@@ -38,6 +38,10 @@ class User extends UserBase {
         if ($favorites) {
             foreach ($favorites as $favorite) {
                 $game = Game::find()->where(['id' => $favorite->game_id])->one();
+                $cover = Url::home(true) . ltrim($game->cover, '/');
+                if (strpos($game->cover, 'youtube.com')) {
+                    $cover = $game->cover;
+                }
                 $result[] = [
                     'id' => $game->id,
                     'title' => $game->title,
@@ -49,7 +53,7 @@ class User extends UserBase {
                     'youtube' => $game->youtube,
                     'youtube_btnlink' => $game->youtube_btnlink,
                     'twitch' => $game->twitch,
-                    'cover' => $game->cover,
+                    'cover' => $cover,
                     'gameGenres' => $this->gameGenres($game),
                     'gamePlatformReleases' => $this->gamePlatforms($game),
                 ];
