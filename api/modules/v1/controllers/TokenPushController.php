@@ -65,13 +65,13 @@ class TokenPushController extends Controller {
         $headers = getallheaders();
         $user_id = null;
         if (isset($headers['authorization'])) {
-            $token = trim(substr($headers['authorization'], 6));
-            $user = User::find()->where(['token' => $token])->asArray()->one();
+            $auth_token = trim(substr($headers['authorization'], 6));
+            $user = User::find()->where(['token' => $auth_token])->asArray()->one();
             if ($user) {
                 $user_id = $user['id'];
             }
         }
-
+        
         if (!isset($token) || empty($token)) {
             Yii::$app->response->statusCode = 400;
             return [
@@ -81,7 +81,7 @@ class TokenPushController extends Controller {
                 ],
             ];
         }
-
+        
         $model = new PushNotification();
         if ($model->setPushToken($token, $user_id)) {
             return [

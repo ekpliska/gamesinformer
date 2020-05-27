@@ -41,7 +41,7 @@ class TokenPushMobile extends ActiveRecord {
             $new_token = new TokenPushMobile();
 //            $new_token->user_uid = Yii::$app->user->id;
             $new_token->token = $_token;
-            $new_token->is_auth = $user_id ? true : false;
+            $new_token->is_auth = $user_id ? 1 : 0;
             return $new_token->save(false) ? true : false;
         }
         
