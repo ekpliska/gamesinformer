@@ -45,6 +45,7 @@ class User extends UserBase {
                 $result[] = [
                     'id' => $game->id,
                     'title' => $game->title,
+                    'description' => $game->description,
                     'series' => $game->series,
                     'release_date' => $game->release_date,
                     'publish_at' => $game->publish_at,
@@ -56,6 +57,7 @@ class User extends UserBase {
                     'cover' => $cover,
                     'gameGenres' => $this->gameGenres($game),
                     'gamePlatformReleases' => $this->gamePlatforms($game),
+                    'is_favorite' => true,
                 ];
             }
         }
