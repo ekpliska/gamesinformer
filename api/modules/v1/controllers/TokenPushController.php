@@ -62,9 +62,10 @@ class TokenPushController extends Controller {
 
     public function actionIndex($token) {
 
-        $headers = getallheaders();
+        $_headers =  getallheaders();
+        $headers = array_change_key_case($_headers);
         $user_id = null;
-        $auth_token = isset($headers['authorization']) ? $headers['authorization'] : isset($headers['Authorization']) ? $headers['Authorization'] : null;
+        $auth_token = isset($headers['authorization']) ? $headers['authorization'] : null;
         if ($auth_token) {
             $auth_token = trim($auth_token, 6);
             $user = User::find()->where(['token' => $auth_token])->asArray()->one();

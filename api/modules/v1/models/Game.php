@@ -50,8 +50,9 @@ class Game extends GameBase {
                 return $result;
             },
             'is_favorite' => function() {
-                $headers = getallheaders();
-                $auth_token = isset($headers['authorization']) ? $headers['authorization'] : isset($headers['Authorization']) ? $headers['Authorization'] : null;
+                $_headers =  getallheaders();
+                $headers = array_change_key_case($_headers);
+                $auth_token = isset($headers['authorization']) ? $headers['authorization'] : null;
                 if ($auth_token) {
                     $token = trim(substr($auth_token, 6));
                     $user = User::find()->where(['token' => $token])->asArray()->one();
