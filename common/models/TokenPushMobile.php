@@ -43,6 +43,9 @@ class TokenPushMobile extends ActiveRecord {
             $new_token->token = $_token;
             $new_token->is_auth = $user_id ? 1 : 0;
             return $new_token->save(false) ? true : false;
+        } elseif ($push_token && $user_id) {
+            $push_token->is_auth = 1;
+            return $push_token->save(false) ? true : false;
         }
         
         return false;
