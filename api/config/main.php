@@ -97,14 +97,6 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/series',
-                    'pluralize' => false,
-                    'extraPatterns' => [
-                        'GET /' => 'index',
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/token-push',
                     'pluralize' => false
                 ],
