@@ -8,15 +8,16 @@ use yii\widgets\ActiveForm;
 <?php
     $form = ActiveForm::begin([
         'id' => 'form-platform',
-        'validateOnChange' => false,
-        'validateOnBlur' => false,
+        'enableAjaxValidation' => false,
+        'validateOnChange' => true,
+        'validateOnBlur' => true,
         'fieldConfig' => [
             'template' => '<div class="field-modal has-label">{label}{input}{error}</div>',
         ],
         'options' => [
             'enctype' => 'multipart/form-data',
-        ],
-    ]);
+            ],
+        ]);
 ?>
     <div class="modal-body">
         <div class="col-lg-12">
