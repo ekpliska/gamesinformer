@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $name_genre
+ * @property integer $isRelevant
  */
 class Genre extends ActiveRecord {
 
@@ -18,16 +19,19 @@ class Genre extends ActiveRecord {
 
     public function rules() {
         return [
-            [['name_genre'], 'required'],
+            [['name_genre'], 'required', 'message' => 'Поле не заполнено'],
             [['name_genre'], 'string', 'max' => 255],
+            [['isRelevant'], 'integer'],
+            [['isRelevant'], 'default', 'value' => 0],
             [['name_genre'], 'unique'],
         ];
     }
 
     public function attributeLabels() {
         return [
-            'id' => 'ID',
-            'name_genre' => 'Name Genre',
+            'id' => 'Уникакльный идентификатор',
+            'name_genre' => 'Жанр',
+            'isRelevant' => 'Является актуальным',
         ];
     }
     

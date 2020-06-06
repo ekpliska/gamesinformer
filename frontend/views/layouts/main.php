@@ -38,6 +38,12 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Игры', 'url' => ['/site/index']],
+        ['label' => 'Метаданные', 
+            'items' => [
+                ['label' => 'Платформы', 'url' => '/platform/index'],
+                ['label' => 'Жанры', 'url' => '/genre/index'],
+            ]
+        ],
         ['label' => 'Пользователи', 'url' => ['/user/index']],
     ];
     if (Yii::$app->user->isGuest) {

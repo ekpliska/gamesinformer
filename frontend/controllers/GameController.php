@@ -38,8 +38,8 @@ class GameController extends Controller {
     public function actionIndex() {
         
         $model = new Game();
-        $platforms = ArrayHelper::map(Platform::find()->all(), 'id', 'name_platform');
-        $genres = ArrayHelper::map(Genre::find()->all(), 'id', 'name_genre');
+        $platforms = ArrayHelper::map(Platform::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_platform');
+        $genres = ArrayHelper::map(Genre::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_genre');
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $transaction = \Yii::$app->db->beginTransaction();
@@ -93,8 +93,8 @@ class GameController extends Controller {
         }
         
         $model = Game::findOne(['id' => $id]);
-        $platforms = ArrayHelper::map(Platform::find()->all(), 'id', 'name_platform');
-        $genres = ArrayHelper::map(Genre::find()->all(), 'id', 'name_genre');
+        $platforms = ArrayHelper::map(Platform::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_platform');
+        $genres = ArrayHelper::map(Genre::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_genre');
         
         if (!$model) {
             return $this->redirect(['/']);

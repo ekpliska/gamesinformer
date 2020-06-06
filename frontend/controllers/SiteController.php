@@ -75,9 +75,9 @@ class SiteController extends Controller {
         $waiting_publish = Game::getWaitingPublish();
 
         return $this->render('index', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
-                    'waiting_publish' => $waiting_publish,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'waiting_publish' => $waiting_publish,
         ]);
     }
 
@@ -99,7 +99,7 @@ class SiteController extends Controller {
             $model->password = '';
 
             return $this->render('login', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }
