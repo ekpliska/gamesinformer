@@ -4,6 +4,7 @@ namespace api\modules\v1\models;
 use common\models\Series as SeriesBase;
 use yii\helpers\Url;
 use common\models\User;
+use common\models\Favorite;
 
 class Series extends SeriesBase {
     
