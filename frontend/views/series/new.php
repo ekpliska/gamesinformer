@@ -52,17 +52,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-heading">Игры</div>
                 <div class="panel-body">
                     <?=
-                    $form->field($model, 'game_ids')->widget(Select2::classname(), [
-                        'data' => $games,
-                        'model' => $model,
-                        'options' => [
-                            'placeholder' => 'Выберите игру из списка ...',
-                        ],
-                        'pluginOptions' => [
-                            'allowClear' => true,
-                            'multiple' => true,
-                        ],
-                    ]);
+                        $form->field($model, 'game_ids')->widget(Select2::classname(), [
+                            'data' => $games,
+                            'model' => $model,
+                            'options' => [
+                                'placeholder' => 'Выберите игру из списка ...',
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'multiple' => true,
+                            ],
+                        ]);
                     ?>
                 </div>
             </div>

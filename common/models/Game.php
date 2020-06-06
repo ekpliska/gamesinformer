@@ -31,6 +31,7 @@ class Game extends ActiveRecord {
     
     public $genres_list;
     public $cover_file;
+    public $series_id;
 
     public static function tableName() {
         return 'game';
@@ -54,7 +55,8 @@ class Game extends ActiveRecord {
             
             [['genres_list', 'cover_file'], 'safe'],
             
-            [['cover_file'], 'file', 'extensions' => 'png, jpg, jpeg']
+            [['cover_file'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            [['series_id'], 'safe'],
             
         ];
     }
@@ -135,6 +137,7 @@ class Game extends ActiveRecord {
             'title' => 'Название игры',
             'description' => 'Описание',
             'series' => 'Серия игр',
+            'series_id' => 'Серия игр (NEW)',
             'release_date' => 'Дата выхода',
             'publish_at' => 'Опубликовать игру',
             'published' => 'Опубликовано',

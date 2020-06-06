@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\GamePlatformRelease;
+use kartik\select2\Select2;
 
 $this->title = 'Новая публикация';
 $this->params['breadcrumbs'][] = ['label' => 'Игры', 'url' => ['site/index']];
@@ -46,6 +47,22 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'youtube_btnlink')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'twitch')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
+            
+            <div class="alert alert-warning">
+                <?=
+                    $form->field($model, 'series_id')->widget(Select2::classname(), [
+                        'data' => $series,
+                        'model' => $model,
+                        'options' => [
+                            'placeholder' => 'Выберите серию из списка ...',
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                        ],
+                    ]);
+                ?>
+            </div>
+            
             <?= $form->field($model, 'description')->textarea(['rows' => 15]) ?>
             <?=
                 $form->field($model, 'published')->checkbox([

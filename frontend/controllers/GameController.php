@@ -10,6 +10,8 @@ use common\models\Platform;
 use common\models\GamePlatformRelease;
 use common\models\Genre;
 use common\models\GameGenre;
+use common\models\Series;
+use common\models\GameSeries;
 
 /**
  * Site controller
@@ -40,6 +42,7 @@ class GameController extends Controller {
         $model = new Game();
         $platforms = ArrayHelper::map(Platform::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_platform');
         $genres = ArrayHelper::map(Genre::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_genre');
+        $series = ArrayHelper::map(Series::find()->all(), 'id', 'series_name');
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $transaction = \Yii::$app->db->beginTransaction();
@@ -67,6 +70,12 @@ class GameController extends Controller {
                             $genre_model->save();
                         }
                     }
+                    if ($model->series_id) {
+                        $game_series = new GameSeries();
+                        $game_series->game_id = $model->id;
+                        $game_series->series_id = $model->series_id;
+                        $game_series->save(false);
+                    }
                 }
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', ['message' => 'Публикация успешно создана!']);
@@ -79,7 +88,8 @@ class GameController extends Controller {
         return $this->render('index', [
             'model' => $model,
             'platforms' => $platforms,
-            'genres' => $genres
+            'genres' => $genres,
+            'series' => $series,
         ]);
         
     }
@@ -97,6 +107,7 @@ class GameController extends Controller {
         
         $platforms = ArrayHelper::map(Platform::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_platform');
         $genres = ArrayHelper::map(Genre::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_genre');
+        $series = ArrayHelper::map(Series::find()->all(), 'id', 'series_name');
         
         if (!$model) {
             return $this->redirect(['/']);
@@ -137,6 +148,15 @@ class GameController extends Controller {
                             $genre_model->save();
                         }
                     }
+                    if ($model->series_id) {
+                        if ($model->seriesGame) {
+                            GameSeries::deleteAll(['game_id' => $model->id]);
+                        }
+                        $game_series = new GameSeries();
+                        $game_series->game_id = $model->id;
+                        $game_series->series_id = $model->series_id;
+                        $game_series->save(false);
+                    }
                 }
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', ['message' => 'Данные публикации успешно обновлены!']);
@@ -149,7 +169,8 @@ class GameController extends Controller {
         return $this->render('update', [
             'model' => $model,
             'platforms' => $platforms,
-            'genres' => $genres
+            'genres' => $genres,
+            'series' => $series,
         ]);
     }
     
