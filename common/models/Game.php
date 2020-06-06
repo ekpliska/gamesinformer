@@ -107,6 +107,13 @@ class Game extends ActiveRecord {
         return $this->hasMany(GamePlatformRelease::className(), ['game_id' => 'id']);
     }
     
+    /**
+     * Связь с релизами на платформе
+     */
+    public function getSeriesGame() {
+        return $this->hasMany(GameSeries::className(), ['game_id' => 'id']);
+    }
+    
     public function getGenresList() {
         $genres = $this->gameGenres;
         return ArrayHelper::getColumn($genres, function($item) {

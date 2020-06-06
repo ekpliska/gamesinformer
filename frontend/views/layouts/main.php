@@ -40,9 +40,9 @@ AppAsset::register($this);
         ['label' => 'Игры', 'url' => ['/site/index']],
         ['label' => 'Метаданные', 
             'items' => [
-                ['label' => 'Платформы', 'url' => '/platform/index'],
-                ['label' => 'Жанры', 'url' => '/genre/index'],
-                ['label' => 'Серии', 'url' => '/series/index'],
+                ['label' => 'Платформы', 'url' => '/platform'],
+                ['label' => 'Жанры', 'url' => '/genre'],
+                ['label' => 'Серии', 'url' => '/series'],
             ]
         ],
         ['label' => 'Пользователи', 'url' => ['/user/index']],
