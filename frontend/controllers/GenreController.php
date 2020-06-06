@@ -5,10 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use yii\web\UploadedFile;
-use frontend\models\searchFrom\PlatformSearch;
 use frontend\models\searchFrom\GenreSearch;
-use common\models\Platform;
 use \common\models\Genre;
 
 /**
@@ -20,10 +17,10 @@ class GenreController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index'],
+                'only' => ['index', 'new', 'upload', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'new', 'upload', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

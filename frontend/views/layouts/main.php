@@ -42,6 +42,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Платформы', 'url' => '/platform/index'],
                 ['label' => 'Жанры', 'url' => '/genre/index'],
+                ['label' => 'Серии', 'url' => '/series/index'],
             ]
         ],
         ['label' => 'Пользователи', 'url' => ['/user/index']],

@@ -11,7 +11,8 @@ class Genre extends GenreBase {
             'id',
             'name' => function() {
                 return $this->name_genre;
-            }
+            },
+            'is_relevant',
         ];
         
     }

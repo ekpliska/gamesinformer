@@ -57,8 +57,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'published',
                         'content' => function($data){
                             return $data->published 
-                                    ? '<span class="label label-success">Опубликовано</span>' 
-                                    : '<span class="label label-default">Ждет публикации</span>';
+                                ? '<span class="label label-success">Опубликовано</span>' 
+                                : '<span class="label label-default">Ждет публикации</span>';
                         }
                     ],
                     [
@@ -79,8 +79,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'raw',
                         'content' => function($data){
                             return Html::a('Website', $data->website, ['target' => '_blank']) . '<br />' .
-                                    Html::a('YouTube', $data->youtube, ['target' => '_blank']) . '<br />' .
-                                    Html::a('Twitch', $data->twitch, ['target' => '_blank']);
+                                Html::a('YouTube', $data->youtube, ['target' => '_blank']) . '<br />' .
+                                Html::a('Twitch', $data->twitch, ['target' => '_blank']);
                         }
                     ],
                     [

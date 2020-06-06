@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                            return $data->isRelevant 
                                    ? '<span class="label label-info">Актуально</span>' 
                                    : '<span class="label label-default">Неактуально</span>';
-                       },
+                       },        
                    ],
                    [
                        'class' => 'yii\grid\ActionColumn',

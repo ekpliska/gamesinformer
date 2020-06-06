@@ -88,11 +88,13 @@ class GameController extends Controller {
      * Игры, редактирование
      */
     public function actionUpdate($id) {
-        if ($id == null) {
+        
+        $model = Game::findOne(['id' => $id]);
+        
+        if ($id == null || !$model) {
             return $this->redirect(['/']);
         }
         
-        $model = Game::findOne(['id' => $id]);
         $platforms = ArrayHelper::map(Platform::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_platform');
         $genres = ArrayHelper::map(Genre::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_genre');
         

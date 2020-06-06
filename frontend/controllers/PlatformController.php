@@ -17,10 +17,10 @@ class PlatformController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'update', 'new'],
+                'only' => ['index', 'new', 'upload', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'update', 'new'],
+                        'actions' => ['index', 'new', 'upload', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
