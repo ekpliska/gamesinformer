@@ -13,7 +13,9 @@ class Platform extends PlatformBase {
                 return $this->name_platform;
             },
             'logo_path',
-            'is_relevant',
+            'is_relevant' => function() {
+                return $this->isRelevant;
+            },
         ];
         
     }
