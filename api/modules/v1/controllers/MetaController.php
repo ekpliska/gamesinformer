@@ -37,11 +37,11 @@ class MetaController extends Controller {
     }
     
     public function actionPlatforms() {
-        return Platform::find()->all();
+        return Platform::find()->orderBy(['name_platform' => SORT_ASC])->all();
     }
     
     public function actionGenres() {
-        return Genre::find()->all();
+        return Genre::find()->orderBy(['name_genre' => SORT_ASC])->all();
     }
     
     public function verbs() {
