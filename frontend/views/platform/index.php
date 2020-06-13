@@ -25,11 +25,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'name_platform',
-            'logo_path',
-            'isRelevant',
-
+            [
+                'label' => 'Логотип',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if($data->logo_path) {
+                        return Html::img('http://api.gamenotificator.net' . $data->logo_path, ['alt' => 'logo']);
+                    }
+                },
+            ],
+            [
+                'label' => 'Статус',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return $data->isRelevant ? '<span class="label label-info">Актуально</span>' : '<span class="label label-default">Неактуально</span>';
+                },
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
@@ -37,15 +49,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'update' => function ($url, $model) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-pencil"></span>', ['genre/update', 'id' => $model->id], [
+                            '<span class="glyphicon glyphicon-pencil"></span>', ['platform/update', 'id' => $model->id], [
                                 'data-toggle' => 'modal',
-                                'data-target' => '#genre-edit',
-                                'onclick' => "$('#genre-edit .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
+                                'data-target' => '#platform-edit',
+                                'onclick' => "$('#platform-edit .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
                             ]
                         );
                     },
                     'delete' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['genre/delete', 'id' => $model->id]);
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['platform/delete', 'id' => $model->id]);
                     },
                 ],
             ],
