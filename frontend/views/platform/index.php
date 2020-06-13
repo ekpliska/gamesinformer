@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
         GridView::widget([
             'dataProvider' => $platforms,
+            'filterModel' => $search_platforms,
             'tableOptions' => [
                 'class' => 'table table-striped table-bordered'
             ],
@@ -32,29 +33,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'name_platform',
                 [
                     'label' => 'Логотип',
-                    'format' => 'raw',
-                    'value' => function($data) {
+                    'content' => function($data) {
                         if ($data->logo_path) {
                             return Html::img(('http://api.gamenotificator.net' . $data->logo_path), [
                                 'alt' => 'Логотип',
                                 'style' => 'width:60px;'
                             ]);
                         }
-                    },
+                    }
                 ],
                 [
                     'label' => 'Статус',
                     'format' => 'raw',
                     'value' => function($data) {
-                        return $data->isRelevant 
-                                ? '<span class="label label-info">Актуально</span>' 
-                                : '<span class="label label-default">Неактуально</span>';
+                        return $data->isRelevant ? '<span class="label label-info">Актуально</span>' : '<span class="label label-default">Неактуально</span>';
                     },
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'headerOptions' => ['style' => 'width:50px;'],
-                    'template' => '{update} {delete}',
+                    'template' => '{update}',
                     'buttons' => [
                         'update' => function ($url, $model) {
                             return Html::a(
