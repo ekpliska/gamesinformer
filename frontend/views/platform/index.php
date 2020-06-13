@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name_platform',
             [
                 'label' => 'Логотип',
+                'headerOptions' => ['style' => 'width:90px;'],
                 'format' => 'raw',
                 'value' => function($data) {
                     if($data->logo_path) {
