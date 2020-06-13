@@ -35,7 +35,7 @@ class GenreController extends Controller {
     public function actionIndex() {
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Genre::find()->orderBy(['isRelevant' => SORT_DESC]),
+            'query' => Genre::find(),
             'pagination' => [
                 'pageSize' => 20,
             ],
