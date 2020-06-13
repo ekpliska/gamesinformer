@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?=
         GridView::widget([
-               'dataProvider' => $genres,
+               'dataProvider' => $dataProvider,
                'tableOptions' => [
                    'class' => 'table table-striped table-bordered'
                ],

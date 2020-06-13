@@ -5,8 +5,8 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use frontend\models\searchFrom\GenreSearch;
-use \common\models\Genre;
+use yii\data\ActiveDataProvider;
+use common\models\Genre;
 
 /**
  * Genre controller
@@ -34,12 +34,17 @@ class GenreController extends Controller {
      */
     public function actionIndex() {
 
-        $search_genres = new GenreSearch();
-        $genres = $search_genres->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Genre::find()->orderBy(['isRelevant' => SORT_DESC]),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
 
         return $this->render('index', [
-                    'genres' => $genres,
+            'dataProvider' => $dataProvider,
         ]);
+
     }
 
     public function actionNew() {
