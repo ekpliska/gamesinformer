@@ -5,7 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use frontend\models\searchFrom\PlatformSearch;
+use yii\data\ActiveDataProvider;
 use common\models\Platform;
 
 /**
@@ -31,13 +31,14 @@ class PlatformController extends Controller {
 
     public function actionIndex() {
 
-        $search_platforms = new PlatformSearch();
-        $platforms = $search_platforms->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Platform::find(),
+        ]);
 
         return $this->render('index', [
-            'search_platforms' => $search_platforms,
-            'platforms' => $platforms,
+            'dataProvider' => $dataProvider,
         ]);
+
     }
     
     public function actionUpdate($id) {
