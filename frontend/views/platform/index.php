@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'format' => 'raw',
                     'value' => function($data) {
                         if ($data->logo_path) {
-                            return Html::img(('http://gamenotificator.net' . $data->logo_path), [
+                            return Html::img(('http://api.gamenotificator.net' . $data->logo_path), [
                                 'alt' => 'Логотип',
                                 'style' => 'width:60px;'
                             ]);

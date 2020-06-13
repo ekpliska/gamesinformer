@@ -15,7 +15,7 @@ class PlatformSearch extends Platform {
     }
 
     public function search($params) {
-        $query = Platform::find()->groupBy('id');
+        $query = Platform::find()->distinct();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
