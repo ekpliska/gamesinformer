@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'headerOptions' => ['style' => 'width:50px;'],
-                    'template' => '{update}',
+                    'template' => '{update} {delete}',
                     'buttons' => [
                         'update' => function ($url, $model) {
                             return Html::a(
