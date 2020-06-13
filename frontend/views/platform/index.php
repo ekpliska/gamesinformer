@@ -30,7 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'logo_path',
             'isRelevant',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'headerOptions' => ['style' => 'width:50px;'],
+                'buttons' => [
+                    'update' => function ($url, $model) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-pencil"></span>', ['genre/update', 'id' => $model->id], [
+                                'data-toggle' => 'modal',
+                                'data-target' => '#genre-edit',
+                                'onclick' => "$('#genre-edit .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
+                            ]
+                        );
+                    },
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['genre/delete', 'id' => $model->id]);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 </div>

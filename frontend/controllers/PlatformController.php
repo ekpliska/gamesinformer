@@ -33,6 +33,9 @@ class PlatformController extends Controller {
 
         $dataProvider = new ActiveDataProvider([
             'query' => Platform::find(),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
         ]);
 
         return $this->render('index', [
