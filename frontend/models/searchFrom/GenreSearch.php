@@ -13,7 +13,7 @@ class GenreSearch extends Genre {
     }
 
     public function search($params) {
-        $query = Genre::find();
+        $query = Genre::find()->groupBy('id');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

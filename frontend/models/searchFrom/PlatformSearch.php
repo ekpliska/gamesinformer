@@ -15,7 +15,7 @@ class PlatformSearch extends Platform {
     }
 
     public function search($params) {
-        $query = Platform::find();
+        $query = Platform::find()->groupBy('id');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -27,9 +27,7 @@ class PlatformSearch extends Platform {
             return $dataProvider;
         }
         $query->orderBy(['isRelevant' => SORT_DESC]);
-        $query->andFilterWhere([
-            'name_platform' => $this->name_platform,
-        ]);
+
         return $dataProvider;
     }
 }
