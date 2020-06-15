@@ -17,10 +17,10 @@ class PlatformController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'new', 'upload', 'delete'],
+                'only' => ['index', 'new', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'new', 'upload', 'delete'],
+                        'actions' => ['index', 'new', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -48,7 +48,7 @@ class PlatformController extends Controller {
         $model = Platform::findOne($id);
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->save()) {
+            if ($model->validate() && $model->save()) {
                 return $this->redirect('/platform');
             }
         }

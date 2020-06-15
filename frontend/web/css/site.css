@@ -227,3 +227,25 @@ label.input-checkbox {
     background: #c0392b;
 }
 /** END GAME PAGE **/
+
+.panel-body {
+    padding: 0;
+    margin: 10px 0;
+}
+.list-group {
+    margin: 10px 0;
+}
+.list-group-item {
+    display: flex;
+    align-items: center;
+}
+.tags_setting {
+    padding: 10px;
+    border: 1px solid red;
+}
+.list-empty {
+    list-style: none;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 12px;
+}

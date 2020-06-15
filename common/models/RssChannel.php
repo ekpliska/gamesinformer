@@ -30,19 +30,20 @@ class RssChannel extends ActiveRecord {
             [['rss_channel_name'], 'string', 'max' => 70],
             [['rss_channel_url'], 'string', 'max' => 255],
             [['title_tag', 'description_tag', 'pub_date_tag', 'image_tag', 'link_tag'], 'string', 'max' => 20],
+            ['rss_channel_url', 'url', 'message' => 'Вы указали некорректный  url адрес'],
         ];
     }
 
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'rss_channel_name' => 'Rss Channel Name',
-            'rss_channel_url' => 'Rss Channel Url',
-            'title_tag' => 'Title Tag',
-            'description_tag' => 'Description Tag',
-            'pub_date_tag' => 'Pub Date Tag',
-            'image_tag' => 'Image Tag',
-            'link_tag' => 'Link Tag',
+            'rss_channel_name' => 'Название ленты',
+            'rss_channel_url' => 'Ссылка на ленту',
+            'title_tag' => 'Тег заголовка новости',
+            'description_tag' => 'Тег описание новости',
+            'pub_date_tag' => 'Тег даты публикации новости',
+            'image_tag' => 'Тег превью новости',
+            'link_tag' => 'Тег источник новости',
         ];
     }
 

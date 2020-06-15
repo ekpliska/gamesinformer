@@ -17,10 +17,10 @@ class GenreController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'new', 'upload', 'delete'],
+                'only' => ['index', 'new', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'new', 'upload', 'delete'],
+                        'actions' => ['index', 'new', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -71,8 +71,8 @@ class GenreController extends Controller {
             return $this->redirect('/genre');
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate() && $model->save()) {
                 return $this->redirect('/genre');
             }
         }
