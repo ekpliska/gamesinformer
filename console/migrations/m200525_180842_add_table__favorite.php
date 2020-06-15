@@ -25,13 +25,13 @@ class m200525_180842_add_table__favorite extends Migration {
         $this->addForeignKey('fk-favorite-user_uid', '{{%favorite}}', 'user_uid', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
 
         $this->addForeignKey(
-                'fk-favorite-game_id', 
-                '{{%favorite}}', 
-                'game_id', 
-                '{{%game}}', 
-                'id', 
-                'CASCADE',
-                'CASCADE'
+            'fk-favorite-game_id', 
+            '{{%favorite}}', 
+            'game_id', 
+            '{{%game}}', 
+            'id', 
+            'CASCADE',
+            'CASCADE'
         );
     }
 

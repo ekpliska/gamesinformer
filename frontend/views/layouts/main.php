@@ -45,6 +45,7 @@ AppAsset::register($this);
                 ['label' => 'Серии', 'url' => '/series'],
             ]
         ],
+        ['label' => 'Новости', 'url' => ['/news/index']],
         ['label' => 'Пользователи', 'url' => ['/user/index']],
     ];
     if (Yii::$app->user->isGuest) {
