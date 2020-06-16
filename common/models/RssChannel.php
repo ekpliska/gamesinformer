@@ -3,6 +3,7 @@
 namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
+use common\models\News;
 
 /**
  * This is the model class for table "rss_channel".
@@ -49,5 +50,15 @@ class RssChannel extends ActiveRecord {
 
     public function getNews() {
         return $this->hasOne(News::className(), ['rss_channel_id' => 'id']);
+    }
+    
+    public function getRssTags() {
+        return [
+            'title' => $this->title_tag,
+            'description' => $this->description_tag,
+            'pub_date' => $this->pub_date_tag,
+            'image' => $this->image_tag,
+            'link' => $this->link_tag,
+        ];
     }
 }

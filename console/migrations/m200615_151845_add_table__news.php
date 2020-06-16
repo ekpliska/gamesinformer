@@ -16,11 +16,11 @@ class m200615_151845_add_table__news extends Migration {
 
         $this->createTable('{{%news}}', [
             'id' => $this->primaryKey(),
-            'title' => $this->string(20)->notNull(),
-            'description' => $this->string(20)->notNull(),
-            'pub_date' => $this->string(20)->notNull(),
-            'image' => $this->string(20)->notNull(),
-            'link' => $this->string(20)->notNull(),
+            'title' => $this->string(255)->notNull(),
+            'description' => $this->text(1000)->notNull(),
+            'pub_date' => $this->dateTime()->notNull(),
+            'image' => $this->string(255)->notNull(),
+            'link' => $this->string(255)->notNull(),
             'rss_channel_id' => $this->integer()->notNull(),
         ], $table_options);
 
