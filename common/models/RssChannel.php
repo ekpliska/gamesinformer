@@ -34,6 +34,11 @@ class RssChannel extends ActiveRecord {
             ['rss_channel_url', 'url', 'message' => 'Вы указали некорректный  url адрес'],
         ];
     }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        News::deleteAll(['rss_channel_id' => $this->id]);
+    }
 
     public function attributeLabels() {
         return [
