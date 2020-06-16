@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use api\modules\v1\models\Platform;
 use api\modules\v1\models\Genre;
+use api\modules\v1\models\RssChannel;
 
 /**
  * Мета данные
@@ -42,6 +43,10 @@ class MetaController extends Controller {
     
     public function actionGenres() {
         return Genre::find()->orderBy(['name_genre' => SORT_ASC])->all();
+    }
+    
+    public function actionRss() {
+        return RssChannel::find()->orderBy(['rss_channel_name' => SORT_DESC])->all();
     }
     
     public function verbs() {

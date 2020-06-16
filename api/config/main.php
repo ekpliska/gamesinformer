@@ -108,6 +108,15 @@ return [
                     'controller' => 'v1/token-push',
                     'pluralize' => false
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/news',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET /' => 'index',
+                        'GET view/<id:[\d-]+>' => 'view',
+                    ]
+                ],
             ],        
         ]
     ],
