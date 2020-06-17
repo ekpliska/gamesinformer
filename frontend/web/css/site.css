@@ -303,3 +303,9 @@ label.input-checkbox {
     font-size: 12px;
     padding: 10px 0;
 }
+
+.avatar {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+}
