@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use common\models\RssChannel;
 use common\models\News;
+use console\controllers\NewsController as NewsControllerConsole;
 
 /**
  * News controller
@@ -47,7 +48,7 @@ class NewsController extends Controller {
     }
     
     public function actionGenerate() {
-        $consoleController = new \console\controllers\NewsController('news', Yii::$app);
+        $consoleController = new NewsControllerConsole('news', Yii::$app);
         $consoleController->runAction('load');
         Yii::$app->session->setFlash('success', ['message' => 'Новости были сгенерированы']);
         return $this->redirect('/news');
@@ -68,8 +69,8 @@ class NewsController extends Controller {
         return $this->redirect('/news');
     }
 
-    public function actionDelete($rss_id) {
-        if (!News::deleteAll(['rss_channel_id' => $rss_id])) {
+    public function actionDelete($id) {
+        if (!News::deleteAll(['rss_channel_id' => $id])) {
             Yii::$app->session->setFlash('error', ['message' => 'Ошибка удаления новостей']);
         }
         Yii::$app->session->setFlash('success', ['message' => 'Новости RSS ленты были успешно удалены']);

@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
         <?php if (!$model->isNewRecord) : ?>
         <div class="row alert alert-danger text-center">
             <?=
-                Html::a("Удалить новости RSS {$model->rss_channel_name}", ['news/delete', 'rss_id' => $model->id], [
+                Html::a("Удалить новости RSS {$model->rss_channel_name}", ['news/delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
                         'confirm' => 'Вы дейсвительно хотите все новости текущей RSS ленты?',
