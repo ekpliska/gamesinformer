@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </h5>
             </div>
             <div class="panel-body">
-                <?php if (count($news) > 0) : ?>
+                <?php if ($data_provider->totalCount > 0) : ?>
                     <div class="row text-center">    
                         <?=
                         Html::a("Удалить все новости", ['news/delete-all'], [
@@ -82,34 +82,34 @@ $this->params['breadcrumbs'][] = $this->title;
             Новости
         </h4>
         <?=
-        ListView::widget([
-            'dataProvider' => $data_provider,
-            'options' => [
-                'tag' => 'div',
-                'class' => 'list-wrapper row',
-                'id' => 'list-wrapper',
-            ],
-            'layout' => "{pager}\n{summary}\n{items}\n{pager}", // выводим постраничную навигацию вначале и в конце списка, общее количесвто элементов и количестов элементов показанных на странице и сам список
-            'summary' => 'Показано {count} из {totalCount}', // шаблон для summary
-            'summaryOptions' => [// опции для раздела количество элементов
-                'tag' => 'span', // заключаем summary в тег span
-                'class' => 'summary' // добавлем класс summary
-            ],
-            'itemView' => function ($model, $key, $index, $widget) {
-                return $this->render('_list', ['model' => $model, 'index' => $index]);
-            },
-            'emptyText' => 'Новостей нет',
-            'emptyTextOptions' => [// опции для пустого контейнера
-                'tag' => 'p' // добавляем тег абзаца для пустого контейнера
-            ],
-            'pager' => [// постраничная разбивка
-                'firstPageLabel' => 'Первая', // ссылка на первую страницу
-                'lastPageLabel' => 'Последняя', // ссылка на последнюю странцу
-                'nextPageLabel' => 'Следующая', // ссылка на следующую странцу
-                'prevPageLabel' => 'Предыдущая', // ссылка на предыдущую странцу        
-                'maxButtonCount' => 5, // количество отображаемых страниц
-            ],
-        ]);
+            ListView::widget([
+                'dataProvider' => $data_provider,
+                'options' => [
+                    'tag' => 'div',
+                    'class' => 'list-wrapper row',
+                    'id' => 'list-wrapper',
+                ],
+                'layout' => "{pager}\n{summary}\n{items}\n{pager}", // выводим постраничную навигацию вначале и в конце списка, общее количесвто элементов и количестов элементов показанных на странице и сам список
+                'summary' => 'Показано {count} из {totalCount}', // шаблон для summary
+                'summaryOptions' => [// опции для раздела количество элементов
+                    'tag' => 'span', // заключаем summary в тег span
+                    'class' => 'summary' // добавлем класс summary
+                ],
+                'itemView' => function ($model, $key, $index, $widget) {
+                    return $this->render('_list', ['model' => $model, 'index' => $index]);
+                },
+                'emptyText' => 'Новостей нет',
+                'emptyTextOptions' => [// опции для пустого контейнера
+                    'tag' => 'p' // добавляем тег абзаца для пустого контейнера
+                ],
+                'pager' => [// постраничная разбивка
+                    'firstPageLabel' => 'Первая', // ссылка на первую страницу
+                    'lastPageLabel' => 'Последняя', // ссылка на последнюю странцу
+                    'nextPageLabel' => 'Следующая', // ссылка на следующую странцу
+                    'prevPageLabel' => 'Предыдущая', // ссылка на предыдущую странцу        
+                    'maxButtonCount' => 5, // количество отображаемых страниц
+                ],
+            ]);
         ?>
     </div>
 </div>

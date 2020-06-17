@@ -34,6 +34,12 @@ class NewsController extends Controller {
                     continue;
                 }
                 foreach ($rss->channel->item as $item) {
+                    if (!array_key_exists('pub_date', $tags)) {
+                        continue;
+                    }
+                    if (!property_exists($item, $tags['pub_date'])) {
+                        continue;
+                    }
                     $date_pub = new \DateTime($item->{$tags['pub_date']});
                     $current_date = new \DateTime('NOW');
                     // Если разница между текущей датой и датой публикации больше 3 дней, то такую новость не запоминаем
@@ -46,7 +52,15 @@ class NewsController extends Controller {
                         if ($key === 'pub_date') {
                             $news->pub_date = $date_pub->format('Y-m-d H:i:s');
                         }
+                        if (!property_exists($item, $tag)) {
+                            continue;
+                        }
                         $news->{$key} = Html::decode($item->{$tag});
+                        if ($tags['image'] == null) {
+                            $description = Html::decode($item->{$tags['description']});
+                            preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches);
+                            $news->image = $matches ? $matches[1] : null;
+                        }
                     }
                     if (!$news->save()) {
                         continue;
@@ -84,8 +98,17 @@ class NewsController extends Controller {
                     continue;
                 }
                 foreach ($rss->channel->item as $item) {
+                    if (!array_key_exists('title', $tags)) {
+                        continue;
+                    }
                     $title_news = $item->{$tags['title']};
                     if (News::checkNews($title_news)) {
+                        continue;
+                    }
+                    if (!array_key_exists('pub_date', $tags)) {
+                        continue;
+                    }
+                    if (!property_exists($item, $tags['pub_date'])) {
                         continue;
                     }
                     $date_pub = new \DateTime($item->{$tags['pub_date']});
@@ -101,7 +124,15 @@ class NewsController extends Controller {
                         if ($key === 'pub_date') {
                             $news->pub_date = $date_pub->format('Y-m-d H:i:s');
                         }
+                        if (!property_exists($item, $tag)) {
+                            continue;
+                        }
                         $news->{$key} = Html::decode($item->{$tag});
+                        if ($tags['image'] == null) {
+                            $description = Html::decode($item->{$tags['description']});
+                            preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches);
+                            $news->image = $matches ? $matches[1] : null;
+                        }
                     }
                     if (!$news->save()) {
                         continue;

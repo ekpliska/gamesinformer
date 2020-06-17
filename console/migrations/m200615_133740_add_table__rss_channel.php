@@ -21,7 +21,7 @@ class m200615_133740_add_table__rss_channel extends Migration {
             'title_tag' => $this->string(20)->notNull(),
             'description_tag' => $this->string(20)->notNull(),
             'pub_date_tag' => $this->string(20)->notNull(),
-            'image_tag' => $this->string(20)->notNull(),
+            'image_tag' => $this->string(20),
             'link_tag' => $this->string(20)->notNull(),
         ], $table_options);
 

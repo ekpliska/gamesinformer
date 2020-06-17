@@ -44,19 +44,19 @@ use yii\widgets\ActiveForm;
             <br />
             Например: Для тега заголовка новости <code>title</code>
         </div>
+        <?php if (!$model->isNewRecord) : ?>
         <div class="row alert alert-danger text-center">
-            <?php if (!$model->isNewRecord) : ?>
-                <?=
-                    Html::a("Удалить новости RSS {$model->rss_channel_name}", ['news/delete', 'rss_id' => $model->id], [
-                        'class' => 'btn btn-danger',
-                        'data' => [
-                            'confirm' => 'Вы дейсвительно хотите все новости текущей RSS ленты?',
-                            'method' => 'post',
-                        ],
-                    ])
-                ?>
-            <?php endif; ?>
+            <?=
+                Html::a("Удалить новости RSS {$model->rss_channel_name}", ['news/delete', 'rss_id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => 'Вы дейсвительно хотите все новости текущей RSS ленты?',
+                        'method' => 'post',
+                    ],
+                ])
+            ?>
         </div>
+        <?php endif; ?>
     </div>
 </div>
 

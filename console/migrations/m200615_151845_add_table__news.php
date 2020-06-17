@@ -20,7 +20,7 @@ class m200615_151845_add_table__news extends Migration {
             'description' => $this->text(1000)->notNull(),
             'pub_date' => $this->dateTime()->notNull(),
             'image' => $this->string(255)->notNull(),
-            'link' => $this->string(255)->notNull(),
+            'link' => $this->string(255),
             'rss_channel_id' => $this->integer()->notNull(),
         ], $table_options);
 

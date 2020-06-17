@@ -6,7 +6,6 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Html;
 use common\models\RssChannel;
 use common\models\News;
 
@@ -19,10 +18,10 @@ class NewsController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'generate', 'delete', 'delete-all'],
+                'only' => ['index', 'view', 'generate', 'delete', 'delete-all', 'test'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'delete', 'generate', 'delete-all'],
+                        'actions' => ['index', 'view', 'generate', 'delete', 'delete-all', 'test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -47,6 +46,13 @@ class NewsController extends Controller {
         ]);
     }
     
+    public function actionGenerate() {
+        $consoleController = new \console\controllers\NewsController('news', Yii::$app);
+        $consoleController->runAction('load');
+        Yii::$app->session->setFlash('success', ['message' => 'Новости были сгенерированы']);
+        return $this->redirect('/news');
+    }
+    
     public function actionView($id) {
         $model = News::findOne($id);
         return $this->renderAjax('view', [
@@ -69,5 +75,5 @@ class NewsController extends Controller {
         Yii::$app->session->setFlash('success', ['message' => 'Новости RSS ленты были успешно удалены']);
         return $this->redirect('/news');
     }
-
+    
 }
