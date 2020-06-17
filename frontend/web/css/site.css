@@ -297,3 +297,9 @@ label.input-checkbox {
 .modal-body img {
     width: 20%;
 }
+
+.summary {
+    font-weight: bold;
+    font-size: 12px;
+    padding: 10px 0;
+}

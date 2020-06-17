@@ -26,7 +26,7 @@ class News extends ActiveRecord {
 
     public function rules() {
         return [
-            [['title', 'description', 'pub_date', 'image', 'link', 'rss_channel_id'], 'required'],
+            [['title', 'description', 'pub_date', 'link', 'rss_channel_id'], 'required'],
             [['description'], 'string'],
             [['pub_date'], 'safe'],
             [['rss_channel_id'], 'integer'],

@@ -27,7 +27,7 @@ class RssChannel extends ActiveRecord {
 
     public function rules() {
         return [
-            [['rss_channel_name', 'rss_channel_url', 'title_tag', 'description_tag', 'pub_date_tag', 'image_tag', 'link_tag'], 'required'],
+            [['rss_channel_name', 'rss_channel_url', 'title_tag', 'description_tag', 'pub_date_tag', 'link_tag'], 'required'],
             [['rss_channel_name'], 'string', 'max' => 70],
             [['rss_channel_url'], 'string', 'max' => 255],
             [['title_tag', 'description_tag', 'pub_date_tag', 'image_tag', 'link_tag'], 'string', 'max' => 20],

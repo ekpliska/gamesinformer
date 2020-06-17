@@ -78,9 +78,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-md-8">
-        <h4 class="text-center">
-            Новости
-        </h4>
         <?=
             ListView::widget([
                 'dataProvider' => $data_provider,
@@ -89,12 +86,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'list-wrapper row',
                     'id' => 'list-wrapper',
                 ],
-                'layout' => "{pager}\n{summary}\n{items}\n{pager}", // выводим постраничную навигацию вначале и в конце списка, общее количесвто элементов и количестов элементов показанных на странице и сам список
+                'layout' => "<span class='summary'>{summary}</span>\n{items}\n{pager}", // выводим постраничную навигацию вначале и в конце списка, общее количесвто элементов и количестов элементов показанных на странице и сам список
                 'summary' => 'Показано {count} из {totalCount}', // шаблон для summary
-                'summaryOptions' => [// опции для раздела количество элементов
-                    'tag' => 'span', // заключаем summary в тег span
-                    'class' => 'summary' // добавлем класс summary
-                ],
                 'itemView' => function ($model, $key, $index, $widget) {
                     return $this->render('_list', ['model' => $model, 'index' => $index]);
                 },
