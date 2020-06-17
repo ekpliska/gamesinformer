@@ -55,10 +55,8 @@ class NewsController extends ActiveController {
     }
     
     public function prepareDataProvider() {
-        $user = $this->checkAuthUser();
-        $user_id = $user ? $user['id'] : null;
         $searchModel = new NewsSearch();
-        return $searchModel->search(Yii::$app->request->queryParams, $user_id);
+        return $searchModel->search(Yii::$app->request->queryParams);
     }
     
     public function actionView($id) {
@@ -70,26 +68,9 @@ class NewsController extends ActiveController {
                 'errors' => ['Новость не найдена'],
             ];
         }
-        $user = $this->checkAuthUser();
-        if ($user) {
-            $add_view = new NewsViews();
-            $add_view->user_id = $user['id'];
-            $add_view->news_id = $news->id;
-            $add_view->save(false);
-        }
-        
+        // Отмечаем прсмотр
+        $news->addViews();
         return $news;
-    }
-    
-    private function checkAuthUser() {
-        $_headers = getallheaders();
-        $headers = array_change_key_case($_headers);
-        $auth_token = isset($headers['authorization']) ? $headers['authorization'] : null;
-        if ($auth_token) {
-            $token = trim(substr($auth_token, 6));
-            $user = User::find()->where(['token' => $token])->asArray()->one();
-            return $user;
-        }
     }
     
     public function verbs() {

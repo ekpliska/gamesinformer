@@ -5,7 +5,7 @@ $index++;
 ?>
 
 <div class="col-md-4 news_item">
-    <img src="<?= $model->image ?>" alt="Preview news" class="preview-news" style="width:100%">
+    <img src="<?= $model->image ? $model->image : 'https://placehold.it/400x350?text=NO_PREVIEW' ?>" alt="Preview news" class="preview-news" style="width:100%">
     <span class="date_new">
         <?= Yii::$app->formatter->asDate($model->pub_date, 'medium') ?>
     </span>

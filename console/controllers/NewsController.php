@@ -29,6 +29,9 @@ class NewsController extends Controller {
                 $url = $rss_channel->rss_channel_url;
                 $tags = $rss_channel->rssTags;
                 $feeds = file_get_contents($url, false, stream_context_create($arr_context_options));
+                if (!$feeds) {
+                    continue;
+                }
                 $rss = @simplexml_load_string($feeds);
                 if ($rss === false) {
                     continue;
@@ -60,6 +63,9 @@ class NewsController extends Controller {
                             $description = Html::decode($item->{$tags['description']});
                             preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches);
                             $news->image = $matches ? $matches[1] : null;
+                        } elseif ($tags['image'] !== 'image') {
+                            $image_url = isset($item->{$tags['image']}['url']) ? (string)$item->{$tags['image']}['url'] : null;
+                            $news->image = $image_url;
                         }
                     }
                     if (!$news->save()) {
@@ -132,6 +138,9 @@ class NewsController extends Controller {
                             $description = Html::decode($item->{$tags['description']});
                             preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches);
                             $news->image = $matches ? $matches[1] : null;
+                        } elseif ($tags['image'] !== 'image') {
+                            $image_url = isset($item->{$tags['image']}['url']) ? (string)$item->{$tags['image']}['url'] : null;
+                            $news->image = $image_url;
                         }
                     }
                     if (!$news->save()) {
