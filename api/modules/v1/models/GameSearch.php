@@ -9,6 +9,7 @@ use yii\data\ActiveDataProvider;
 use api\modules\v1\models\Game;
 use common\models\Platform;
 use common\models\Genre;
+use api\modules\v1\models\Series;
 
 class GameSearch extends Game {
 
@@ -32,6 +33,7 @@ class GameSearch extends Game {
 
         $platforms_ids = [];
         $genres_ids = [];
+        $series = [];
 
         $query = Game::find();
         $dataProvider = new ActiveDataProvider([
@@ -47,9 +49,13 @@ class GameSearch extends Game {
         if (isset($params['title'])) {
             $query->andFilterWhere(['like', 'title', $params['title']]);
         }
-
+        
+        // Фильтр по сериям
         if (isset($params['series'])) {
-            $query->andFilterWhere(['like', 'series', $params['series']]);
+            $series_ids = $this->getSeriesId(Html::encode($params['series']));
+            $query->joinWith(['seriesGame' => function($q) use ($series_ids) {
+                $q->where(['in', 'series_id', $series_ids]);
+            }]);
         }
 
         // Фильтр по жанрам
@@ -104,6 +110,18 @@ class GameSearch extends Game {
             $genres_ids = ArrayHelper::getColumn($genres, 'id');
         }
         return $genres_ids;
+    }
+    
+    private function getSeriesId($params) {
+        $series = [];
+        $series_ids = [];
+        $series_names = [];
+        if (count($params) > 0) {
+            $series_names = explode(',', $params);
+            $series = Series::find()->where(['IN', 'series_name', $series_names])->asArray()->all();
+            $series_ids = ArrayHelper::getColumn($series, 'id');
+        }
+        return $series_ids;
     }
 
 }

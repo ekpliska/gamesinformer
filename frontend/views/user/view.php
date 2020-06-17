@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="text-center">
-                <img src="<?= $user->photo ? $user->photo : 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' ?>" class="avatar img-circle img-thumbnail" alt="avatar">
+                <img src="<?= $user->photo ? 'http://gamenotificator.net' . $user->photo : 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' ?>" class="avatar img-circle img-thumbnail" alt="avatar">
             </div>
             <hr />
             <br />
