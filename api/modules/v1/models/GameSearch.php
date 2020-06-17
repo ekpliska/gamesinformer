@@ -56,8 +56,8 @@ class GameSearch extends Game {
         if (isset($params['genres'])) {
             $genres_ids = $this->getGenresId(Html::encode($params['genres']));
             $query->joinWith(['gameGenres' => function($q) use ($genres_ids) {
-                    $q->where(['in', 'genre_id', $genres_ids]);
-                }]);
+                $q->where(['in', 'genre_id', $genres_ids]);
+            }]);
         }
 
         // Фильтр по платформам

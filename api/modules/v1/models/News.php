@@ -8,6 +8,7 @@ class News extends NewsBase {
     public function fields() {
 
         return [
+            'id',
             'title', 
             'description', 
             'pub_date', 

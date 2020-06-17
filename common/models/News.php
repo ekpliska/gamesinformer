@@ -1,9 +1,9 @@
 <?php
 
 namespace common\models;
-
 use yii\db\ActiveRecord;
 use Yii;
+use common\models\NewsViews;
 
 /**
  * This is the model class for table "news".
@@ -57,6 +57,10 @@ class News extends ActiveRecord {
 
     public function getRss() {
         return $this->hasOne(RssChannel::className(), ['id' => 'rss_channel_id']);
+    }
+    
+    public function getViews() {
+        return $this->hasMany(NewsViews::className(), ['news_id' => 'id']);
     }
     
     public static function checkNews($title) {
