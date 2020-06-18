@@ -38,9 +38,9 @@ class AppLogs extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'value_1' => 'Value 1',
-            'value_2' => 'Value 2',
-            'value_3' => 'Value 3',
+            'value_1' => 'Комментарий',
+            'value_2' => 'Дополнительно',
+            'value_3' => 'Дополнительно',
         ];
     }
 }
