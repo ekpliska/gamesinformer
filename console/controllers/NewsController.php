@@ -1,6 +1,7 @@
 <?php
 
 namespace console\controllers;
+
 use yii\console\Controller;
 use yii\helpers\Html;
 use common\models\RssChannel;
@@ -64,7 +65,7 @@ class NewsController extends Controller {
                             preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches);
                             $news->image = $matches ? $matches[1] : null;
                         } elseif ($tags['image'] !== 'image') {
-                            $image_url = isset($item->{$tags['image']}['url']) ? (string)$item->{$tags['image']}['url'] : null;
+                            $image_url = isset($item->{$tags['image']}['url']) ? (string) $item->{$tags['image']}['url'] : null;
                             $news->image = $image_url;
                         }
                     }
@@ -77,9 +78,8 @@ class NewsController extends Controller {
         $new_log = new AppLogs();
         $new_log->value_1 = 'Сформирован первоначальный список новостей на сервере';
         $new_log->save(false);
-        
     }
-    
+
     /**
      * Обновление новостей
      * Для ежедневного запуска с 8 утра до 23:00
@@ -139,7 +139,7 @@ class NewsController extends Controller {
                             preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches);
                             $news->image = $matches ? $matches[1] : null;
                         } elseif ($tags['image'] !== 'image') {
-                            $image_url = isset($item->{$tags['image']}['url']) ? (string)$item->{$tags['image']}['url'] : null;
+                            $image_url = isset($item->{$tags['image']}['url']) ? (string) $item->{$tags['image']}['url'] : null;
                             $news->image = $image_url;
                         }
                     }
@@ -147,14 +147,14 @@ class NewsController extends Controller {
                         continue;
                     }
                 }
+                $new_log = new AppLogs();
+                $new_log->value_1 = "RSS лента {$rss_channel->rss_channel_name}, обновление списка новостей, новых новостей {$count_news}";
+                $new_log->save(false);
+                $count_news = 0;
             }
-            $new_log = new AppLogs();
-            $new_log->value_1 = "RSS лента {$rss_channel->rss_channel_name}, обновление списка новостей, новых новостей {$count_news}";
-            $new_log->save(false);
-            $count_news = 0;
         }
     }
-    
+
     /**
      * Удаление не актуальных новостей
      * Новость актуальна 3 дня от текущей даты
@@ -174,10 +174,10 @@ class NewsController extends Controller {
                         continue;
                     }
                 }
+                $new_log = new AppLogs();
+                $new_log->value_1 = "RSS лента {$news_item->rss->rss_channel_name}, удаление неактуальных новостей, количество {$count_news}";
+                $new_log->save(false);
             }
-            $new_log = new AppLogs();
-            $new_log->value_1 = "RSS лента {$news_item->rss->rss_channel_name}, удаление неактуальных новостей, количество {$count_news}";
-            $new_log->save(false);
         }
     }
 
