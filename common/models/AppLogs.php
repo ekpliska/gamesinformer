@@ -28,6 +28,7 @@ class AppLogs extends \yii\db\ActiveRecord
     {
         return [
             [['value_1', 'value_2', 'value_3'], 'string', 'max' => 255],
+            ['created_at', 'safe'],
         ];
     }
 
@@ -41,6 +42,7 @@ class AppLogs extends \yii\db\ActiveRecord
             'value_1' => 'Комментарий',
             'value_2' => 'Дополнительно',
             'value_3' => 'Дополнительно',
+            'created_at' => 'Дата',
         ];
     }
 }
