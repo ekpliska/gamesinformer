@@ -169,7 +169,7 @@ class NewsController extends Controller {
             foreach ($news as $news_item) {
                 $date_pub = new \DateTime($news_item->pub_date);
                 // Если разница между текущей датой и датой публикации больше 3 дней, то такую новость удаляем
-                if ($current_date->diff($date_pub) < 3) {
+                if ($current_date->diff($date_pub) > 3) {
                     if (!$news_item->delete()) {
                         continue;
                     }
