@@ -33,7 +33,7 @@ class GameSearch extends Game {
 
         $platforms_ids = [];
         $genres_ids = [];
-        $series = [];
+        $series_ids = [];
 
         $query = Game::find();
         $dataProvider = new ActiveDataProvider([

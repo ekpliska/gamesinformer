@@ -30,8 +30,9 @@ class LogsController extends Controller {
 
     public function actionIndex() {
 
+        $query = AppLogs::find()->orderBy(['created_at' => SORT_DESC]);
         $dataProvider = new ActiveDataProvider([
-            'query' => AppLogs::find(),
+            'query' => $query,
             'pagination' => [
                 'pageSize' => 30,
             ],

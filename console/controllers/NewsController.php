@@ -147,9 +147,11 @@ class NewsController extends Controller {
                         continue;
                     }
                 }
-                $new_log = new AppLogs();
-                $new_log->value_1 = "RSS лента {$rss_channel->rss_channel_name}, обновление списка новостей, новых новостей {$count_news}";
-                $new_log->save(false);
+                if ($count_news > 0) {
+                    $new_log = new AppLogs();
+                    $new_log->value_1 = "RSS лента {$rss_channel->rss_channel_name}, обновление списка новостей, новых новостей {$count_news}";
+                    $new_log->save(false);
+                }
                 $count_news = 0;
             }
         }
@@ -174,9 +176,12 @@ class NewsController extends Controller {
                         continue;
                     }
                 }
-                $new_log = new AppLogs();
-                $new_log->value_1 = "RSS лента {$news_item->rss->rss_channel_name}, удаление неактуальных новостей, количество {$count_news}";
-                $new_log->save(false);
+                if ($count_news > 0) {
+                    $new_log = new AppLogs();
+                    $new_log->value_1 = "RSS лента {$news_item->rss->rss_channel_name}, удаление неактуальных новостей, количество {$count_news}";
+                    $new_log->save(false);
+                }
+                $count_news = 0;
             }
         }
     }
