@@ -40,7 +40,7 @@ class NewsSearch extends News {
 
         if (isset($params['rss_name'])) {
             $rss_ids = $this->getRssIds(Html::encode($params['rss_name']));
-            $query->andFilterWhere(['in', 'rss_channel_id', $rss_ids]);
+            $query->where(['in', 'rss_channel_id', $rss_ids]);
         }
         
         return $dataProvider;

@@ -11,7 +11,7 @@ class Game extends GameBase {
     public function fields() {
         
         return [
-            'id', 'title', 'description', 'series', 
+            'id', 'title', 'description', 
             'release_date', 
             'publish_at', 'published', 
             'website', 'youtube', 'youtube_btnlink', 'twitch',
@@ -21,7 +21,7 @@ class Game extends GameBase {
                 }
                 return Url::home(true) . ltrim($this->cover, '/');
             },
-            'series_new' => function() {
+            'series' => function() {
                 $series = $this->seriesGame;
                 $result = [];
                 if ($series) {

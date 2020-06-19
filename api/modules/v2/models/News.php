@@ -3,7 +3,7 @@
 namespace api\modules\v2\models;
 use yii\helpers\ArrayHelper;
 use common\models\News as NewsBase;
-use api\modules\v1\models\User;
+use api\modules\v2\models\User;
 use common\models\NewsViews;
 
 class News extends NewsBase {

@@ -1,6 +1,6 @@
 <?php
 
-namespace api\modules\v1\controllers;
+namespace api\modules\v2\controllers;
 use Yii;
 use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
@@ -51,7 +51,6 @@ class GameController extends ActiveController {
     }
     
     public function prepareDataProvider() {
-        
         $searchModel = new GameSearch();
         return $searchModel->search(Yii::$app->request->queryParams);
 
