@@ -21,21 +21,6 @@ class Game extends GameBase {
                 }
                 return Url::home(true) . ltrim($this->cover, '/');
             },
-            'series_new' => function() {
-                $series = $this->seriesGame;
-                $result = [];
-                if ($series) {
-                    foreach ($series as $item) {
-                        $result[] = [
-                            'id' => $item->series_id,
-                            'series_name' => $item->series->series_name,
-                            'description' => $item->series->description,
-                            'image' => $item->series->image,
-                        ];
-                    }
-                }
-                return $result;
-            },
             'gameGenres' => function() {
                 $geners = $this->gameGenres;
                 $result = [];

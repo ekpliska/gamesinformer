@@ -8,7 +8,7 @@ $params = array_merge(
 );
 
 $rules = array_merge(
-//    require(__DIR__ . '/rules-url-v1.php'),
+    require(__DIR__ . '/rules-url-v1.php'),
     require(__DIR__ . '/rules-url-v2.php')
 );
 
