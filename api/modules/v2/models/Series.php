@@ -24,7 +24,6 @@ class Series extends SeriesBase {
                             'id' => $item->game->id,
                             'title' => $item->game->title,
                             'description' => $item->game->description,
-                            'series' => $item->game->series,
                             'release_date' => $item->game->release_date,
                             'publish_at' => $item->game->publish_at,
                             'published' => $item->game->published,

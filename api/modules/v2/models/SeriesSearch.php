@@ -30,7 +30,7 @@ class SeriesSearch extends Series {
             return $dataProvider;
         }
         
-        $query->where(['enabled' => 1]);
+        $query->where(['enabled' => 1])->orderBy(['id' => SORT_DESC]);
 
         if (isset($params['series_name'])) {
             $query->andFilterWhere(['like', 'series_name', $params['series_name']]);

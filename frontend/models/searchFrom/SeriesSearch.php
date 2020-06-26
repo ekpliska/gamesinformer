@@ -25,7 +25,8 @@ class SeriesSearch extends Series {
         if (!$this->validate()) {
             return $dataProvider;
         }
-        $query->orderBy(['enabled' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_DESC]);
+        
         $query->andFilterWhere([
             'series_name' => $this->series_name,
         ]);

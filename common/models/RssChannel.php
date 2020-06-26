@@ -66,4 +66,5 @@ class RssChannel extends ActiveRecord {
             'link' => $this->link_tag,
         ];
     }
+
 }
