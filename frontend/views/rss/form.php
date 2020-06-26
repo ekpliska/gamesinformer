@@ -36,7 +36,6 @@ use yii\widgets\ActiveForm;
             <div class="col-md-6">
                 <?= $form->field($model, 'image_tag')->input('text')->label() ?>
                 <?= $form->field($model, 'link_tag')->input('text')->label() ?>
-                <?= $form->field($model, 'remove_text')->input('remove_text')->label() ?>
             </div>
         </div>
         <div class="row alert alert-warning">
