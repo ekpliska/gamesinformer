@@ -38,6 +38,12 @@ class Series extends SeriesBase {
                         ];
                     }
                 }
+                usort($result, function($value_f, $value_s) {
+                    if (strtotime($value_f['release_date']) == strtotime($value_s['release_date'])) {
+                        return 0;
+                    }
+                    return (strtotime($value_f['release_date']) > strtotime($value_s['release_date'])) ? -1 : 1;
+                });
                 return $result;
             },
         ];
@@ -91,5 +97,5 @@ class Series extends SeriesBase {
         }
         return false;
     }
-    
+
 }
