@@ -77,6 +77,12 @@ class Series extends SeriesBase {
                 ];
             }
         }
+        usort($result, function($value_f, $value_s) {
+            if (strtotime($value_f['date_platform_release']) == strtotime($value_s['date_platform_release'])) {
+                return 0;
+            }
+            return (strtotime($value_f['date_platform_release']) > strtotime($value_s['date_platform_release'])) ? -1 : 1;
+        });
         return $result;
     }
     
