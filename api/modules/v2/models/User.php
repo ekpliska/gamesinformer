@@ -46,7 +46,7 @@ class User extends UserBase {
                     'id' => $game->id,
                     'title' => $game->title,
                     'description' => $game->description,
-                    'series' => $game->series,
+                    'series' => $this->gameSeries($game),
                     'release_date' => $game->release_date,
                     'publish_at' => $game->publish_at,
                     'published' => $game->published,
@@ -88,6 +88,22 @@ class User extends UserBase {
                     'name' => $platform->platform->name_platform,
                     'date_platform_release' => $platform->date_platform_release,
                     'logo_path' => $platform->platform->logo_path,
+                ];
+            }
+        }
+        return $result;
+    }
+
+    private function gameSeries($game) {
+        $series = $game->seriesGame;
+        $result = [];
+        if ($series) {
+            foreach ($series as $item) {
+                $result[] = [
+                    'id' => $item->series_id,
+                    'series_name' => $item->series->series_name,
+                    'description' => $item->series->description,
+                    'image' => $item->series->image,
                 ];
             }
         }
