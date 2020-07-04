@@ -31,7 +31,7 @@ class Platform extends ActiveRecord {
             ['isRelevant', 'integer'],
             [['isRelevant'], 'default', 'value' => 0],
             [['name_platform'], 'unique'],
-            [['image'], 'file', 'extensions' => 'png, jpg, jpeg']
+            [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
         ];
     }
     

@@ -46,6 +46,7 @@ AppAsset::register($this);
             ]
         ],
         ['label' => 'Новости', 'url' => ['/news/index']],
+        ['label' => 'Реклама', 'url' => ['/advertising/index']],
         ['label' => 'Пользователи', 'url' => ['/user/index']],
         ['label' => 'Логи', 'url' => ['/logs/index']],
     ];
