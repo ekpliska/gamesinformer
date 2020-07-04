@@ -26,14 +26,16 @@ use yii\widgets\ActiveForm;
     <div class="col-lg-12">
         <?= $form->field($model, 'description')->textarea(['rows' => 5])->label() ?>
     </div>
-    <div class="col-lg-7">
+    <div class="col-lg-12">
         <?= $form->field($model, 'youtube')->input('text')->label() ?>
+    </div>
+    <div class="col-lg-7">
         <?= $form->field($model, 'is_preview_youtube')->checkbox()->label(false) ?>
         <?= $form->field($model, 'image')->input('file')->label() ?>
     </div>
     <div class="col-lg-5">
         <?php if (!empty($model->preview)) : ?>
-            <div class="text-center">
+            <div class="advertising-preview">
                 <img 
                     src="<?= 'http://api.gamenotificator.net' . $model->preview ?>" 
                     class="img-thumbnail" alt="preview" 

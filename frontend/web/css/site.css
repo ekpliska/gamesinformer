@@ -309,3 +309,13 @@ label.input-checkbox {
     width: 200px;
     object-fit: cover;
 }
+
+.advertising-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.advertising-preview > img {
+    width: 76%;
+}

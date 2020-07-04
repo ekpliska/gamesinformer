@@ -38,13 +38,20 @@ class Advertising extends ActiveRecord {
 
         $file = UploadedFile::getInstance($this, 'image');
         
-        if ($file) {
+        if ($file && !$this->is_preview_youtube) {
             $this->preview = $file;
             $dir = Yii::getAlias('@api/web');
             $file_name = '/uploads/advertising/' . time() . '.' . $this->preview->extension;
             $this->preview->saveAs($dir . $file_name);
             $this->preview = $file_name;
             @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
+        } elseif ($this->youtube && $this->is_preview_youtube) {
+            $youtube = $this->youtube;
+            $pos = strpos($youtube, 'watch?v=');
+            if ($pos) {
+                $youtube_code = substr($youtube, $pos + 8);
+                $this->preview = "https://img.youtube.com/vi/{$youtube_code}/hqdefault.jpg";
+            }
         }
 
         return parent::beforeSave($insert);
