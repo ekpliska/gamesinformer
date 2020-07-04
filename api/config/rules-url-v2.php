@@ -76,4 +76,12 @@ return [
             'GET view/<id:[\d-]+>' => 'view',
         ]
     ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v2/advertising',
+        'pluralize' => false,
+        'extraPatterns' => [
+            'GET /' => 'index',
+        ]
+    ],
 ];
