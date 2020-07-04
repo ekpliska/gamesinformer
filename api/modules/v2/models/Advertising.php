@@ -1,6 +1,7 @@
 <?php
 
 namespace api\modules\v2\models;
+use yii\helpers\Url;
 use common\models\Advertising as AdvertisingBase;
 
 class Advertising extends AdvertisingBase {
