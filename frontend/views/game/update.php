@@ -35,23 +35,20 @@ $this->params['breadcrumbs'][] = 'Просмотр';
             <?= $form->field($model, 'youtube')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'youtube_btnlink')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'twitch')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
-            
-            <div class="alert alert-warning">
-                <?php $model->series_id = $model->seriesGame ? $model->seriesGame[0]->series_id : null; ?>
-                <?=
-                    $form->field($model, 'series_id')->widget(Select2::classname(), [
-                        'data' => $series,
-                        'model' => $model,
-                        'options' => [
-                            'placeholder' => 'Выберите серию из списка ...',
-                        ],
-                        'pluginOptions' => [
-                            'allowClear' => true,
-                        ],
-                    ]);
-                ?>
-            </div>
+            <?php // $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
+            <?php $model->series_id = $model->seriesGame ? $model->seriesGame[0]->series_id : null; ?>
+            <?=
+                $form->field($model, 'series_id')->widget(Select2::classname(), [
+                    'data' => $series,
+                    'model' => $model,
+                    'options' => [
+                        'placeholder' => 'Выберите серию из списка ...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]);
+            ?>
             
             <?= $form->field($model, 'description')->textarea(['rows' => 15]) ?>
             <?=
