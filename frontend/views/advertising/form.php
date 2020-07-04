@@ -34,10 +34,15 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'image')->input('file')->label() ?>
         </div>
         <div class="col-lg-5">
-            <?php if (!empty($model->preview)) : ?>
+            <?php if (!empty($model->preview)) : 
+                if (strpos($model->preview, 'youtube.com')) {
+                    $url = $model->preview;
+                }
+                $url = 'http://api.gamenotificator.net' . ltrim($model->preview, '/');
+            ?>
                 <div class="advertising-preview">
                     <img 
-                        src="<?= 'http://api.gamenotificator.net' . $model->preview ?>" 
+                        src="<?= $url ?>" 
                         class="img-thumbnail" alt="preview" 
                         onerror="this.onerror=null;this.src='<?= $model->preview ?>';">
                 </div>
