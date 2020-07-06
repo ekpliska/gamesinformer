@@ -23,17 +23,15 @@ use yii\widgets\ActiveForm;
         <div class="col-lg-12">
             <?= $form->field($model, 'title')->input('text')->label() ?>
         </div>
-        <div class="col-lg-12">
-            <?= $form->field($model, 'description')->textarea(['rows' => 2])->label() ?>
-        </div>
-        <div class="col-lg-12">
+        <div class="col-lg-6">
+            <?= $form->field($model, 'link')->input('text')->label() ?>
             <?= $form->field($model, 'youtube')->input('text')->label() ?>
-        </div>
-        <div class="col-lg-7">
+            <?= $form->field($model, 'btn_title')->input('text')->label() ?>
             <?= $form->field($model, 'is_preview_youtube')->checkbox()->label(false) ?>
             <?= $form->field($model, 'image')->input('file')->label() ?>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-6">
+            <?= $form->field($model, 'description')->textarea(['rows' => 8])->label() ?>
             <?php if (!empty($model->preview)) : 
                 if (strpos($model->preview, 'youtube.com')) {
                     $url = $model->preview;

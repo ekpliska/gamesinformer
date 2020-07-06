@@ -13,6 +13,8 @@ use yii\web\UploadedFile;
  * @property string|null $description
  * @property string|null $preview
  * @property string|null $youtube
+ * @property string|null $btn_title
+ * @property string|null $link
  * @property int|null $is_preview_youtube
  */
 class Advertising extends ActiveRecord {
@@ -27,7 +29,9 @@ class Advertising extends ActiveRecord {
         return [
             [['title'], 'required'],
             [['is_preview_youtube'], 'integer'],
-            [['title', 'description', 'preview', 'youtube'], 'string', 'max' => 255],
+            [['title', 'description', 'preview', 'youtube', 'link'], 'string', 'max' => 255],
+            [['btn_title'], 'string', 'max' => 150],
+            [['link', 'youtube'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
         ];
     }
@@ -64,6 +68,9 @@ class Advertising extends ActiveRecord {
             'description' => 'Описание',
             'preview' => 'Изображение',
             'youtube' => 'Youtube',
+            'youtube' => 'Youtube',
+            'link' => 'Адрес сайта',
+            'btn_title' => 'Заголовок кнопки',
             'is_preview_youtube' => 'Использовать превью из youtube-ролика',
             'image' => 'Изображение',
         ];
