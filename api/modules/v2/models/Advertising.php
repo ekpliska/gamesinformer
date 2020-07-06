@@ -19,6 +19,8 @@ class Advertising extends AdvertisingBase {
                 return Url::home(true) . ltrim($this->preview, '/');
             },
             'youtube',
+            'link',
+            'btn_title',
         ];
         
     }
