@@ -33,10 +33,13 @@ $this->params['breadcrumbs'][] = 'Просмотр';
 
             <?php if (!empty($model->image)) : ?>
                 <div class="text-center">
-                    <img 
-                        src="<?= 'http://api.gamenotificator.net' . $model->image ?>" 
-                        class="img-thumbnail" alt="series cover" 
-                        onerror="this.onerror=null;this.src='<?= $model->image ?>';">
+                    <?=
+                        Html::img('http://api.gamenotificator.net' . $model->image, [
+                            'alt' => 'series cover',
+                            'class' => 'img-thumbnail',
+                            'onerror' => 'this.onerror=null;this.src=https://placehold.it/400x350?text=NO_COVER'
+                        ])
+                    ?>
                 </div>
             <?php endif; ?>
             

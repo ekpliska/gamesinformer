@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'isRelevant')->checkbox()->label(false) ?>
             </div>
             <div class="col-md-6">
-                <?= $form->field($model, 'is_used_filter')->checkbox(['checked' => true])->label(false) ?>
+                <?= $form->field($model, 'is_used_filter')->checkbox()->label(false) ?>
             </div>
             <?= $form->field($model, 'image')->input('file')->label() ?>
             <?= $form->field($model, 'description')->textarea(['rows' => 10])->label() ?>
@@ -42,10 +42,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-5">
             <?php if (!empty($model->cover)) : ?>
                 <div class="text-center">
-                    <img 
-                        src="<?= 'http://api.gamenotificator.net' . $model->cover ?>" 
-                        class="img-thumbnail" alt="platform cover" 
-                        onerror="this.onerror=null;this.src='<?= $model->cover ?>';">
+                    <?= 
+                        Html::img('http://api.gamenotificator.net' . $model->cover, [
+                            'alt' => 'logo', 
+                            'class' => 'img-thumbnail',
+                            'onerror' => 'this.onerror=null;this.src=https://placehold.it/400x350?text=NO_COVER'
+                        ])
+                    ?>
                 </div>
             <?php endif; ?>
             <?= $form->field($model, 'image_cover')->input('file')->label() ?>

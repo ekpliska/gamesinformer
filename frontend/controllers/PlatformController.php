@@ -100,24 +100,25 @@ class PlatformController extends Controller {
             $transaction = \Yii::$app->db->beginTransaction();
             try {
                 if (!$model->save()) {
+                    var_dump($model->errors); die();
                     Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз!']);
                     return $this->redirect(Yii::$app->request->referrer);
-                } else {
-                    if (count($model->game_ids) > 0) {
-                        if ($model->topGames) {
-                            foreach ($model->topGames as $item) {
-                                $item->delete();
-                            }
-                        }
-                        foreach ($model->game_ids as $game_id) {
-                            $top_game = new TopGames();
-                            $top_game->type_characteristic = TopGames::TYPE_CHARACTERISTIC_PALFORM;
-                            $top_game->type_characteristic_id = $model->id;
-                            $top_game->game_id = $game_id;
-                            $top_game->save(false);
+                }
+                if ($model->game_ids != null && count($model->game_ids) > 0) {
+                    if ($model->topGames) {
+                        foreach ($model->topGames as $item) {
+                            $item->delete();
                         }
                     }
+                    foreach ($model->game_ids as $game_id) {
+                        $top_game = new TopGames();
+                        $top_game->type_characteristic = TopGames::TYPE_CHARACTERISTIC_PALFORM;
+                        $top_game->type_characteristic_id = $model->id;
+                        $top_game->game_id = $game_id;
+                        $top_game->save(false);
+                    }
                 }
+                
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', ['message' => 'Информация о платформе была успешно обновлена!']);
                 return $this->redirect(['update', 'id' => $model->id]);

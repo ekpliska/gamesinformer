@@ -22,6 +22,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'name_platform',
             [
+                'label' => 'ТОП игры',
+                'format' => 'raw',
+                'value' => function($data) {
+                    $games = $data->topGames;
+                    $text = '<ul>';
+                    foreach ($games as $game) {
+                        $text .= '<li>' . $game->game->title . '</li>';
+                    }
+                    return $text . '</ul>';
+                },
+                'contentOptions' => ['style' => 'font-size: 12px; width: 420px;'],
+            ],
+            [
                 'label' => 'Логотип',
                 'format' => 'raw',
                 'value' => function($data) {
@@ -31,10 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                'label' => 'Статус',
+                'label' => 'Свойства',
                 'format' => 'raw',
                 'value' => function($data) {
-                    return $data->isRelevant ? '<span class="label label-info">Актуально</span>' : '<span class="label label-default">Неактуально</span>';
+                    return 
+                        Html::tag('span', $data->isRelevant ? 'Актуально' : 'Неактуально', ['class' => $data->isRelevant ? 'label label-info' : 'label label-default']) .
+                        Html::tag('br') .
+                        Html::tag('span', $data->is_used_filter ? 'Используется в фильтрах' : 'Не используется в фильтрах', ['class' => $data->is_used_filter ? 'label label-success' : 'label label-warning']);
                 },
             ],
             [

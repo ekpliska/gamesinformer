@@ -23,7 +23,7 @@ class Platform extends ActiveRecord {
 
     public $image;
     public $image_cover;
-    public $game_ids = [];
+    public $game_ids;
      
     public static function tableName() {
         return 'platform';
