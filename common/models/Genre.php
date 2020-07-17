@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property string $description
  * @property string $cover
  * @property string $youtube
+ * @property integer $is_used_filter
  */
 class Genre extends ActiveRecord {
 
@@ -30,7 +31,9 @@ class Genre extends ActiveRecord {
             [['description'], 'string', 'max' => 1000],
             [['isRelevant'], 'integer'],
             [['isRelevant'], 'default', 'value' => 0],
+            [['is_used_filter'], 'default', 'value' => 1],
             [['name_genre'], 'unique'],
+            [['youtube'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
             [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
         ];
     }
@@ -44,6 +47,7 @@ class Genre extends ActiveRecord {
             'cover' => 'Обложка',
             'image_cover' => 'Обложка',
             'youtube' => 'Ссылка на YouTube',
+            'is_used_filter' => 'Показывать в фильтрах',
         ];
     }
     

@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
  * @property string $description
  * @property string $cover
  * @property string $youtube
+ * @property integer $is_used_filter
  *
  * @property GamePlatformRelease[] $gamePlatformReleases
  */
@@ -22,6 +23,7 @@ class Platform extends ActiveRecord {
 
     public $image;
     public $image_cover;
+    public $game_ids = [];
      
     public static function tableName() {
         return 'platform';
@@ -33,19 +35,23 @@ class Platform extends ActiveRecord {
             [['name_platform'], 'string', 'max' => 70],
             [['logo_path', 'cover', 'youtube'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 1000],
-            ['isRelevant', 'integer'],
+            [['isRelevant', 'is_used_filter'], 'integer'],
             [['isRelevant'], 'default', 'value' => 0],
+            [['is_used_filter'], 'default', 'value' => 1],
             [['name_platform'], 'unique'],
-            [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
-            [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            [['image', 'image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            [['youtube'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
+            ['game_ids', 'safe'],
         ];
     }
     
     public function beforeSave($insert) {
 
         $current_image = $this->logo_path;
+        $current_image_cover = $this->cover;
 
         $file = UploadedFile::getInstance($this, 'image');
+        $file_cover = UploadedFile::getInstance($this, 'image_cover');
         
         if ($file) {
             $this->logo_path = $file;
@@ -54,6 +60,14 @@ class Platform extends ActiveRecord {
             $this->logo_path->saveAs($dir . $file_name);
             $this->logo_path = $file_name;
             @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
+        }
+        if ($file_cover) {
+            $this->cover = $file_cover;
+            $dir = Yii::getAlias('@api/web');
+            $file_name = '/images/platforms_cover/' . time() . '.' . $this->cover->extension;
+            $this->cover->saveAs($dir . $file_name);
+            $this->cover = $file_name;
+            @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image_cover));
         }
 
         return parent::beforeSave($insert);
@@ -70,10 +84,15 @@ class Platform extends ActiveRecord {
             'youtube' => 'Ссылка на YouTube',
             'image' => 'Логотип',
             'image_cover' => 'Обложка',
+            'is_used_filter' => 'Показывать в фильтрах',
         ];
     }
 
     public function getGamePlatformReleases() {
         return $this->hasMany(GamePlatformRelease::className(), ['platform_id' => 'id']);
+    }
+    
+    public function getTopGames() {
+        return $this->hasMany(TopGames::className(), ['type_characteristic_id' => 'id']);
     }
 }

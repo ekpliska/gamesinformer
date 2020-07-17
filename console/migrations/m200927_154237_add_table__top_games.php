@@ -16,8 +16,8 @@ class m200927_154237_add_table__top_games extends Migration {
 
         $this->createTable('{{%top_games}}', [
             'id' => $this->primaryKey(),
-            'type' => $this->string(10)->notNull(),
-            'type_id' => $this->integer()->notNull(),
+            'type_characteristic' => $this->string(10)->notNull(),
+            'type_characteristic_id' => $this->integer()->notNull(),
             'game_id' => $this->integer()->notNull(),
         ], $table_options);
         

@@ -13,12 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
     <h3>
         Платформы 
-        <?= Html::a('Добавить платформу', ['platform/new'], [
-            'class' => 'btn btn-sxx',
-            'data-toggle' => 'modal',
-            'data-target' => '#platform-add',
-            'onclick' => "$('#platform-add .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
-        ]); ?>
+        <?= Html::a('Добавить платформу', ['platform/new'], ['class' => 'btn btn-sxx']); ?>
     </h3>
     
     <?= GridView::widget([
@@ -49,11 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'update' => function ($url, $model) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-pencil"></span>', ['platform/update', 'id' => $model->id], [
-                                'data-toggle' => 'modal',
-                                'data-target' => '#platform-edit',
-                                'onclick' => "$('#platform-edit .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
-                            ]
+                            '<span class="glyphicon glyphicon-pencil"></span>', ['platform/update', 'id' => $model->id]
                         );
                     },
                     'delete' => function ($url, $model) {

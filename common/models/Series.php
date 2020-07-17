@@ -63,6 +63,7 @@ class Series extends ActiveRecord {
             'image' => 'Изображения',
             'enabled' => 'Показывать в мобильном приложении',
             'image_file' => 'Изображения',
+            'game_ids' => 'Список игр',
         ];
     }
 

@@ -24,19 +24,6 @@ $this->params['breadcrumbs'][] = 'Просмотр';
 
     <div class="row">
 
-        <?php if (Yii::$app->session->hasFlash('success')) : ?>
-            <?php $message = Yii::$app->session->getFlash('success')['message'] ?>
-            <div class="alert-message" data-notification-status="success">
-                <?= $message ?>
-            </div>
-        <?php endif; ?>
-        <?php if (Yii::$app->session->hasFlash('error')) : ?>
-            <?php $message = Yii::$app->session->getFlash('error')['message'] ?>
-            <div class="alert-message" data-notification-status="error">
-                <?= $message ?>
-            </div>
-        <?php endif; ?>
-
         <div class="col-md-7">
 
             <?= $form->field($model, 'series_name')->textInput(['maxlength' => true]) ?>
@@ -48,7 +35,7 @@ $this->params['breadcrumbs'][] = 'Просмотр';
                 <div class="text-center">
                     <img 
                         src="<?= 'http://api.gamenotificator.net' . $model->image ?>" 
-                        class="img-thumbnail" alt="avatar" 
+                        class="img-thumbnail" alt="series cover" 
                         onerror="this.onerror=null;this.src='<?= $model->image ?>';">
                 </div>
             <?php endif; ?>
