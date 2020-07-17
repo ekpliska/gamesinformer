@@ -12,12 +12,16 @@ use yii\web\UploadedFile;
  * @property string $name_platform
  * @property string $logo_path
  * @property integer $isRelevant
+ * @property string $description
+ * @property string $cover
+ * @property string $youtube
  *
  * @property GamePlatformRelease[] $gamePlatformReleases
  */
 class Platform extends ActiveRecord {
 
     public $image;
+    public $image_cover;
      
     public static function tableName() {
         return 'platform';
@@ -27,11 +31,13 @@ class Platform extends ActiveRecord {
         return [
             [['name_platform'], 'required', 'message' => 'Поле не заполнено'],
             [['name_platform'], 'string', 'max' => 70],
-            [['logo_path'], 'string', 'max' => 255],
+            [['logo_path', 'cover', 'youtube'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 1000],
             ['isRelevant', 'integer'],
             [['isRelevant'], 'default', 'value' => 0],
             [['name_platform'], 'unique'],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
         ];
     }
     
@@ -55,10 +61,15 @@ class Platform extends ActiveRecord {
 
     public function attributeLabels() {
         return [
-            'id' => 'Уникакльный идентификатор',
+            'id' => 'Уникальный идентификатор',
             'name_platform' => 'Название',
             'logo_path' => 'Логотип',
             'isRelevant' => 'Является актуальной',
+            'description' => 'Описание',
+            'cover' => 'Обложка',
+            'youtube' => 'Ссылка на YouTube',
+            'image' => 'Логотип',
+            'image_cover' => 'Обложка',
         ];
     }
 
