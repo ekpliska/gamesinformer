@@ -3,6 +3,8 @@
 namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
+use common\models\TopGames;
 
 /**
  * Жанры
@@ -17,8 +19,8 @@ use yii\db\ActiveRecord;
  */
 class Genre extends ActiveRecord {
 
-
     public $image_cover;
+    public $game_ids;
 
     public static function tableName() {
         return 'genre';
@@ -35,7 +37,37 @@ class Genre extends ActiveRecord {
             [['name_genre'], 'unique'],
             [['youtube'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
             [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            ['game_ids', 'safe'],
         ];
+    }
+    
+    public function beforeSave($insert) {
+
+        $current_image = $this->cover;
+
+        $file = UploadedFile::getInstance($this, 'image_cover');
+        
+        if ($file && !$this->is_preview_youtube) {
+            $this->cover = $file;
+            $dir = Yii::getAlias('@api/web');
+            $file_name = '/images/genres_cover/' . time() . '.' . $this->cover->extension;
+            $this->cover->saveAs($dir . $file_name);
+            $this->cover = $file_name;
+            @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
+        } elseif ($this->youtube && $this->is_preview_youtube) {
+            $youtube = $this->youtube;
+            $pos = strpos($youtube, 'watch?v=');
+            if ($pos) {
+                $youtube_code = substr($youtube, $pos + 8);
+                $this->cover = "https://img.youtube.com/vi/{$youtube_code}/hqdefault.jpg";
+            }
+        }
+
+        return parent::beforeSave($insert);
+    }
+    
+    public function getTopGames() {
+        return $this->hasMany(TopGames::className(), ['type_characteristic_id' => 'id']);
     }
 
     public function attributeLabels() {

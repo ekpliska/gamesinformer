@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'name_platform',
             [
-                'label' => 'ТОП игры',
+                'label' => 'ТОП игр',
                 'format' => 'raw',
                 'value' => function($data) {
                     $games = $data->topGames;
@@ -71,27 +71,3 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 </div>
-
-<?php 
-Modal::begin([
-    'id' => 'platform-edit',
-    'header' => 'Редактировать платформу',
-    'closeButton' => [
-        'class' => 'close modal-close-btn',
-    ],
-]);
-
-Modal::end();
-?>
-
-<?php 
-Modal::begin([
-    'id' => 'platform-add',
-    'header' => 'Добавить платформу',
-    'closeButton' => [
-        'class' => 'close modal-close-btn',
-    ],
-]);
-
-Modal::end();
-?>

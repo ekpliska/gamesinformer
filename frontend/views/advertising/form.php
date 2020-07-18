@@ -33,16 +33,16 @@ use yii\widgets\ActiveForm;
         <div class="col-lg-6">
             <?= $form->field($model, 'description')->textarea(['rows' => 8])->label() ?>
             <?php if (!empty($model->preview)) : 
-                if (strpos($model->preview, 'youtube.com')) {
-                    $url = $model->preview;
-                }
-                $url = 'http://api.gamenotificator.net' . ltrim($model->preview, '/');
+                $url = $model->is_preview_youtube ? $model->preview : 'http://api.gamenotificator.net' . $model->preview;;
             ?>
                 <div class="advertising-preview">
-                    <img 
-                        src="<?= $url ?>" 
-                        class="img-thumbnail" alt="preview" 
-                        onerror="this.onerror=null;this.src='<?= $model->preview ?>';">
+                    <?=
+                        Html::img($url, [
+                            'alt' => 'logo',
+                            'class' => 'img-thumbnail',
+                            'onerror' => 'this.onerror=null;this.src=https://placehold.it/400x350?text=NO_COVER'
+                        ])
+                    ?>
                 </div>
             <?php endif; ?>
         </div>
