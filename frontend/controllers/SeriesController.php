@@ -54,7 +54,7 @@ class SeriesController extends Controller {
                     return $this->redirect(Yii::$app->request->referrer);
                 } else {
                     $game_ids = $model->game_ids;
-                    if (count($game_ids) > 0) {
+                    if (is_array($model->game_ids) && count($game_ids) > 0) {
                         foreach ($game_ids as $game_id) {
                             $game_series = new GameSeries();
                             $game_series->game_id = $game_id;
