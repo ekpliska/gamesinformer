@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 
 $this->title = 'Новая платформа';
-$this->params['breadcrumbs'][] = ['label' => 'Серии', 'url' => ['platforms/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Платформы', 'url' => ['platform/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'image')->input('file')->label() ?>
         <?= $form->field($model, 'description')->textarea(['rows' => 10])->label() ?>
         <?= $form->field($model, 'youtube')->input('text')->label() ?>
+        <?= $form->field($model, 'is_preview_youtube')->checkbox()->label(false) ?>
     </div>
 
     <div class="col-md-5">

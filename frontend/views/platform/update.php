@@ -37,13 +37,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'image')->input('file')->label() ?>
             <?= $form->field($model, 'description')->textarea(['rows' => 10])->label() ?>
             <?= $form->field($model, 'youtube')->input('text')->label() ?>
+            <?= $form->field($model, 'is_preview_youtube')->checkbox()->label(false) ?>
         </div>
 
         <div class="col-md-5">
-            <?php if (!empty($model->cover)) : ?>
+            <?php if (!empty($model->cover)) : 
+               $url = $model->is_preview_youtube ? $model->cover : 'http://api.gamenotificator.net' . $model->cover;
+            ?>
                 <div class="text-center">
                     <?= 
-                        Html::img('http://api.gamenotificator.net' . $model->cover, [
+                        Html::img($url, [
                             'alt' => 'logo', 
                             'class' => 'img-thumbnail',
                             'onerror' => 'this.onerror=null;this.src=https://placehold.it/400x350?text=NO_COVER'

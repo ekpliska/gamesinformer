@@ -98,7 +98,7 @@ class SeriesController extends Controller {
                     Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз!']);
                     return $this->redirect(Yii::$app->request->referrer);
                 } else {
-                    if (count($model->game_ids) > 0) {
+                    if (is_array($model->game_ids) && count($model->game_ids) > 0) {
                         if ($model->gameSeries) {
                             foreach ($model->gameSeries as $item) {
                                 $item->delete();

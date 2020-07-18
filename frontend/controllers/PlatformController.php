@@ -58,7 +58,7 @@ class PlatformController extends Controller {
                     return $this->redirect(Yii::$app->request->referrer);
                 } else {
                     $game_ids = $model->game_ids;
-                    if (count($game_ids) > 0) {
+                    if (is_array($model->game_ids) && count($game_ids) > 0) {
                         foreach ($game_ids as $game_id) {
                             $top_game = new TopGames();
                             $top_game->type_characteristic = TopGames::TYPE_CHARACTERISTIC_PALFORM;
@@ -104,7 +104,7 @@ class PlatformController extends Controller {
                     Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз!']);
                     return $this->redirect(Yii::$app->request->referrer);
                 }
-                if ($model->game_ids != null && count($model->game_ids) > 0) {
+                if (is_array($model->game_ids) && count($model->game_ids) > 0) {
                     if ($model->topGames) {
                         foreach ($model->topGames as $item) {
                             $item->delete();

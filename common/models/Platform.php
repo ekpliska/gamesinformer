@@ -16,6 +16,7 @@ use yii\web\UploadedFile;
  * @property string $cover
  * @property string $youtube
  * @property integer $is_used_filter
+ * @property integer $is_preview_youtube
  *
  * @property GamePlatformRelease[] $gamePlatformReleases
  */
@@ -35,8 +36,8 @@ class Platform extends ActiveRecord {
             [['name_platform'], 'string', 'max' => 70],
             [['logo_path', 'cover', 'youtube'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 1000],
-            [['isRelevant', 'is_used_filter'], 'integer'],
-            [['isRelevant'], 'default', 'value' => 0],
+            [['isRelevant', 'is_used_filter', 'is_preview_youtube'], 'integer'],
+            [['isRelevant', 'is_preview_youtube'], 'default', 'value' => 0],
             [['is_used_filter'], 'default', 'value' => 1],
             [['name_platform'], 'unique'],
             [['image', 'image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
@@ -61,13 +62,20 @@ class Platform extends ActiveRecord {
             $this->logo_path = $file_name;
             @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
         }
-        if ($file_cover) {
+        if ($file_cover && !$this->is_preview_youtube) {
             $this->cover = $file_cover;
             $dir = Yii::getAlias('@api/web');
             $file_name = '/images/platforms_cover/' . time() . '.' . $this->cover->extension;
             $this->cover->saveAs($dir . $file_name);
             $this->cover = $file_name;
             @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image_cover));
+        } elseif ($this->youtube && $this->is_preview_youtube) {
+            $youtube = $this->youtube;
+            $pos = strpos($youtube, 'watch?v=');
+            if ($pos) {
+                $youtube_code = substr($youtube, $pos + 8);
+                $this->cover = "https://img.youtube.com/vi/{$youtube_code}/hqdefault.jpg";
+            }
         }
 
         return parent::beforeSave($insert);
@@ -85,6 +93,7 @@ class Platform extends ActiveRecord {
             'image' => 'Логотип',
             'image_cover' => 'Обложка',
             'is_used_filter' => 'Показывать в фильтрах',
+            'is_preview_youtube' => 'Использовать обложку из youtube-ролика',
         ];
     }
 
