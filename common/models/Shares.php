@@ -73,7 +73,7 @@ class Shares extends ActiveRecord {
     }
     
     public function getCoverImage() {
-        return 'http://api.gamenotificator' . $this->cover;
+        return 'http://api.gamenotificator.net' . $this->cover;
     }
 
     public function attributeLabels() {
