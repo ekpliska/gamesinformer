@@ -45,7 +45,17 @@ use yii\widgets\ActiveForm;
                     </div>
                 <?php endif; ?>
                 <?= $form->field($model, 'image_cover')->input('file')->label() ?>
-                <?= $form->field($model, 'date')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->date))]); ?>
+                <?= $form->field($model, 'date_start')
+                        ->textInput([
+                            'type' => 'date', 
+                            'value' => $model->isNewRecord ? date('Y-m-d', strtotime('now')) : date('Y-m-d', strtotime($model->date_start))
+                        ]); 
+                ?>
+                <?= $form->field($model, 'date_end')
+                        ->textInput([
+                            'type' => 'date', 
+                            'value' => $model->isNewRecord ? date('Y-m-d', strtotime('now')) : date('Y-m-d', strtotime($model->date_end))]); 
+                ?>
             </div>
         </div>
     </div>

@@ -1,12 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\ListView;
 use yii\bootstrap\Modal;
 
 
-$this->title = 'Распродажа';
+$this->title = 'Распродажи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

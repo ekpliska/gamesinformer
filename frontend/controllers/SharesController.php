@@ -32,7 +32,7 @@ class SharesController extends Controller {
 
         $type_list = Shares::getTypeList();
         $data_provider = new ActiveDataProvider([
-            'query' => Shares::find()->orderBy('date DESC'),
+            'query' => Shares::find()->orderBy('date_start DESC'),
             'pagination' => [
                 'pageSize' => 24,
             ],

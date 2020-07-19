@@ -13,7 +13,8 @@ use yii\db\ActiveRecord;
  * @property string|null $description
  * @property string|null $cover
  * @property string|null $link
- * @property string|null $date
+ * @property string|null $date_start
+ * @property string|null $date_end
  */
 class Shares extends ActiveRecord {
 
@@ -34,7 +35,7 @@ class Shares extends ActiveRecord {
             [['type_share'], 'required'],
             [['type_share'], 'integer'],
             [['description'], 'string'],
-            [['date'], 'safe'],
+            [['date_start', 'date_end'], 'safe'],
             [['cover', 'link'], 'string', 'max' => 255],
             [['link'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
             [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
@@ -84,7 +85,8 @@ class Shares extends ActiveRecord {
             'cover' => 'Обложка',
             'image_cover' => 'Обложка',
             'link' => 'Ссылка',
-            'date' => 'Дата',
+            'date_start' => 'Дата начала',
+            'date_end' => 'Дата окончания',
         ];
     }
 }
