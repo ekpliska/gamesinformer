@@ -36,10 +36,10 @@ class SharesSearch extends Shares {
             return $dataProvider;
         }
         
-        $query->orderBy(['date' => SORT_DESC])->orderBy(['type_share' => SORT_ASC]);
+        $query->orderBy(['date_start' => SORT_DESC])->orderBy(['type_share' => SORT_ASC]);
 
         if ($type_id && array_key_exists($type_id, $this->getTypeList())) {
-            $query->where(['type_share' => (int)$params['type']])->orderBy(['date' => SORT_DESC]);
+            $query->where(['type_share' => (int)$params['type']])->orderBy(['date_start' => SORT_DESC]);
         }
         
         return $dataProvider;

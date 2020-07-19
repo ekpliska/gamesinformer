@@ -21,7 +21,8 @@ class Shares extends SharesBase {
             'description',
             'cover',
             'link',
-            'date',
+            'date_start',
+            'date_end',
         ];
             
     }
