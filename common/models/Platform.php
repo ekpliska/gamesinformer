@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
+use common\models\TopGames;
 
 /**
  * Платформы
@@ -98,7 +99,9 @@ class Platform extends ActiveRecord {
     }
 
     public function getGamePlatformReleases() {
-        return $this->hasMany(GamePlatformRelease::className(), ['platform_id' => 'id']);
+        return $this
+                ->hasMany(GamePlatformRelease::className(), ['platform_id' => 'id'])
+                ->where(['type_characteristic' => TopGames::TYPE_CHARACTERISTIC_PALFORM]);
     }
     
     public function getTopGames() {

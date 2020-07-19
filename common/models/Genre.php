@@ -6,6 +6,7 @@ use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use common\models\TopGames;
 
+
 /**
  * Жанры
  *
@@ -67,7 +68,9 @@ class Genre extends ActiveRecord {
     }
     
     public function getTopGames() {
-        return $this->hasMany(TopGames::className(), ['type_characteristic_id' => 'id']);
+        return $this
+                ->hasMany(TopGames::className(), ['type_characteristic_id' => 'id'])
+                ->where(['type_characteristic' => TopGames::TYPE_CHARACTERISTIC_GENRE]);
     }
 
     public function attributeLabels() {
