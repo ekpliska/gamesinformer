@@ -9,7 +9,8 @@ $params = array_merge(
 
 $rules = array_merge(
     require(__DIR__ . '/rules-url-v1.php'),
-    require(__DIR__ . '/rules-url-v2.php')
+    require(__DIR__ . '/rules-url-v2.php'),
+    require(__DIR__ . '/rules-url-v3.php')
 );
 
 return [
@@ -25,6 +26,10 @@ return [
         'v2' => [
             'basePath' => '@app/modules/v2',
             'class' => 'api\modules\v2\Module'
+        ],
+        'v3' => [
+            'basePath' => '@app/modules/v3',
+            'class' => 'api\modules\v3\Module'
         ]
     ],
     'components' => [
