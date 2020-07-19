@@ -8,6 +8,22 @@ use common\models\Shares as SharesBase;
  */
 class Shares extends SharesBase {
     
-    
+    public function fields() {
+        
+        return [
+            'id',
+            'type_id' => function() {
+                return $this->type_share;
+            },
+            'type' => function() {
+                return $this->getTypeList()[$this->type_share];
+            },
+            'description',
+            'cover',
+            'link',
+            'date',
+        ];
+            
+    }
     
 }
