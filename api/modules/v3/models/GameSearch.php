@@ -19,9 +19,9 @@ class GameSearch extends Game {
     public function rules() {
         return [
             [[
-            'title', 'series',
-            'platforms', 'geners'
-                ], 'safe'],
+                'title', 'series',
+                'platforms', 'geners'
+            ], 'safe'],
         ];
     }
 

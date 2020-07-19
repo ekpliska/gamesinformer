@@ -84,4 +84,13 @@ return [
             'GET /' => 'index',
         ]
     ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v3/share',
+        'pluralize' => false,
+        'extraPatterns' => [
+            'GET /' => 'index',
+            'GET /get-share-types' => 'get-share-types',
+        ]
+    ],
 ];
