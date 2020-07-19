@@ -5,14 +5,14 @@ use yii\widgets\ListView;
 use yii\bootstrap\Modal;
 
 
-$this->title = 'Распродажи';
+$this->title = 'Халява';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="user-index">
     <div class="row">
         <h3>
-            Распродажа
+            Халява
             <?=
                 Html::a('Добавить запись', ['shares/new'], [
                     'class' => 'btn btn-sxx btn-link',
