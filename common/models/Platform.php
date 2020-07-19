@@ -99,12 +99,12 @@ class Platform extends ActiveRecord {
     }
 
     public function getGamePlatformReleases() {
-        return $this
-                ->hasMany(GamePlatformRelease::className(), ['platform_id' => 'id'])
-                ->where(['type_characteristic' => TopGames::TYPE_CHARACTERISTIC_PALFORM]);
+        return $this->hasMany(GamePlatformRelease::className(), ['platform_id' => 'id']);
     }
     
     public function getTopGames() {
-        return $this->hasMany(TopGames::className(), ['type_characteristic_id' => 'id']);
+        return $this
+                ->hasMany(TopGames::className(), ['type_characteristic_id' => 'id'])
+                ->where(['type_characteristic' => TopGames::TYPE_CHARACTERISTIC_PALFORM]);
     }
 }
