@@ -87,10 +87,26 @@ return [
     [
         'class' => 'yii\rest\UrlRule',
         'controller' => 'v3/share',
-        'pluralize' => false,
+        'pluralize' => true,
         'extraPatterns' => [
             'GET /' => 'index',
             'GET /get-share-types' => 'get-share-types',
+        ]
+    ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v3/platform',
+        'pluralize' => true,
+        'extraPatterns' => [
+            'GET /' => 'index',
+        ]
+    ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v3/genre',
+        'pluralize' => true,
+        'extraPatterns' => [
+            'GET /' => 'index',
         ]
     ],
 ];

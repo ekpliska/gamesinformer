@@ -1,11 +1,8 @@
 <?php
 
 namespace api\modules\v3\models;
-use yii\helpers\ArrayHelper;
-use common\models\TokenPushMobile;
+use yii\helpers\Url;
 use common\models\Genre as GenreBase;
-use common\models\Favorite;
-use common\models\User
 
 class Genre extends GenreBase {
     
@@ -49,9 +46,9 @@ class Genre extends GenreBase {
                             'youtube_btnlink' => $item->game->youtube_btnlink,
                             'twitch' => $item->game->twitch,
                             'cover' => $cover,
-                            'gameGenres' => $this->gameGenres($item->game),
-                            'gamePlatformReleases' => $this->gamePlatforms($item->game),
-                            'is_favorite' => $this->isFavorite(),
+                            'gameGenres' => $item->game->getGameGenresList(),
+                            'gamePlatformReleases' => $item->game->getGamePlatformReleasesList(),
+                            'is_favorite' => $item->game->isFavorite(),
                         ];
                     }
                 }

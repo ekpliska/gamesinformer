@@ -7,7 +7,6 @@ use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\rest\ActiveController;
-use api\modules\v3\models\Genre;
 use api\modules\v3\models\search\GenreSearch;
 
 class GenreController extends ActiveController {

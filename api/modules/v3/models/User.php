@@ -46,7 +46,7 @@ class User extends UserBase {
                     'id' => $game->id,
                     'title' => $game->title,
                     'description' => $game->description,
-                    'series' => $this->gameSeries($game),
+                    'series' => $game->getGameSeries(),
                     'release_date' => $game->release_date,
                     'publish_at' => $game->publish_at,
                     'published' => $game->published,
@@ -55,55 +55,9 @@ class User extends UserBase {
                     'youtube_btnlink' => $game->youtube_btnlink,
                     'twitch' => $game->twitch,
                     'cover' => $cover,
-                    'gameGenres' => $this->gameGenres($game),
-                    'gamePlatformReleases' => $this->gamePlatforms($game),
+                    'gameGenres' => $game->getGameGenresList(),
+                    'gamePlatformReleases' => $game->getGamePlatformReleasesList(),
                     'is_favorite' => true,
-                ];
-            }
-        }
-        return $result;
-    }
-
-    private function gameGenres($game) {
-        $geners = $game->gameGenres;
-        $result = [];
-        if ($geners) {
-            foreach ($geners as $gener) {
-                $result[] = [
-                    'id' => $gener->genre->id,
-                    'name' => $gener->genre->name_genre
-                ];
-            }
-        }
-        return $result;
-    }
-
-    private function gamePlatforms($game) {
-        $platforms = $game->gamePlatformReleases;
-        $result = [];
-        if ($platforms) {
-            foreach ($platforms as $platform) {
-                $result[] = [
-                    'id' => $platform->platform_id,
-                    'name' => $platform->platform->name_platform,
-                    'date_platform_release' => $platform->date_platform_release,
-                    'logo_path' => $platform->platform->logo_path,
-                ];
-            }
-        }
-        return $result;
-    }
-
-    private function gameSeries($game) {
-        $series = $game->seriesGame;
-        $result = [];
-        if ($series) {
-            foreach ($series as $item) {
-                $result[] = [
-                    'id' => $item->series_id,
-                    'series_name' => $item->series->series_name,
-                    'description' => $item->series->description,
-                    'image' => $item->series->image,
                 ];
             }
         }

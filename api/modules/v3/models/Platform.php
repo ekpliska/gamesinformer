@@ -1,11 +1,8 @@
 <?php
 
 namespace api\modules\v3\models;
-use yii\helpers\ArrayHelper;
-use common\models\TokenPushMobile;
+use yii\helpers\Url;
 use common\models\Platform as PlatformBase;
-use common\models\Favorite;
-use common\models\User;
 
 class Platform extends PlatformBase {
 
@@ -50,9 +47,9 @@ class Platform extends PlatformBase {
                             'youtube_btnlink' => $item->game->youtube_btnlink,
                             'twitch' => $item->game->twitch,
                             'cover' => $cover,
-                            'gameGenres' => $this->game->getGameGenres(),
-                            'gamePlatformReleases' => $this->game->getGamePlatformReleases(),
-                            'is_favorite' => $this->game->isFavorite,
+                            'gameGenres' => $item->game->getGameGenresList(),
+                            'gamePlatformReleases' => $item->game->getGamePlatformReleasesList(),
+                            'is_favorite' => $item->game->isFavorite(),
                         ];
                     }
                 }

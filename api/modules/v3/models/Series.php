@@ -32,9 +32,9 @@ class Series extends SeriesBase {
                             'youtube_btnlink' => $item->game->youtube_btnlink,
                             'twitch' => $item->game->twitch,
                             'cover' => $cover,
-                            'gameGenres' => $this->gameGenres($item->game),
-                            'gamePlatformReleases' => $this->gamePlatforms($item->game),
-                            'is_favorite' => $this->isFavorite(),
+                            'gameGenres' => $item->game->getGameGenresList(),
+                            'gamePlatformReleases' => $item->game->getGamePlatformReleasesList(),
+                            'is_favorite' => $item->game->isFavorite(),
                         ];
                     }
                 }
