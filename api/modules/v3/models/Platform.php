@@ -1,17 +1,14 @@
 <?php
 
 namespace api\modules\v3\models;
+use yii\helpers\ArrayHelper;
+use common\models\TokenPushMobile;
 use common\models\Platform as PlatformBase;
+use common\models\Favorite;
+use common\models\User;
 
 class Platform extends PlatformBase {
 
-    private $_user;
-
-    public function __construct($config = array()) {
-        parent::__construct($config);
-        $this->_user = $this->checkAuthUser();
-    }
-    
     public function fields() {
         
         return [
@@ -43,6 +40,7 @@ class Platform extends PlatformBase {
                         $result[] = [
                             'id' => $item->game->id,
                             'title' => $item->game->title,
+                            'series'=> $item->game->getGameSeries(),
                             'description' => $item->game->description,
                             'release_date' => $item->game->release_date,
                             'publish_at' => $item->game->publish_at,
@@ -52,9 +50,9 @@ class Platform extends PlatformBase {
                             'youtube_btnlink' => $item->game->youtube_btnlink,
                             'twitch' => $item->game->twitch,
                             'cover' => $cover,
-                            'gameGenres' => $this->gameGenres($item->game),
-                            'gamePlatformReleases' => $this->gamePlatforms($item->game),
-                            'is_favorite' => $this->isFavorite(),
+                            'gameGenres' => $this->game->getGameGenres(),
+                            'gamePlatformReleases' => $this->game->getGamePlatformReleases(),
+                            'is_favorite' => $this->game->isFavorite,
                         ];
                     }
                 }
@@ -67,65 +65,6 @@ class Platform extends PlatformBase {
                 return $result;
             },
         ];
-    }
-
-    private function gameGenres($game) {
-        $geners = $game->gameGenres;
-        $result = [];
-        if ($geners) {
-            foreach ($geners as $gener) {
-                $result[] = [
-                    'id' => $gener->genre->id,
-                    'name' => $gener->genre->name_genre
-                ];
-            }
-        }
-        return $result;
-    }
-
-    private function gamePlatforms($game) {
-        $platforms = $game->gamePlatformReleases;
-        $result = [];
-        if ($platforms) {
-            foreach ($platforms as $platform) {
-                $result[] = [
-                    'id' => $platform->platform_id,
-                    'name' => $platform->platform->name_platform,
-                    'date_platform_release' => $platform->date_platform_release,
-                    'logo_path' => $platform->platform->logo_path,
-                ];
-            }
-        }
-        usort($result, function($value_f, $value_s) {
-            if (strtotime($value_f['date_platform_release']) == strtotime($value_s['date_platform_release'])) {
-                return 0;
-            }
-            return (strtotime($value_f['date_platform_release']) > strtotime($value_s['date_platform_release'])) ? -1 : 1;
-        });
-        return $result;
-    }
-    
-    private function isFavorite() {
-        if (!$this->_user) {
-            return false;
-        }
-
-        $favorite = Favorite::find()->andWhere(['AND', ['user_uid' => $user['id']], ['game_id' => $this->id]])->asArray()->one();
-        if ($favorite) {
-            return true;
-        }
-    }
-
-    private function checkAuthUser() {
-        $_headers = getallheaders();
-        $headers = array_change_key_case($_headers);
-        $auth_token = isset($headers['authorization']) ? $headers['authorization'] : null;
-        if ($auth_token) {
-            $token = trim(substr($auth_token, 6));
-            $user = User::find()->where(['token' => $token])->one();
-            return $user;
-        }
-        return false;
     }
 
 }

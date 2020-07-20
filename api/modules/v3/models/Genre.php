@@ -1,7 +1,11 @@
 <?php
 
 namespace api\modules\v3\models;
+use yii\helpers\ArrayHelper;
+use common\models\TokenPushMobile;
 use common\models\Genre as GenreBase;
+use common\models\Favorite;
+use common\models\User
 
 class Genre extends GenreBase {
     
@@ -24,10 +28,44 @@ class Genre extends GenreBase {
                 return $this->isRelevant;
             },
             'top_games' => function() {
-                return [];
+                $games = $this->topGames;
+                $result = [];
+                if ($games) {
+                    foreach ($games as $item) {
+                        $cover = Url::home(true) . ltrim($item->game->cover, '/');
+                        if (strpos($item->game->cover, 'youtube.com')) {
+                            $cover = $item->game->cover;
+                        }
+                        $result[] = [
+                            'id' => $item->game->id,
+                            'title' => $item->game->title,
+                            'series'=> $item->game->getGameSeries(),
+                            'description' => $item->game->description,
+                            'release_date' => $item->game->release_date,
+                            'publish_at' => $item->game->publish_at,
+                            'published' => $item->game->published,
+                            'website' => $item->game->website,
+                            'youtube' => $item->game->youtube,
+                            'youtube_btnlink' => $item->game->youtube_btnlink,
+                            'twitch' => $item->game->twitch,
+                            'cover' => $cover,
+                            'gameGenres' => $this->gameGenres($item->game),
+                            'gamePlatformReleases' => $this->gamePlatforms($item->game),
+                            'is_favorite' => $this->isFavorite(),
+                        ];
+                    }
+                }
+                usort($result, function($value_f, $value_s) {
+                    if (strtotime($value_f['release_date']) == strtotime($value_s['release_date'])) {
+                        return 0;
+                    }
+                    return (strtotime($value_f['release_date']) > strtotime($value_s['release_date'])) ? -1 : 1;
+                });
+                return $result;
             },
         ];
         
     }
+
 
 }

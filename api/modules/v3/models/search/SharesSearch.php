@@ -1,7 +1,6 @@
 <?php
 
-namespace api\modules\v3\models;
-
+namespace api\modules\v3\models\search;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use api\modules\v3\models\Shares;

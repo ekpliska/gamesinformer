@@ -11,8 +11,8 @@ use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use api\modules\v3\models\User;
-use api\modules\v3\models\EditProfile;
-use api\modules\v3\models\ChangePassword;
+use api\modules\v3\models\forms\EditProfile;
+use api\modules\v3\models\forms\ChangePassword;
 
 /**
  * Профиль пользователя

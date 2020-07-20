@@ -7,12 +7,12 @@ use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\rest\ActiveController;
-use api\modules\v3\models\Platform;
-use api\modules\v3\models\PlatformSearch;
+use api\modules\v3\models\Genre;
+use api\modules\v3\models\search\GenreSearch;
 
-class PlatformsController extends ActiveController {
+class GenreController extends ActiveController {
     
-    public $modelClass = 'api\modules\v3\models\Platform';
+    public $modelClass = 'api\modules\v3\models\Genre';
     
     public $serializer = [
         'class' => 'yii\rest\Serializer',
@@ -47,12 +47,13 @@ class PlatformsController extends ActiveController {
         $actions = parent::actions();
         unset($actions['create']);
         unset($actions['update']);
+        unset($actions['delete']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
     }
 
     public function prepareDataProvider() {
-        $searchModel = new PlatformSearch();
+        $searchModel = new GenreSearch();
         return $searchModel->search(Yii::$app->request->queryParams);
     }
     
@@ -60,6 +61,7 @@ class PlatformsController extends ActiveController {
         parent::verbs();
         return [
             'index' => ['GET'],
+            'view' => ['GET'],
         ];
     }
     

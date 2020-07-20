@@ -8,7 +8,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\rest\ActiveController;
 use api\modules\v3\models\Shares;
-use api\modules\v3\models\SharesSearch;
+use api\modules\v3\models\search\SharesSearch;
 
 class ShareController extends ActiveController {
     
@@ -47,6 +47,7 @@ class ShareController extends ActiveController {
         $actions = parent::actions();
         unset($actions['create']);
         unset($actions['update']);
+        unset($actions['delete']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
     }
@@ -66,6 +67,7 @@ class ShareController extends ActiveController {
         parent::verbs();
         return [
             'index' => ['GET'],
+            'view' => ['GET'],
             'get-share-types' => ['GET'],
         ];
     }

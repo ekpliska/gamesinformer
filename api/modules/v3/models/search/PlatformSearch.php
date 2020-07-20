@@ -1,17 +1,18 @@
 <?php
 
-namespace api\modules\v3\models;
+namespace api\modules\v3\models\search;
+
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use api\modules\v3\models\Series;
+use api\modules\v3\models\Platform;
 
-class SeriesSearch extends Series {
-
-    public $games;
+class PlatformSearch extends Platform {
+    
+    public $name;
 
     public function rules() {
         return [
-            [['series_name'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -20,22 +21,27 @@ class SeriesSearch extends Series {
     }
 
     public function search($params) {
-
-        $query = Series::find();
+        
+        $name_platform = isset($params['name']) ? $params['name'] : null;
+        
+        $query = Platform::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query
         ]);
+        
         $this->load($params);
+        
+        
         if (!$this->validate()) {
             return $dataProvider;
         }
         
-        $query->where(['enabled' => 1])->orderBy(['id' => SORT_DESC]);
+        $query->orderBy(['name_platform' => SORT_ASC]);
 
-        if (isset($params['series_name'])) {
-            $query->andFilterWhere(['like', 'series_name', $params['series_name']]);
+        if ($name_platform) {
+            $query->where(['name_platform' => $name_platform]);
         }
-
+        
         return $dataProvider;
     }
 

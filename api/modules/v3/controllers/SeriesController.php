@@ -7,7 +7,7 @@ use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\rest\ActiveController;
-use api\modules\v3\models\SeriesSearch;
+use api\modules\v3\models\search\SeriesSearch;
 
 class SeriesController extends ActiveController {
     
@@ -46,6 +46,7 @@ class SeriesController extends ActiveController {
         $actions = parent::actions();
         unset($actions['create']);
         unset($actions['update']);
+        unset($actions['delete']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
     }

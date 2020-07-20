@@ -8,7 +8,7 @@ use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
-use api\modules\v3\models\SignInForm;
+use api\modules\v3\models\forms\SignInForm;
 
 class SignInController extends Controller {
 

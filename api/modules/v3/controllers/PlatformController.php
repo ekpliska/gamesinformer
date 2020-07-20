@@ -7,12 +7,12 @@ use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\rest\ActiveController;
-use api\modules\v3\models\News;
-use api\modules\v3\models\search\NewsSearch;
+use api\modules\v3\models\Platform;
+use api\modules\v3\models\search\PlatformSearch;
 
-class NewsController extends ActiveController {
+class PlatformController extends ActiveController {
     
-    public $modelClass = 'api\modules\v3\models\News';
+    public $modelClass = 'api\modules\v3\models\Platform';
     
     public $serializer = [
         'class' => 'yii\rest\Serializer',
@@ -45,31 +45,16 @@ class NewsController extends ActiveController {
     
     public function actions() {
         $actions = parent::actions();
-        unset($actions['view']);
         unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
     }
-    
+
     public function prepareDataProvider() {
-        $searchModel = new NewsSearch();
+        $searchModel = new PlatformSearch();
         return $searchModel->search(Yii::$app->request->queryParams);
-    }
-    
-    public function actionView($id) {
-        $news = News::findOne((int)$id);
-        if (!$news) {
-            Yii::$app->response->statusCode = 404;
-            return [
-                'success' => false,
-                'errors' => ['Новость не найдена'],
-            ];
-        }
-        // Отмечаем прсмотр
-        $news->addViews();
-        return $news;
     }
     
     public function verbs() {
