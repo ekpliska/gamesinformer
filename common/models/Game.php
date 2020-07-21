@@ -5,6 +5,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use common\models\TokenPushMobile;
+use common\models\Favorite;
 
 /**
  * Игры
