@@ -140,7 +140,7 @@ class Game extends ActiveRecord {
     }
     
     public function isFavorite() {
-        if ($this->_user) {
+        if (!$this->_user) {
             return false;
         }
 
