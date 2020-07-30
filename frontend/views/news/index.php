@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h4 class="text-center">
-                    RSS ленты
+                    RSS ленты новостей
                 </h4>
             </div>
             <div class="panel-body">
