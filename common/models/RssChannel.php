@@ -10,6 +10,8 @@ use common\models\News;
  *
  * @property int $id
  * @property string $rss_channel_name
+ * @property string $type
+ * @property string $channel_id
  * @property string $rss_channel_url
  * @property string $title_tag
  * @property string $description_tag
@@ -20,6 +22,12 @@ use common\models\News;
  * @property News $news
  */
 class RssChannel extends ActiveRecord {
+    
+    const TYPE_NEWS = '100';
+    const TYPE_YOUTUBE = '101';
+    
+    const SCENARIO_FOR_NEWS_RSS = 'for_news_rss';
+    const SCENARIO_FOR_YOUTUBE_RSS = 'for_youtube_rss';
 
     public static function tableName() {
         return 'rss_channel';
@@ -27,7 +35,16 @@ class RssChannel extends ActiveRecord {
 
     public function rules() {
         return [
-            [['rss_channel_name', 'rss_channel_url', 'title_tag', 'description_tag', 'pub_date_tag', 'link_tag'], 'required'],
+            [[
+                'rss_channel_name', 'rss_channel_url', 'type',
+                'title_tag', 'description_tag', 'pub_date_tag', 'link_tag',
+                ], 'required', 'on' => self::SCENARIO_FOR_NEWS_RSS,
+            ],
+            [['rss_channel_name', 'channel_id', 'type'], 
+                'required', 'on' => self::SCENARIO_FOR_YOUTUBE_RSS,
+            ],
+            [['rss_channel_name', 'type'], 'required'],
+            [['type'], 'string', 'max' => 10],
             [['rss_channel_name'], 'string', 'max' => 70],
             [['rss_channel_url'], 'string', 'max' => 255],
             [['title_tag', 'description_tag', 'pub_date_tag', 'image_tag', 'link_tag'], 'string', 'max' => 20],
@@ -39,10 +56,18 @@ class RssChannel extends ActiveRecord {
         parent::afterDelete();
         News::deleteAll(['rss_channel_id' => $this->id]);
     }
+    
+    public static function getTypesList() {
+        return [
+            self::TYPE_NEWS => 'RSS новости',
+            self::TYPE_YOUTUBE => 'YouTube лента',
+        ];
+    }
 
     public function attributeLabels() {
         return [
             'id' => 'ID',
+            'type' => 'Раздел',
             'rss_channel_name' => 'Название ленты',
             'rss_channel_url' => 'Ссылка на ленту',
             'title_tag' => 'Тег заголовка новости',

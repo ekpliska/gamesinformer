@@ -29,7 +29,8 @@ class RssController extends Controller {
 
     public function actionNew() {
 
-        $model = new RssChannel();
+        $model = new RssChannel(['scenario' => RssChannel::SCENARIO_FOR_NEWS_RSS]);
+        $type_list = RssChannel::getTypesList();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->save()) {
                 return $this->redirect('/news');
@@ -37,12 +38,15 @@ class RssController extends Controller {
         }
         return $this->renderAjax('form', [
             'model' => $model,
+            'type_list' => $type_list,
         ]);
     }
     
     public function actionUpdate($id) {
 
         $model = RssChannel::findOne($id);
+        $model->scenario = $model::SCENARIO_FOR_NEWS_RSS;
+        $type_list = RssChannel::getTypesList();
         
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate() && $model->save()) {
@@ -51,6 +55,7 @@ class RssController extends Controller {
         }
         return $this->renderAjax('form', [
             'model' => $model,
+            'type_list' => $type_list,
         ]);
     }
     

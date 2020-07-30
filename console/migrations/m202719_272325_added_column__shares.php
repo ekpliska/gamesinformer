@@ -8,12 +8,12 @@ use yii\db\Migration;
 class m202719_272325_added_column__shares extends Migration {
 
     public function safeUp() {
-        $this->renameColumn('{{%shares}}', 'date', 'date_start');
+        $this->execute("ALTER TABLE `shares` CHANGE `date` `date_start` DATETIME NOT NULL");
         $this->addColumn('{{%shares}}', 'date_end', $this->dateTime());
     }
 
     public function safeDown() {
-        $this->renameColumn('{{%shares}}', 'date_start', 'date');
+        $this->execute("ALTER TABLE `shares` CHANGE `date_start` `date` DATETIME NOT NULL");
         $this->dropColumn('{{%shares}}', 'date_end', $this->dateTime());
     }
 
