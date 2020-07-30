@@ -45,7 +45,12 @@ AppAsset::register($this);
                 ['label' => 'Серии', 'url' => '/series'],
             ]
         ],
-        ['label' => 'Новости', 'url' => ['/news/index']],
+        ['label' => 'Новости',
+            'items' => [
+                ['label' => 'RSS', 'url' => '/news/index'],
+                ['label' => 'YouTube', 'url' => '/rss-youtube/index'],
+            ]
+        ],
         ['label' => 'Реклама', 'url' => ['/advertising/index']],
         ['label' => 'Халява', 'url' => ['/shares/index']],
         ['label' => 'Пользователи', 'url' => ['/user/index']],

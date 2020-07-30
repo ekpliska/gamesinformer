@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m200719_172325_added_column__shares
+ * Class m202719_272325_added_column__shares
  */
-class m200719_172325_added_column__shares extends Migration {
+class m202719_272325_added_column__shares extends Migration {
 
     public function safeUp() {
         $this->renameColumn('{{%shares}}', 'date', 'date_start');
