@@ -15,6 +15,7 @@ class RssChannel extends RssChannelBase {
             'url' => function() {
                 return $this->rss_channel_url;
             },
+            'site_url',
         ];
         
     }
