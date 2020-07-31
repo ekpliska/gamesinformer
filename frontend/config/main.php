@@ -52,6 +52,7 @@ return [
                 'series/<action>/<id:[\d-]+>' => 'series/<action>',
                 'platform/<action>/<id:[\d-]+>' => 'platform/<action>',
                 'genre/<action>/<id:[\d-]+>' => 'genre/<action>',
+                'news/delete-all/<type_rss:[\d-]+>' => 'news/delete-all',
                 'news/<action>/<id:[\d-]+>' => 'news/<action>',
                 'rss/<action>/<id:[\d-]+>' => 'rss/<action>',
                 'shares/<action>/<id:[\d-]+>' => 'shares/<action>',

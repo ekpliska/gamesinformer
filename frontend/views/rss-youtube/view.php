@@ -1,7 +1,7 @@
 <h4 class="modal-title"><?= $model->title ?></h4>
 <div class="modal-body">
     <p class="text-info">
-        <?= "Видео: {$model->link}" ?>
+        <a href="<?= $model->link ?>" target="_blank">Видео</a>
     </p>
     <?= $model->description ?>
 </div>

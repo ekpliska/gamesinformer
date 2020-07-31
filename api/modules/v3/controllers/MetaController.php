@@ -38,23 +38,27 @@ class MetaController extends Controller {
     }
     
     public function actionPlatforms() {
-        $platforms = Platform::find()->where(['is_used_filter' => 1])->orderBy(['name_platform' => SORT_ASC])->all();
-        return $platforms;
+        return Platform::find()->where(['is_used_filter' => 1])->orderBy(['name_platform' => SORT_ASC])->all();
     }
     
     public function actionGenres() {
-        $genres = Genre::find()->where(['is_used_filter' => 1])->orderBy(['name_genre' => SORT_ASC])->all();
-        return $genres;
+        return Genre::find()->where(['is_used_filter' => 1])->orderBy(['name_genre' => SORT_ASC])->all();
     }
     
     public function actionRss() {
-        return RssChannel::find()->orderBy(['rss_channel_name' => SORT_DESC])->all();
+        return RssChannel::find()->where(['type' => RssChannel::TYPE_NEWS])->orderBy(['rss_channel_name' => SORT_DESC])->all();
+    }
+
+    public function actionRssYoutube() {
+        return RssChannel::find()->where(['type' => RssChannel::TYPE_YOUTUBE])->orderBy(['rss_channel_name' => SORT_DESC])->all();
     }
     
     public function verbs() {
         return [
             'platforms' => ['GET'],
             'genres' => ['GET'],
+            'rss' => ['GET'],
+            'rss-youtube' => ['GET'],
         ];
     }
     

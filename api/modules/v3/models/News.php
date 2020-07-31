@@ -48,7 +48,7 @@ class News extends NewsBase {
             $add_view->news_id = $this->id;
             $add_view->save(false);
         }
-        return;
+        return true;
     }
     
     private function checkAuthUser() {

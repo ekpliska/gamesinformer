@@ -42,6 +42,8 @@ return [
         'extraPatterns' => [
             'GET /platforms' => 'platforms',
             'GET /genres' => 'genres',
+            'GET /rss' => 'rss',
+            'GET /rss-youtube' => 'rss-youtube',
         ]
     ],
     [
