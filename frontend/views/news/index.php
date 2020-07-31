@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\bootstrap\Modal;
+use common\models\RssChannel;
 
 $this->title = 'Новости';
 $this->params['breadcrumbs'][] = $this->title;
@@ -60,10 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if ($data_provider->totalCount > 0) : ?>
                     <div class="row text-center">    
                         <?=
-                        Html::a("Удалить все новости", ['news/delete-all'], [
+                        Html::a("Удалить все новости", ['news/delete-all', 'type_rss' => RssChannel::TYPE_NEWS], [
                             'class' => 'btn btn-danger',
                             'data' => [
-                                'confirm' => 'Вы дейсвительно хотите все новости?',
+                                'confirm' => 'Вы действительно хотите удалить все новости?',
                                 'method' => 'post',
                             ],
                         ])

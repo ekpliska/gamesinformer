@@ -13,6 +13,7 @@ use common\models\News;
  * @property string $type
  * @property string $channel_id
  * @property string $rss_channel_url
+ * @property string $site_url
  * @property string $title_tag
  * @property string $description_tag
  * @property string $pub_date_tag
@@ -40,15 +41,15 @@ class RssChannel extends ActiveRecord {
                 'title_tag', 'description_tag', 'pub_date_tag', 'link_tag',
                 ], 'required', 'on' => self::SCENARIO_FOR_NEWS_RSS,
             ],
-            [['rss_channel_name', 'channel_id', 'type'], 
+            [['rss_channel_name', 'channel_id', 'type', 'site_url'],
                 'required', 'on' => self::SCENARIO_FOR_YOUTUBE_RSS,
             ],
             [['rss_channel_name', 'type'], 'required'],
             [['type'], 'string', 'max' => 10],
             [['rss_channel_name'], 'string', 'max' => 70],
-            [['rss_channel_url'], 'string', 'max' => 255],
+            [['rss_channel_url', 'site_url'], 'string', 'max' => 255],
             [['title_tag', 'description_tag', 'pub_date_tag', 'image_tag', 'link_tag'], 'string', 'max' => 20],
-            ['rss_channel_url', 'url', 'message' => 'Вы указали некорректный  url адрес'],
+            [['rss_channel_url', 'site_url'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
         ];
     }
 
@@ -78,6 +79,7 @@ class RssChannel extends ActiveRecord {
             'channel_id' => 'Channel ID',
             'rss_channel_name' => 'Название ленты',
             'rss_channel_url' => 'Ссылка на ленту',
+            'site_url' => 'Источник (канал, сайт)',
             'title_tag' => 'Тег заголовка новости',
             'description_tag' => 'Тег описание новости',
             'pub_date_tag' => 'Тег даты публикации новости',

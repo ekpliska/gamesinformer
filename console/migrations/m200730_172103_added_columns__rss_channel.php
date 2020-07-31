@@ -11,6 +11,7 @@ class m200730_172103_added_columns__rss_channel extends Migration {
     public function safeUp() {
         $this->addColumn('{{%rss_channel}}', 'type', $this->string(10)->notNull());
         $this->addColumn('{{%rss_channel}}', 'channel_id', $this->string(100));
+        $this->addColumn('{{%rss_channel}}', 'site_url', $this->string(255));
         $this->alterColumn('{{%rss_channel}}', 'title_tag', $this->string(20));
         $this->alterColumn('{{%rss_channel}}', 'description_tag', $this->string(20));
         $this->alterColumn('{{%rss_channel}}', 'pub_date_tag', $this->string(20));

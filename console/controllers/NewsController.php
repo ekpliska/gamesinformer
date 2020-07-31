@@ -126,10 +126,13 @@ class NewsController extends Controller {
                     $news = new News();
                     $news->rss_channel_id = $rss_channel->id;
                     foreach ($tags as $key => $tag) {
-                        $count_news++;
+
                         if ($key === 'pub_date') {
                             $news->pub_date = $date_pub->format('Y-m-d H:i:s');
                         }
+
+                        $count_news++;
+
                         if (!property_exists($item, $tag)) {
                             continue;
                         }

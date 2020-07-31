@@ -1,13 +1,13 @@
 <?php
 
 namespace frontend\controllers;
-use common\models\RssChannel;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-use common\models\YouTubeRss;
-use common\models\YoutubeVideos;
+use common\models\RssChannel;
+use common\models\News;
+use console\controllers\YoutubeController as YoutubeControllerConsole;
 
 /**
  * Rss youtube controller
@@ -18,10 +18,10 @@ class RssYoutubeController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index'],
+                'only' => ['index', 'new', 'generate'],
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'new', 'generate'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -33,7 +33,7 @@ class RssYoutubeController extends Controller {
     public function actionIndex() {
         $rss_list = RssChannel::find()->where(['type' => RssChannel::TYPE_YOUTUBE])->all();
         $data_provider = new ActiveDataProvider([
-            'query' => YoutubeVideos::find()->orderBy('published DESC'),
+            'query' => News::find()->joinWith('rss')->where(['type' => RssChannel::TYPE_YOUTUBE])->orderBy('pub_date DESC'),
             'pagination' => [
                 'pageSize' => 12,
             ],
@@ -56,6 +56,20 @@ class RssYoutubeController extends Controller {
         return $this->renderAjax('/rss/form-youtube', [
             'model' => $model,
             'type_list' => $type_list,
+        ]);
+    }
+
+    public function actionGenerate() {
+        $consoleController = new YoutubeControllerConsole('youtube', Yii::$app);
+        $consoleController->runAction('load');
+        Yii::$app->session->setFlash('success', ['message' => 'Youtube новости были сгенерированы']);
+        return $this->redirect('/rss-youtube');
+    }
+
+    public function actionView($id) {
+        $model = News::findOne($id);
+        return $this->renderAjax('view', [
+            'model' => $model,
         ]);
     }
 

@@ -35,7 +35,7 @@ class NewsController extends Controller {
 
         $rss_list = RssChannel::find()->where(['type' => RssChannel::TYPE_NEWS])->all();
         $data_provider = new ActiveDataProvider([
-            'query' => News::find()->orderBy('pub_date DESC'),
+            'query' => News::find()->joinWith('rss')->where(['type' => RssChannel::TYPE_NEWS])->orderBy('pub_date DESC'),
             'pagination' => [
                 'pageSize' => 12,
             ],
@@ -61,12 +61,28 @@ class NewsController extends Controller {
         ]);
     }
 
-    public function actionDeleteAll() {
-        if (!News::deleteAll()) {
-            Yii::$app->session->setFlash('error', ['message' => 'Ошибка удаления новостей']);
+    public function actionDeleteAll($type_rss) {
+
+        $transaction = \Yii::$app->db->beginTransaction();
+
+        try {
+            $news = News::find()->joinWith('rss')->where(['type' => (int)$type_rss])->all();
+            foreach ($news as $news_item) {
+                $news_item->delete();
+            }
+            $transaction->commit();
+            Yii::$app->session->setFlash('success', ['message' => 'Новости были успешно удалены']);
+            return $this->redirect(
+                ($type_rss === RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
+            );
+        } catch (\Exception $ex) {
+            $transaction->rollBack();
         }
-        Yii::$app->session->setFlash('success', ['message' => 'Новости были успешно удалены']);
-        return $this->redirect('/news');
+
+        return $this->redirect(
+            ($type_rss === RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
+        );
+
     }
 
     public function actionDelete($id) {

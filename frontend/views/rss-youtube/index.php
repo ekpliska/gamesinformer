@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\bootstrap\Modal;
+use common\models\RssChannel;
 
 $this->title = 'Новости';
 $this->params['breadcrumbs'][] = $this->title;
@@ -60,10 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if ($data_provider->totalCount > 0) : ?>
                     <div class="row text-center">    
                         <?=
-                        Html::a("Удалить все новости", ['news/delete-all'], [
+                        Html::a("Удалить YouTube новости", ['news/delete-all', 'type_rss' => RssChannel::TYPE_YOUTUBE], [
                             'class' => 'btn btn-danger',
                             'data' => [
-                                'confirm' => 'Вы дейсвительно хотите все новости?',
+                                'confirm' => 'Вы действительно хотите удалить все YouTube новости?',
                                 'method' => 'post',
                             ],
                         ])
@@ -71,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 <?php else: ?>
                     <div class="row text-center">
-                        <?= Html::a('Сгенерировать новости', ['news/generate'], ['class' => 'btn btn-sxx btn-primary']) ?>
+                        <?= Html::a('Сгенерировать новости', ['rss-youtube/generate'], ['class' => 'btn btn-sxx btn-primary']) ?>
                     </div>
                 <?php endif ?>
             </div>
@@ -133,7 +134,7 @@ Modal::end();
 
 <?php
 Modal::begin([
-    'id' => 'news-view',
+    'id' => 'rss-youtube-view',
     'size' => Modal::SIZE_LARGE,
 ]);
 

@@ -34,6 +34,7 @@ use yii\widgets\ActiveForm;
         <div class="row">
             <div class="col-md-12">
                 <?= $form->field($model, 'rss_channel_name')->input('text')->label() ?>
+                <?= $form->field($model, 'site_url')->input('text')->label() ?>
             </div>
         </div>
 
