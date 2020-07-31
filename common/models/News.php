@@ -14,6 +14,8 @@ use common\models\NewsViews;
  * @property string $pub_date
  * @property string $image
  * @property string $link
+ * @property string $updated
+ * * @property string $community
  * @property int $rss_channel_id
  *
  * @property RssChannel $id0
@@ -27,8 +29,8 @@ class News extends ActiveRecord {
     public function rules() {
         return [
             [['title', 'description', 'pub_date', 'link', 'rss_channel_id'], 'required'],
-            [['description'], 'string'],
-            [['pub_date'], 'safe'],
+            [['description', 'community'], 'string'],
+            [['pub_date', 'updated'], 'safe'],
             [['rss_channel_id'], 'integer'],
             [['title', 'image', 'link'], 'string', 'max' => 255],
             [['rss_channel_id'], 'exist', 'skipOnError' => true, 'targetClass' => RssChannel::className(), 'targetAttribute' => ['rss_channel_id' => 'id']],
@@ -38,7 +40,7 @@ class News extends ActiveRecord {
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             $this->pub_date = \Yii::$app->formatter->asDate($this->pub_date, 'yyyy-MM-dd hh:mm:ss');
-//            $this->description = strip_tags($this->description, '<a>');
+            $this->updated = \Yii::$app->formatter->asDate($this->updated, 'yyyy-MM-dd hh:mm:ss');
             $this->description = strip_tags($this->description);
             return true;
         }
@@ -51,6 +53,8 @@ class News extends ActiveRecord {
             'title' => 'Title',
             'description' => 'Description',
             'pub_date' => 'Pub Date',
+            'updated' => 'Updated',
+            'community' => 'Community',
             'image' => 'Image',
             'link' => 'Link',
             'rss_channel_id' => 'Rss Channel ID',

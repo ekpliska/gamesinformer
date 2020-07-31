@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use common\models\RssChannel;
 
 /**
  * Class m200730_172103_added_columns__rss_channel
@@ -15,6 +16,9 @@ class m200730_172103_added_columns__rss_channel extends Migration {
         $this->alterColumn('{{%rss_channel}}', 'pub_date_tag', $this->string(20));
         $this->alterColumn('{{%rss_channel}}', 'link_tag', $this->string(20));
         $this->alterColumn('{{%rss_channel}}', 'rss_channel_url', $this->string(255));
+
+        $this->update('{{%rss_channel}}', ['type' => RssChannel::TYPE_NEWS]);
+
     }
 
     public function safeDown() {

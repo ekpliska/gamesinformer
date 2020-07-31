@@ -24,7 +24,7 @@ class NewsController extends Controller {
                 'verify_peer_name' => false,
             ]
         ];
-        $rss_channels = RssChannel::find()->all();
+        $rss_channels = RssChannel::find()->where(['type' => RssChannel::TYPE_NEWS])->all();
         if ($rss_channels) {
             foreach ($rss_channels as $rss_channel) {
                 $url = $rss_channel->rss_channel_url;
@@ -93,7 +93,7 @@ class NewsController extends Controller {
             ]
         ];
         $count_news = 0;
-        $rss_channels = RssChannel::find()->all();
+        $rss_channels = RssChannel::find()->where(['type' => RssChannel::TYPE_NEWS])->all();
         if ($rss_channels) {
             foreach ($rss_channels as $rss_channel) {
                 $url = $rss_channel->rss_channel_url;
@@ -164,7 +164,7 @@ class NewsController extends Controller {
      * Для ежедневного запуска в 00:00
      */
     public function actionRemove() {
-        $news = News::find()->all();
+        $news = News::find()->where(['type' => RssChannel::TYPE_NEWS])->all();
         $current_date = new \DateTime('NOW');
         $count_news = 0;
         if ($news) {
