@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\helpers\Html;
 use yii\data\ActiveDataProvider;
 use api\modules\v3\models\News;
+use api\modules\v3\models\RssChannel;
 
 class NewsSearch extends News {
 
@@ -14,7 +15,7 @@ class NewsSearch extends News {
 
     public function rules() {
         return [
-            [['title', 'rss_name'], 'safe'],
+            [['title', 'rss_ids'], 'safe'],
         ];
     }
 
@@ -38,15 +39,15 @@ class NewsSearch extends News {
         
         $query->orderBy(['pub_date' => SORT_DESC]);
 
-        if (isset($params['rss_name'])) {
-            $rss_ids = $this->getRssIds(Html::encode($params['rss_name']));
+        if (isset($params['rss_ids'])) {
+            $rss_ids = $this->checkRssIds(Html::encode($params['rss_ids']));
             $query->where(['in', 'rss_channel_id', $rss_ids]);
         }
         
         return $dataProvider;
     }
     
-    private function getRssIds($params) {
+    private function checkRssIds($params) {
         $rss = [];
         $rss_ids = [];
         $rss_names = [];
