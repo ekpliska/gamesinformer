@@ -53,7 +53,7 @@ class NewsSearch extends News {
         $rss_names = [];
         if (count($params) > 0) {
             $rss_names = explode(',', $params);
-            $rss = RssChannel::find()->where(['IN', 'rss_channel_name', $rss_names])->asArray()->all();
+            $rss = RssChannel::find()->where(['IN', 'id', $rss_names])->asArray()->all();
             $rss_ids = ArrayHelper::getColumn($rss, 'id');
         }
         return $rss_ids;
