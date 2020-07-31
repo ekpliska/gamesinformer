@@ -51,7 +51,14 @@ class RssChannel extends ActiveRecord {
             ['rss_channel_url', 'url', 'message' => 'Вы указали некорректный  url адрес'],
         ];
     }
-    
+
+    public function beforeSave($insert) {
+        if ($this->type === self::TYPE_YOUTUBE) {
+            $this->rss_channel_url = "https://www.youtube.com/feeds/videos.xml?channel_id={$this->channel_id}";
+        }
+        return parent::beforeSave($insert);
+    }
+
     public function afterDelete() {
         parent::afterDelete();
         News::deleteAll(['rss_channel_id' => $this->id]);
@@ -68,6 +75,7 @@ class RssChannel extends ActiveRecord {
         return [
             'id' => 'ID',
             'type' => 'Раздел',
+            'channel_id' => 'Channel ID',
             'rss_channel_name' => 'Название ленты',
             'rss_channel_url' => 'Ссылка на ленту',
             'title_tag' => 'Тег заголовка новости',

@@ -45,15 +45,18 @@ class RssController extends Controller {
     public function actionUpdate($id) {
 
         $model = RssChannel::findOne($id);
-        $model->scenario = $model::SCENARIO_FOR_NEWS_RSS;
+        $model->scenario = ($model->type === RssChannel::TYPE_YOUTUBE) ? $model::SCENARIO_FOR_YOUTUBE_RSS : $model::SCENARIO_FOR_NEWS_RSS;
         $type_list = RssChannel::getTypesList();
         
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate() && $model->save()) {
-                return $this->redirect('/news');
+                return $this->redirect(
+                    ($model->type === RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
+                );
             }
         }
-        return $this->renderAjax('form', [
+        return $this->renderAjax(
+            ($model->type === RssChannel::TYPE_YOUTUBE) ? 'form-youtube' : 'form', [
             'model' => $model,
             'type_list' => $type_list,
         ]);
@@ -62,19 +65,22 @@ class RssController extends Controller {
     public function actionDelete($id) {
 
         $model = RssChannel::findOne($id);
-        $name = $model->rss_channel_name;
 
         if (!$model) {
             Yii::$app->session->setFlash('error', ['message' => 'Запись не найдена']);
-            return $this->redirect('/news');
+            return $this->redirect(
+                ($model->type === RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
+            );
         }
 
         if (!$model->delete()) {
             Yii::$app->session->setFlash('error', ['message' => 'Ошибка удаления записи']);
         } else {
-            Yii::$app->session->setFlash('success', ['message' => "RSS лента {$name} была успешно удалена"]);
+            Yii::$app->session->setFlash('success', ['message' => "RSS лента {$model->rss_channel_name} была успешно удалена"]);
         }
-        return $this->redirect('/news');
+        return $this->redirect(
+            ($model->type === RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
+    );
     }
 
 }

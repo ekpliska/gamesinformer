@@ -10,20 +10,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="user-index">
     <div class="col-md-4">
-        <div class="panel panel-info">
+        <div class="panel panel-success">
             <div class="panel-heading">
                 <h4 class="text-center">
-                    RSS ленты YouTube новостей
+                    YouTube новости
                 </h4>
             </div>
             <div class="panel-body">
                 <div class="text-center">
                     <?=
-                        Html::a('Добавить ленту', ['rss/new'], [
-                            'class' => 'btn btn-sxx btn-primary',
+                        Html::a('Добавить ленту', ['rss-youtube/new'], [
+                            'class' => 'btn btn-sxx btn-success',
                             'data-toggle' => 'modal',
-                            'data-target' => '#rss-add',
-                            'onclick' => "$('#rss-add .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
+                            'data-target' => '#rss-youtube-add',
+                            'onclick' => "$('#rss-youtube-add .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
                         ]);
                     ?>
                 </div>
@@ -35,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 Html::a($rss->rss_channel_name, ['rss/update', 'id' => $rss->id], [
                                     'class' => 'btn btn-sxx btn-link',
                                     'data-toggle' => 'modal',
-                                    'data-target' => '#rss-update',
-                                    'onclick' => "$('#rss-update .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
+                                    'data-target' => '#rss-youtube-update',
+                                    'onclick' => "$('#rss-youtube-update .modal-dialog .modal-content .modal-body').load($(this).attr('href'))",
                                 ]);
                                 ?>
                                 <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['rss/delete', 'id' => $rss->id]); ?>
@@ -109,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 Modal::begin([
-    'id' => 'rss-add',
+    'id' => 'rss-youtube-add',
     'header' => 'Добавить ленту',
     'closeButton' => [
         'class' => 'close modal-close-btn',
@@ -121,7 +121,7 @@ Modal::end();
 
 <?php
 Modal::begin([
-    'id' => 'rss-update',
+    'id' => 'rss-youtube-update',
     'header' => 'Редактировать ленту',
     'closeButton' => [
         'class' => 'close modal-close-btn',

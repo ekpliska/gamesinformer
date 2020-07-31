@@ -33,7 +33,7 @@ class NewsController extends Controller {
 
     public function actionIndex() {
 
-        $rss_list = RssChannel::find()->all();
+        $rss_list = RssChannel::find()->where(['type' => RssChannel::TYPE_NEWS])->all();
         $data_provider = new ActiveDataProvider([
             'query' => News::find()->orderBy('pub_date DESC'),
             'pagination' => [
