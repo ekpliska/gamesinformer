@@ -32,7 +32,7 @@ class m200730_172103_added_columns__rss_channel extends Migration {
                 'Игромания',
                 'http://www.youtube.com/feeds/videos.xml?channel_id=UC_Q1vhf7wcR_zGlc5ahAg0A',
                 'UC_Q1vhf7wcR_zGlc5ahAg0A',
-                'https://www.youtube.com/channel/UCN1U8E6ClQVC7y6N9HpMm9Q',
+                'https://www.youtube.com/channel/UC_Q1vhf7wcR_zGlc5ahAg0A',
                 RssChannel::TYPE_YOUTUBE,
             ],
             [
