@@ -222,7 +222,7 @@ class Game extends ActiveRecord {
             'title' => 'Название игры',
             'description' => 'Описание',
             'series' => 'Серия игр',
-            'series_id' => 'Серия игр (NEW)',
+            'series_id' => 'Серия игр',
             'release_date' => 'Дата выхода',
             'publish_at' => 'Опубликовать игру',
             'published' => 'Опубликовано',

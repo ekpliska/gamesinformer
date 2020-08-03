@@ -62,7 +62,7 @@ class GameController extends Controller {
                         $release_model->date_platform_release = $item['date_platform_release'];
                         $release_model->save();
                     }
-                    if ($model->genres_list) {
+                    if (is_array($model->genres_list) && $model->genres_list) {
                         foreach ($model->genres_list as $genre) {
                             $genre_model = new GameGenre();
                             $genre_model->game_id = $model->id;
@@ -70,7 +70,7 @@ class GameController extends Controller {
                             $genre_model->save();
                         }
                     }
-                    if ($model->series_id) {
+                    if (is_array($model->series_id) && $model->series_id) {
                         $game_series = new GameSeries();
                         $game_series->game_id = $model->id;
                         $game_series->series_id = $model->series_id;
@@ -122,10 +122,10 @@ class GameController extends Controller {
                     Yii::$app->session->setFlash('error', ['message' => 'Извините, при обработке запроса произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз!']);
                     return $this->redirect(Yii::$app->request->referrer);
                 } else {
-                    if ($platform_release) {
-                        if ($model->gamePlatformReleases) {
-                            GamePlatformRelease::deleteAll(['game_id' => $model->id]);
-                        }
+                    if ($model->gamePlatformReleases) {
+                        GamePlatformRelease::deleteAll(['game_id' => $model->id]);
+                    }
+                    if (is_array($platform_release) && count($platform_release) > 0) {
                         foreach ($platform_release as $item) {
                             if ($item['platform_id'] == null || $item['date_platform_release'] == null) {
                                 continue;
@@ -137,10 +137,10 @@ class GameController extends Controller {
                             $release_model->save();
                         }
                     }
-                    if ($model->genres_list) {
-                        if ($model->gameGenres) {
-                            GameGenre::deleteAll(['game_id' => $model->id]);
-                        }
+                    if ($model->gameGenres) {
+                        GameGenre::deleteAll(['game_id' => $model->id]);
+                    }
+                    if (is_array($model->genres_list) && count($model->genres_list) > 0) {
                         foreach ($model->genres_list as $genre) {
                             $genre_model = new GameGenre();
                             $genre_model->game_id = $model->id;

@@ -17,7 +17,7 @@ $this->title = 'GameNotificator: Вход';
                 <a href="mailto:inbox@gamenotificator.net">inbox@gamenotificator.net</a>
             </div>
             <div class="login_page__wrapper__form">
-                <h4>GameNotificator</h4>
+                <h4>GamePlay</h4>
                 <?php 
                     $form = ActiveForm::begin([
                         'id' => 'login-form',

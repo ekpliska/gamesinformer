@@ -21,6 +21,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>

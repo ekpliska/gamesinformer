@@ -15,7 +15,8 @@ class LogController extends Controller {
      */
     public function actionClear() {
         $current_date = new \DateTime('NOW');
-        AppLogs::deleteAll(new Expression(' date(created_at) = date_add(curdate(), INTERVAL - 7 DAY) '));
+        $current_date->add(\DateInterval::createFromDateString('-7 days'));
+        AppLogs::deleteAll(['<=', 'created_at', $current_date->format('Y-m-d H:i:s')]);
     }
 
 }

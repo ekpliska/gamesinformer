@@ -20,7 +20,8 @@ class m201007_211000_add_table__shares extends Migration {
             'description' => $this->text(1000),
             'cover' => $this->string(255),
             'link' => $this->string(255),
-            'date' => $this->dateTime(),
+            'date_start' => $this->dateTime(),
+            'date_end' => $this->dateTime(),
         ], $table_options);
         
         $this->createIndex('ind-shares__id', '{{%shares}}', 'id');
