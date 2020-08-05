@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use common\models\News as NewsBase;
 use api\modules\v3\models\User;
 use common\models\NewsViews;
+use common\models\RssChannel;
 
 class News extends NewsBase {
     
@@ -33,6 +34,9 @@ class News extends NewsBase {
             },
             'is_read' => function() {
                 return in_array($this->id, $this->_news_views) ? true : false;
+            },
+            'is_youtube_news' => function() {
+                return ($this->rss->type == RssChannel::TYPE_YOUTUBE) ? true : false;
             },
         ];
     }

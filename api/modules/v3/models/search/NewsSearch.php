@@ -26,7 +26,7 @@ class NewsSearch extends News {
     public function search($params) {
         
         $rss_ids = [];
-        
+
         $query = News::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -40,20 +40,20 @@ class NewsSearch extends News {
         $query->orderBy(['pub_date' => SORT_DESC]);
 
         if (isset($params['rss_ids'])) {
-            $rss_ids = $this->checkRssIds(Html::encode($params['rss_name']));
+            $rss_ids = $this->checkRssIds($params['rss_ids']);
             $query->where(['in', 'rss_channel_id', $rss_ids]);
         }
         
         return $dataProvider;
     }
     
-    private function getRssIds($params) {
+    private function checkRssIds($params) {
         $rss = [];
         $rss_ids = [];
         $rss_names = [];
         if (count($params) > 0) {
-            $rss_names = explode(',', $params);
-            $rss = RssChannel::find()->where(['IN', 'rss_channel_name', $rss_names])->asArray()->all();
+            $ids_arr = explode(',', $params);
+            $rss = RssChannel::find()->where(['IN', 'id', $ids_arr])->asArray()->all();
             $rss_ids = ArrayHelper::getColumn($rss, 'id');
         }
         return $rss_ids;

@@ -24,8 +24,8 @@ use common\models\News;
  */
 class RssChannel extends ActiveRecord {
     
-    const TYPE_NEWS = '100';
-    const TYPE_YOUTUBE = '101';
+    const TYPE_NEWS = 100;
+    const TYPE_YOUTUBE = 101;
     
     const SCENARIO_FOR_NEWS_RSS = 'for_news_rss';
     const SCENARIO_FOR_YOUTUBE_RSS = 'for_youtube_rss';
