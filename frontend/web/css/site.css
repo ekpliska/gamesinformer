@@ -411,6 +411,7 @@ label.input-checkbox {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 70%;
 }
 .donation-page__footer div:nth-child(2) {
     flex: 1;
