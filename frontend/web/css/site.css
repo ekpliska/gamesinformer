@@ -384,3 +384,13 @@ label.input-checkbox {
     font-weight: 700;
     margin-bottom: 5px;
 }
+
+/* Donation page */
+.donation-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+}
+/* End Donation page */

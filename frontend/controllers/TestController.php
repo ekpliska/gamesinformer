@@ -3,12 +3,9 @@
 namespace frontend\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
-use common\models\TokenPushMobile;
-use common\components\firebasePush\FirebaseNotifications;
 
 /**
- * Site controller
+ * Test controller
  */
 class TestController extends Controller {
 
