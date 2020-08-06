@@ -34,15 +34,16 @@ AppAsset::register($this);
                 <?= Html::img('@web/images/logo.png', ['alt' => 'logo']) ?>
             </div>
             <div>
-                <p>&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
                 <p>
-                    <a href="mailto:inbox@gamenotificator.net">mailto:inbox@gamenotificator.net</a>
+                    &copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>,
+                    <a href="mailto:inbox@gamenotificator.net">inbox@gamenotificator.net</a>
                 </p>
-            </div>
-            <div>
                 <p>
                     <a class="btn btn-vk" href="https://vk.com/gamenotificator" target="_blank">
                         <i class="fab fa-vk"></i>
+                    </a>
+                    <a class="btn btn-vk" href="https://play.google.com/store/apps/details?id=com.gamenotificator" target="_blank">
+                        <i class="fab fa-google-play"></i>
                     </a>
                 </p>
             </div>
