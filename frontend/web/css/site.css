@@ -394,7 +394,7 @@ label.input-checkbox {
     justify-content: center;
     height: 100%;
     overflow: hidden;
-    padding: 0 240px;
+    padding: 0 40px;
 }
 .donation-page h4 {
     color: #fff;
@@ -405,7 +405,6 @@ label.input-checkbox {
     letter-spacing: 1px;
 }
 .donation-page__footer {
-    width: 70%;
     padding-top: 47px;
     font-size: 12px;
     display: flex;
