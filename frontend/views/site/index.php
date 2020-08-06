@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-$this->title = 'GameNotificator';
+$this->title = 'GamePlay';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
