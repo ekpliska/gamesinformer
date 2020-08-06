@@ -73,14 +73,14 @@ class NewsController extends Controller {
             $transaction->commit();
             Yii::$app->session->setFlash('success', ['message' => 'Новости были успешно удалены']);
             return $this->redirect(
-                ($type_rss === RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
+                ($type_rss == RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
             );
         } catch (\Exception $ex) {
             $transaction->rollBack();
         }
 
         return $this->redirect(
-            ($type_rss === RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
+            ($type_rss == RssChannel::TYPE_YOUTUBE) ? '/rss-youtube' : '/news'
         );
 
     }

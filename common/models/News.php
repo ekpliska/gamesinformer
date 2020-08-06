@@ -70,4 +70,12 @@ class News extends ActiveRecord {
                 ->one();
         return $news ? true : false;
     }
+
+    public static function findByLink($link) {
+        $news = self::find()
+            ->where(['link' => $link])
+            ->one();
+        return $news ? true : false;
+    }
+
 }

@@ -27,23 +27,9 @@ class YoutubeController extends Controller {
                     continue;
                 }
                 foreach ($xml->entry as $item) {
-                    $published = new \DateTime($item->published);
-                    $news = new News();
-                    $news->title = (string)$item->title;
-                    $news->link = (string)$item->link->attributes()->href;
-                    $news->rss_channel_id = $rss_channel->id;
-                    $news->pub_date = $published->format('Y-m-d H:i:s');
-                    $media = $item->children('media', true);
-                    foreach ($media as $el) {
-                        $news->description = (string)$el->description;
-                        foreach ($el->thumbnail as $i) {
-                            $news->image = (string)$i->attributes()->url;
-                        }
-                    }
-                    if (!$news->save()) {
+                    if (!$this->createNews($item, $rss_channel->id)) {
                         continue;
                     }
-
                 }
 
             }
@@ -69,27 +55,14 @@ class YoutubeController extends Controller {
                     continue;
                 }
                 foreach ($rss->entry as $item) {
-                    $title_news = $item->title;
-                    if (News::checkNews($title_news)) {
+                    $link_news = (string)$item->link->attributes()->href;
+                    if (News::findByLink($link_news)) {
                         continue;
                     }
 
                     $count_news++;
 
-                    $published = new \DateTime($item->published);
-                    $news = new News();
-                    $news->title = (string)$item->title;
-                    $news->link = (string)$item->link->attributes()->href;
-                    $news->rss_channel_id = $rss_channel->id;
-                    $news->pub_date = $published->format('Y-m-d H:i:s');
-                    $media = $item->children('media', true);
-                    foreach ($media as $el) {
-                        $news->description = (string)$el->description;
-                        foreach ($el->thumbnail as $i) {
-                            $news->image = (string)$i->attributes()->url;
-                        }
-                    }
-                    if (!$news->save()) {
+                    if (!$this->createNews($item, $rss_channel->id)) {
                         continue;
                     }
 
@@ -101,6 +74,27 @@ class YoutubeController extends Controller {
                 }
                 $count_news = 0;
             }
+        }
+    }
+
+    private function createNews($entry, $rss_channel_id) {
+        $published = new \DateTime($entry->published);
+        $news = new News();
+        $news->title = (string)$entry->title;
+        $news->link = (string)$entry->link->attributes()->href;
+        $news->rss_channel_id = $rss_channel_id;
+        $news->pub_date = $published->format('Y-m-d H:i:s');
+        $media = $entry->children('media', true);
+        foreach ($media as $el) {
+            $news->description = (string)$el->description;
+            foreach ($el->thumbnail as $i) {
+                $news->image = (string)$i->attributes()->url;
+            }
+        }
+        if ($news->save()) {
+            return true;
+        } else {
+            return false;
         }
     }
 
