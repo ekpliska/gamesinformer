@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'GameNotificator: Вход';
+$this->title = 'GamePlay: Вход';
 ?>
 
 <div class="login_page">
