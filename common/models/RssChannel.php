@@ -26,7 +26,7 @@ class RssChannel extends ActiveRecord {
     
     const TYPE_NEWS = 100;
     const TYPE_YOUTUBE = 101;
-    
+
     const SCENARIO_FOR_NEWS_RSS = 'for_news_rss';
     const SCENARIO_FOR_YOUTUBE_RSS = 'for_youtube_rss';
 
@@ -69,6 +69,13 @@ class RssChannel extends ActiveRecord {
         return [
             self::TYPE_NEWS => 'RSS новости',
             self::TYPE_YOUTUBE => 'YouTube лента',
+        ];
+    }
+
+    public static function getTypesListApi() {
+        return [
+            self::TYPE_NEWS => 'news',
+            self::TYPE_YOUTUBE => 'youtube',
         ];
     }
 

@@ -12,10 +12,11 @@ class NewsSearch extends News {
 
     public $title;
     public $rss_name;
+    public $type;
 
     public function rules() {
         return [
-            [['title', 'rss_ids'], 'safe'],
+            [['title', 'rss_ids', 'type'], 'safe'],
         ];
     }
 
@@ -26,6 +27,8 @@ class NewsSearch extends News {
     public function search($params) {
         
         $rss_ids = [];
+        $types = RssChannel::getTypesListApi();
+        $type = isset($params['type']) ? $params['type'] : null;
 
         $query = News::find();
         $dataProvider = new ActiveDataProvider([
@@ -38,6 +41,12 @@ class NewsSearch extends News {
         }
         
         $query->orderBy(['pub_date' => SORT_DESC]);
+
+        if (in_array($type, $types)) {
+            $query->joinWith('rss')->where(['type' => array_search($type, $types)]);
+        } else {
+            return $dataProvider;
+        }
 
         if (isset($params['rss_ids'])) {
             $rss_ids = $this->checkRssIds($params['rss_ids']);
