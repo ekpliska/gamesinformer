@@ -19,5 +19,4 @@ echo "
             "&SignatureValue=$crc'>
         </script>
     </html>";
-
 ?>

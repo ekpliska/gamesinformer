@@ -48,7 +48,7 @@ class Game extends ActiveRecord {
     public function rules() {
         return [
             [
-                ['title', 'release_date', 'publish_at', 'youtube', 'youtube_btnlink'],
+                ['title', 'release_date', 'publish_at', 'youtube', 'youtube_btnlink', 'genres_list'],
                 'required',
                 'message' => 'Данное поле должно быть заполнено'],
             [['description'], 'string'],

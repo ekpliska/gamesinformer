@@ -442,4 +442,9 @@ label.input-checkbox {
     opacity: 1;
     color: #fff;
 }
+@media (max-width: 768px) {
+    iframe {
+        width: 374px !important;
+    }
+}
 /* End Donation page */
