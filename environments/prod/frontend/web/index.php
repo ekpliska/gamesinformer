@@ -14,7 +14,4 @@ $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/../config/main-local.php'
 );
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../..');
-$dotenv->load();
-
 (new yii\web\Application($config))->run();
