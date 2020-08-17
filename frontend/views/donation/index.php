@@ -37,8 +37,8 @@
         Если Вам нравится наш проект и Вы хотите побыстрее увидеть что еще мы подготовили для Вас, то можете рассказать о нас своим друзьям или поддержать донатом!
     </h4>
     <?php
-        $mrh_login = $_ENV['mrh_login'];
-        $mrh_pass1 = $_ENV['mrh_pass1'];
+        $mrh_login = "videogames";
+        $mrh_pass1 = "lQ3K4Jd62IacyCCCWq0V";
         $inv_id = 0;
         $inv_desc = "Пожертвование проекту GamePlay";
         $def_sum = "100";
@@ -47,12 +47,12 @@
         echo "
         <html>
             <script language=JavaScript " .
-        "src='https://auth.robokassa.ru/Merchant/PaymentForm/FormFLS.js?" .
-        "MerchantLogin=$mrh_login" .
-        "&DefaultSum=$def_sum" .
-        "&InvoiceID=$inv_id" .
-        "&Description=$inv_desc" .
-        "&SignatureValue=$crc'>
+                "src='https://auth.robokassa.ru/Merchant/PaymentForm/FormFLS.js?" .
+                "MerchantLogin=$mrh_login" .
+                "&DefaultSum=$def_sum" .
+                "&InvoiceID=$inv_id" .
+                "&Description=$inv_desc" .
+                "&SignatureValue=$crc'>
             </script>
         </html>";
     ?>
