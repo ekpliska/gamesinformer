@@ -1,12 +1,11 @@
 <?php
-$mrh_login = "videogames";
-$mrh_pass1 = "JaEn605lZRj6rnvKIyF9";
-$mrh_pass1_test = 'iiomfX21I4ejl2LVh7oH';
+$mrh_login = $_ENV['mrh_login'];
+$mrh_pass1 = $_ENV['mrh_pass1'];
 $inv_id = 0;
 $inv_desc = "Пожертвование проекту GamePlay";
 $def_sum = "100";
 $IsTest = 1;
-$crc = md5("$mrh_login::$inv_id:$mrh_pass1_test");
+$crc = md5("$mrh_login::$inv_id:$mrh_pass1");
 echo "
     <html>
         <script language=JavaScript " .
@@ -15,7 +14,6 @@ echo "
             "&DefaultSum=$def_sum" .
             "&InvoiceID=$inv_id" .
             "&Description=$inv_desc" .
-            "&IsTest=$IsTest" .
             "&SignatureValue=$crc'>
         </script>
     </html>";
