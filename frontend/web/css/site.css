@@ -387,14 +387,11 @@ label.input-checkbox {
 
 /* Donation page */
 .donation-page {
-    background: #000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    overflow: hidden;
-    padding: 0 40px;
+    padding: 60px;
 }
 .donation-page h4 {
     color: #fff;
@@ -442,4 +439,68 @@ label.input-checkbox {
     opacity: 1;
     color: #fff;
 }
+.comp_info p {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+.comp_info > div {
+    color: #fff;
+    font-size: 12px;
+}
+.comp_info > div.row div:nth-child(1) {
+    border-left: 2px solid #2ecc71;
+    margin-bottom: 15px;
+}
+.comp_info > div.row div:nth-child(2) {
+    border-left: 2px solid #f1c40f;
+    margin-bottom: 15px;
+}
+.comp_info > div.row div:nth-child(3) {
+    border-left: 2px solid #3498db;
+    margin-bottom: 15px;
+}
+.comp_info > div.row div:nth-child(4) {
+    border-left: 2px solid #e74c3c;
+    margin-bottom: 15px;
+}
+@media (max-width: 768px) {
+    iframe {
+        width: 374px !important;
+    }
+}
 /* End Donation page */
+
+/* Results page */
+.result-page {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+.result-page__content {
+    position: relative;
+    margin: 0 0 85px;
+}
+.result-page__status {
+    font-size: 100px;
+    color: #7f8c8d;
+}
+.result-ok {
+    color: #2ecc71;
+}
+.result-no {
+    color: #e74c3c;
+}
+.result-page__message {
+    font-size: 28px;
+    color: #7f8c8d;
+}
+/* End Results page */

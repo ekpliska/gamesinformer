@@ -22,32 +22,10 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 </head>
-<body>
+<body style="background-color: #000;">
 <?php $this->beginBody() ?>
-    <div class="donation-page">
-        <h4>
-            Если Вам нравится наш проект и Вы хотите побыстрее увидеть что еще мы подготовили для Вас, то можете рассказать о нас своим друзьям или поддержать донатом!
-        </h4>
+    <div class="wrap">
         <?= $content ?>
-        <div class="donation-page__footer">
-            <div>
-                <?= Html::img('@web/images/logo.png', ['alt' => 'logo']) ?>
-            </div>
-            <div>
-                <p>
-                    &copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>,
-                    <a href="mailto:inbox@gamenotificator.net">inbox@gamenotificator.net</a>
-                </p>
-                <p>
-                    <a class="btn btn-vk" href="https://vk.com/gamenotificator" target="_blank">
-                        <i class="fab fa-vk"></i>
-                    </a>
-                    <a class="btn btn-vk" href="https://play.google.com/store/apps/details?id=com.gamenotificator" target="_blank">
-                        <i class="fab fa-google-play"></i>
-                    </a>
-                </p>
-            </div>
-        </div>
     </div>
 <?php $this->endBody() ?>
 </body>
