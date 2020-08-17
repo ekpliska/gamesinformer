@@ -1,28 +1,6 @@
 <?php
-<<<<<<< HEAD
-$mrh_login = $_ENV['mrh_login'];
-$mrh_pass1 = $_ENV['mrh_pass1'];
-$inv_id = 0;
-$inv_desc = "Пожертвование проекту GamePlay";
-$def_sum = "100";
-$IsTest = 1;
-$crc = md5("$mrh_login::$inv_id:$mrh_pass1");
-echo "
-    <html>
-        <script language=JavaScript " .
-            "src='https://auth.robokassa.ru/Merchant/PaymentForm/FormFLS.js?" .
-            "MerchantLogin=$mrh_login" .
-            "&DefaultSum=$def_sum" .
-            "&InvoiceID=$inv_id" .
-            "&Description=$inv_desc" .
-            "&SignatureValue=$crc'>
-        </script>
-    </html>";
-=======
->>>>>>> 6d62b391b4e397836019cddd82de365b37d3ec86
 
-use yii\helpers\Html;
-
+    use yii\helpers\Html;
 ?>
 <div class="donation-page">
     <div class="comp_info">
@@ -59,14 +37,13 @@ use yii\helpers\Html;
         Если Вам нравится наш проект и Вы хотите побыстрее увидеть что еще мы подготовили для Вас, то можете рассказать о нас своим друзьям или поддержать донатом!
     </h4>
     <?php
-        $mrh_login = "videogames";
-        $mrh_pass1 = "JaEn605lZRj6rnvKIyF9";
-        $mrh_pass1_test = 'iiomfX21I4ejl2LVh7oH';
+        $mrh_login = $_ENV['mrh_login'];
+        $mrh_pass1 = $_ENV['mrh_pass1'];
         $inv_id = 0;
         $inv_desc = "Пожертвование проекту GamePlay";
         $def_sum = "100";
         $IsTest = 1;
-        $crc = md5("$mrh_login::$inv_id:$mrh_pass1_test");
+        $crc = md5("$mrh_login::$inv_id:$mrh_pass1");
         echo "
         <html>
             <script language=JavaScript " .
@@ -75,7 +52,6 @@ use yii\helpers\Html;
         "&DefaultSum=$def_sum" .
         "&InvoiceID=$inv_id" .
         "&Description=$inv_desc" .
-        "&IsTest=$IsTest" .
         "&SignatureValue=$crc'>
             </script>
         </html>";
