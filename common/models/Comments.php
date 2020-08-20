@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  * @property int $game_id
  * @property string $message
  * @property int $user_id
+ * @property int $is_reading
  * @property string|null $created_at
  * @property string|null $updated_at
  *
@@ -26,7 +27,7 @@ class Comments extends ActiveRecord {
     public function rules() {
         return [
             [['game_id', 'message', 'user_id'], 'required'],
-            [['game_id', 'user_id'], 'integer'],
+            [['game_id', 'user_id', 'is_reading'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['message'], 'string', 'max' => 256],
             [['game_id'], 'exist', 'skipOnError' => true, 'targetClass' => Game::className(), 'targetAttribute' => ['game_id' => 'id']],

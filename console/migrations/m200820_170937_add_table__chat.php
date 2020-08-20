@@ -27,6 +27,7 @@ class m200820_170937_add_table__chat extends Migration {
             'chat_room_id' => $this->integer()->notNull(),
             'message' => $this->string(256)->notNull(),
             'user_id' => $this->integer()->notNull(),
+            'is_reading' => $this->tinyInteger()->defaultValue(0),
             'created_at' => $this->dateTime()->defaultValue(new Expression("NOW()")),
             'updated_at' => $this->dateTime()->defaultValue(new Expression("NOW()")),
         ], $table_options);

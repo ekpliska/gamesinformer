@@ -54,7 +54,13 @@ AppAsset::register($this);
         ],
         ['label' => 'Реклама', 'url' => ['/advertising/index']],
         ['label' => 'Халява', 'url' => ['/shares/index']],
-        ['label' => 'Пользователи', 'url' => ['/user/index']],
+        ['label' => 'Общение',
+            'items' => [
+                ['label' => 'Пользователи', 'url' => '/user/index'],
+                ['label' => 'Комментарии к играм', 'url' => '/comments/index'],
+//                ['label' => 'Чат', 'url' => '/rss-youtube/index'],
+            ]
+        ],
         ['label' => 'Логи', 'url' => ['/logs/index']],
     ];
     if (Yii::$app->user->isGuest) {

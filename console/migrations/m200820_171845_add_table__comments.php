@@ -21,6 +21,7 @@ class m200820_171845_add_table__comments extends Migration {
             'game_id' => $this->integer()->notNull(),
             'message' => $this->string(256)->notNull(),
             'user_id' => $this->integer()->notNull(),
+            'is_reading' => $this->tinyInteger()->defaultValue(0),
             'created_at' => $this->dateTime()->defaultValue(new Expression("NOW()")),
             'updated_at' => $this->dateTime()->defaultValue(new Expression("NOW()")),
         ], $table_options);
