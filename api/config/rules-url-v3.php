@@ -111,4 +111,12 @@ return [
             'GET /' => 'index',
         ]
     ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v3/comments',
+        'pluralize' => false,
+        'extraPatterns' => [
+            'POST /create' => 'create',
+        ]
+    ],
 ];
