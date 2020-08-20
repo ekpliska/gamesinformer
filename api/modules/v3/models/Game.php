@@ -31,6 +31,9 @@ class Game extends GameBase {
             'is_favorite' => function() {
                 return $this->isFavorite();
             },
+            'comments' => function() {
+                return $this->getCommentsList();
+            },
         ];
     }
     

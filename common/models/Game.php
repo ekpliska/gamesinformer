@@ -6,6 +6,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use common\models\TokenPushMobile;
 use common\models\Favorite;
+use common\models\Comments;
 
 /**
  * Игры
@@ -124,6 +125,13 @@ class Game extends ActiveRecord {
         return $this->hasMany(GameSeries::className(), ['game_id' => 'id']);
     }
     
+    /**
+     * Связь комментариями
+     */
+    public function getComments() {
+        return $this->hasMany(Comments::className(), ['game_id' => 'id']);
+    }
+    
     public function getGenresList() {
         $genres = $this->gameGenres;
         return ArrayHelper::getColumn($genres, function($item) {
@@ -182,6 +190,27 @@ class Game extends ActiveRecord {
                 $result[] = [
                     'id' => $gener->genre->id,
                     'name' => $gener->genre->name_genre
+                ];
+            }
+        }
+        return $result;
+    }
+    
+    public function getCommentsList() {
+        $comments = $this->comments;
+        $result = [];
+        if ($comments) {
+            foreach ($comments as $comment) {
+                $result[] = [
+                    'id' => $comment->id,
+                    'message' => $comment->message,
+                    'user' => [
+                        'username' => $comment->user->username,
+                        'email' => $comment->user->email,
+                        'photo' => $comment->user->photo,
+                    ],
+                    'created_at' => $comment->created_at,
+                    'updated_at' => $comment->updated_at,
                 ];
             }
         }

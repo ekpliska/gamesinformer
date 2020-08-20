@@ -34,9 +34,9 @@ class CreateComment extends Model {
     public function checkGame($attribute, $param) {
         
         if (!$this->hasErrors()) {
-            $game = Game::findOne(['id' => $this->$attribute]);
+            $game = Game::find()->where(['AND', ['id' => $this->$attribute], ['published' => true]])->one();
             if (!$game) {
-                $this->addError($attribute, 'Указанная игра не существует');
+                $this->addError($attribute, 'Указанная игра не существует или еще не опубликована');
             }
         }
     }
