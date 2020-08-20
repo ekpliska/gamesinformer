@@ -15,10 +15,10 @@ class CommentsController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index'],
+                'only' => ['index', 'view'],
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -27,9 +27,15 @@ class CommentsController extends Controller {
         ];
     }
 
-    public function actionIndex() {
+    public function actionIndex($game_id = null) {
+        $chat_game = Comments::find()->groupBy('game_id')->all();
+        $default_game_id = ($game_id == null && count($chat_game) > 0) ? $chat_game[0]->game->id : $game_id;
+        $comments = Comments::findOne(['game_id' => $default_game_id]);
         
-        return $this->render('index');
+        return $this->render('index', [
+            'chat_game' => $chat_game,
+            'comments' => $comments
+        ]);
     }
     
 }
