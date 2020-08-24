@@ -42,24 +42,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     Комментарии к игре: <?= $comments->game->title ?>
                 </div>
                 <div class="panel-body">
-                    <?php foreach ($chat_game as $chat) : ?>
+                    <?php foreach ($comments as $comment) : ?>
                         <div class="message_chat">
                             <div class="message_chat__photo">
                                 <img 
-                                    src="<?= $chat->user->photo ? 'http://api.gamenotificator.net' . $chat->user->photo : 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' ?>" 
+                                    src="<?= $comment->user->photo ? 'http://api.gamenotificator.net' . $comment->user->photo : 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' ?>" 
                                     alt="avatar">
                             </div>
                             <div class="message_chat__content">
                                 <div class="message_chat__content_username">
-                                    <?= $chat->user->username ?> | <?= $chat->created_at ?>
+                                    <?= $comment->user->username ?> | <?= $comment->created_at ?>
                                 </div>
                                 <div class="message_chat__content_message">
-                                    <?= $chat->message ?>
+                                    <?= $comment->message ?>
                                 </div>
                             </div>
                             <div class="message_chat__control">
                                 <?= 
-                                    Html::a('<span class="glyphicon glyphicon-trash"></span>', ['comments/delete', 'id' => $chat->id])
+                                    Html::a('<span class="glyphicon glyphicon-trash"></span>', ['comments/delete', 'id' => $comment->id])
                                 ?>
                             </div>
                         </div>
