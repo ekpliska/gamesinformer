@@ -5,7 +5,6 @@ use yii\helpers\Html;
 $this->title = 'Комментарии к играм';
 $this->params['breadcrumbs'][] = $this->title;
 $get_game_id = isset(Yii::$app->controller->actionParams['game_id']) ? Yii::$app->controller->actionParams['game_id'] : null;
-var_dump($get_game_id); 
 ?>
 
 <div class="comments-index">
