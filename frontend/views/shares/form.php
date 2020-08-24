@@ -47,13 +47,13 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'image_cover')->input('file')->label() ?>
                 <?= $form->field($model, 'date_start')
                         ->textInput([
-                            'type' => 'date', 
+                            'type' => 'datetime-local', 
                             'value' => $model->isNewRecord ? date('Y-m-d', strtotime('now')) : date('Y-m-d', strtotime($model->date_start))
                         ]); 
                 ?>
                 <?= $form->field($model, 'date_end')
                         ->textInput([
-                            'type' => 'date', 
+                            'type' => 'datetime-local', 
                             'value' => $model->isNewRecord ? date('Y-m-d', strtotime('now')) : date('Y-m-d', strtotime($model->date_end))]); 
                 ?>
             </div>
