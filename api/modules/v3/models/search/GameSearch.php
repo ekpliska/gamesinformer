@@ -15,12 +15,14 @@ class GameSearch extends Game {
 
     public $platforms;
     public $geners;
+    public $mode;
 
     public function rules() {
         return [
             [[
                 'title', 'series',
-                'platforms', 'geners'
+                'platforms', 'geners',
+                'mode',
             ], 'safe'],
         ];
     }
@@ -44,7 +46,9 @@ class GameSearch extends Game {
             return $dataProvider;
         }
         
-        $query->where(['published' => true]);
+        if (!isset($params['mode'])) {
+            $query->where(['published' => true]);
+        }
 
         if (isset($params['title'])) {
             $query->andFilterWhere(['like', 'title', $params['title']]);
