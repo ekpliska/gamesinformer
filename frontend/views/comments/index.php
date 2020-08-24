@@ -4,6 +4,8 @@ use yii\helpers\Html;
 
 $this->title = 'Комментарии к играм';
 $this->params['breadcrumbs'][] = $this->title;
+$get_game_id = isset(Yii::$app->controller->actionParams['game_id']) ? Yii::$app->controller->actionParams['game_id'] : null;
+var_dump($get_game_id); 
 ?>
 
 <div class="comments-index">
@@ -21,9 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body">
                     <ul class="list-group">
                         <?php if (count($chat_game) > 0) : ?>
-                            <?php foreach ($chat_game as $game) : ?>
-                                <li class="list-group-item">
-                                    <?= Html::a($game->game->title, ['comments/index', 'game_id' => $game->game->id]) ?>
+                            <?php foreach ($chat_game as $key => $game) : ?>
+                                <li class="list-group-item chat <?= ($key == 0 && $get_game_id == null) ? 'active' : ($get_game_id == $game->game_id) ? 'active' : '' ?>">
+                                    <?= Html::a($game->game->title, ['comments/index', 'game_id' => $game->game_id]) ?>
                                 </li>
                             <?php endforeach; ?>
                         <?php else: ?>

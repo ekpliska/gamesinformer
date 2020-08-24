@@ -544,4 +544,7 @@ label.input-checkbox {
 .message_chat__control {
     width: 20px;
 }
+.list-group-item.chat.active a, .list-group-item.chat.active:hover a {
+    color: #FFF;
+}
 /* End Chat message */

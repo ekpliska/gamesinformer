@@ -30,7 +30,10 @@ class CommentsController extends Controller {
     public function actionIndex($game_id = null) {
         $chat_game = Comments::find()->groupBy('game_id')->all();
         $default_game_id = ($game_id == null && count($chat_game) > 0) ? $chat_game[0]->game->id : $game_id;
-        $comments = Comments::find()->where(['game_id' => $default_game_id])->all();
+        $comments = Comments::find()
+                ->where(['game_id' => $default_game_id])
+                ->orderBy(['created_at' => SORT_ASC])
+                ->all();
         return $this->render('index', [
             'chat_game' => $chat_game,
             'comments' => $comments
