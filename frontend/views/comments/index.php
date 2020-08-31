@@ -25,6 +25,7 @@ $get_game_id = isset(Yii::$app->controller->actionParams['game_id']) ? Yii::$app
                             <?php foreach ($chat_game as $key => $game) : ?>
                                 <li class="list-group-item chat <?= ($key == 0 && $get_game_id == null) ? 'active' : ($get_game_id == $game->game_id) ? 'active' : '' ?>">
                                     <?= Html::a($game->game->title, ['comments/index', 'game_id' => $game->game_id]) ?>
+                                    <span class="badge"><?= count($game->comments) ?></span>
                                 </li>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -39,11 +40,11 @@ $get_game_id = isset(Yii::$app->controller->actionParams['game_id']) ? Yii::$app
         <div class="col-md-9">
             <div class="panel panel-default">
             <?php if (count($comments) > 0) : ?>
+                <div class="panel-heading">
+                    Комментарии к игре: <span class="badge"><?= count($comments) ?></span>
+                </div>
                 <div class="panel-body">
                     <?php foreach ($comments as $comment) : ?>
-                        <div class="panel-heading">
-                            Комментарии к игре: <?= $comment->game->title ?>
-                        </div>
                         <div class="message_chat">
                             <div class="message_chat__photo">
                                 <img 
