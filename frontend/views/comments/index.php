@@ -39,11 +39,11 @@ $get_game_id = isset(Yii::$app->controller->actionParams['game_id']) ? Yii::$app
         <div class="col-md-9">
             <div class="panel panel-default">
             <?php if (count($comments) > 0) : ?>
-                <div class="panel-heading">
-                    Комментарии к игре: <?= $comments->game->title ?>
-                </div>
                 <div class="panel-body">
                     <?php foreach ($comments as $comment) : ?>
+                        <div class="panel-heading">
+                            Комментарии к игре: <?= $comment->game->title ?>
+                        </div>
                         <div class="message_chat">
                             <div class="message_chat__photo">
                                 <img 
