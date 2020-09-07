@@ -58,6 +58,7 @@ class User extends UserBase {
                     'gameGenres' => $game->getGameGenresList(),
                     'gamePlatformReleases' => $game->getGamePlatformReleasesList(),
                     'is_favorite' => true,
+                    'comments' => $game->getCommentsList(),
                 ];
             }
         }

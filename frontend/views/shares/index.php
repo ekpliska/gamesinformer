@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <div class="row">
         <div class="col-md-12">
-            <time datetime="<дата и время>">текст</time>
             <?=
                 ListView::widget([
                     'dataProvider' => $data_provider,

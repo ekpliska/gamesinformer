@@ -44,11 +44,12 @@ use yii\widgets\ActiveForm;
                         ?>
                     </div>
                 <?php endif; ?>
+                <?= date('Y-m-dTH:i', strtotime($model->date_start)) ?>
                 <?= $form->field($model, 'image_cover')->input('file')->label() ?>
                 <?= $form->field($model, 'date_start')
                         ->textInput([
                             'type' => 'datetime-local', 
-                            'value' => $model->isNewRecord ? date('Y-m-d', strtotime('now')) : date('Y-m-d', strtotime($model->date_start))
+                            'value' => $model->isNewRecord ? date('Y-m-d', strtotime('now')) : date('Y-m-dTH:i', strtotime($model->date_start))
                         ]); 
                 ?>
                 <?= $form->field($model, 'date_end')
