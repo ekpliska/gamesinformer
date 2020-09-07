@@ -93,4 +93,12 @@ class NewsController extends Controller {
         return $this->redirect('/news');
     }
     
+    public function actionDeleteNews($id) {
+        if (!News::findOne($id)->delete()) {
+            Yii::$app->session->setFlash('error', ['message' => 'Ошибка удаления новости']);
+        }
+        Yii::$app->session->setFlash('success', ['message' => 'Новость была успешно удалена']);
+        return $this->redirect('/news');
+    }
+    
 }
