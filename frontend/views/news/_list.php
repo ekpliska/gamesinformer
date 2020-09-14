@@ -21,7 +21,7 @@ $index++;
     <span class="rss_channel"><?= $model->rss->rss_channel_name ?></span>
     <span class="remove_news">
         <?=
-            Html::a('<span class="glyphicon glyphicon-remove"></span>' , ['news/delete-news', 'id' => $model->id]);
+            Html::a('<span class="glyphicon glyphicon-remove"></span>' , ['news/delete-news', 'id' => $model->id, 'type' => 'news']);
         ?>
     </span>
 </div>
