@@ -36,6 +36,7 @@ class Series extends SeriesBase {
                             'gamePlatformReleases' => $item->game->getGamePlatformReleasesList(),
                             'is_favorite' => $item->game->isFavorite(),
                             'comments' => $item->game->getCommentsList(),
+                            'is_aaa' => $item->game->is_aaa,
                         ];
                     }
                 }

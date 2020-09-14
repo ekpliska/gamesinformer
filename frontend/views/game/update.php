@@ -51,11 +51,9 @@ $this->params['breadcrumbs'][] = 'Просмотр';
             ?>
             
             <?= $form->field($model, 'description')->textarea(['rows' => 15]) ?>
-            <?=
-                $form->field($model, 'published')->checkbox([
-                    'template' => '<div class="col-md-1">{label}</div><div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>'
-                ])
-            ?>
+            <?= $form->field($model, 'published')->checkbox() ?>
+            
+            <?= $form->field($model, 'is_aaa')->checkbox() ?>
             
             <?= $form->field($model, 'publish_at')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->publish_at))]); ?>
 

@@ -22,6 +22,7 @@ use common\models\Comments;
  * @property string|null $website
  * @property string $youtube
  * @property string $youtube_btnlink
+ * @property int $is_aaa
  * @property string|null $twitch
  * @property string|null $created_at
  * @property string|null $updated_at
@@ -54,7 +55,7 @@ class Game extends ActiveRecord {
                 'message' => 'Данное поле должно быть заполнено'],
             [['description'], 'string'],
             [['release_date', 'publish_at', 'created_at', 'updated_at'], 'safe'],
-            [['published'], 'integer'],
+            [['published', 'is_aaa'], 'integer'],
             [['title'], 'string', 'max' => 170],
             [['series', 'cover', 'website', 'youtube', 'youtube_btnlink', 'twitch'], 'string', 'max' => 255],
             [
@@ -263,7 +264,8 @@ class Game extends ActiveRecord {
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
             'genres_list' => '',
-            'cover_file' => 'Обложка'
+            'cover_file' => 'Обложка',
+            'is_aaa' => 'AAA',
         ];
     }
     

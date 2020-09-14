@@ -49,6 +49,7 @@ class Genre extends GenreBase {
                             'gameGenres' => $item->game->getGameGenresList(),
                             'gamePlatformReleases' => $item->game->getGamePlatformReleasesList(),
                             'is_favorite' => $item->game->isFavorite(),
+                            'is_aaa' => $item->game->is_aaa,
                         ];
                     }
                 }
