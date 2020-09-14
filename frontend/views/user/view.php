@@ -1,3 +1,10 @@
+<?php
+
+$this->title = 'Профиль пользователя';
+$this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['users/index']];
+$this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username : $user->email];
+?>
+
 <div class="container bootstrap snippet">
     <div class="row">
         <div class="col-sm-12">
