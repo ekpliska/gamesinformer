@@ -582,3 +582,16 @@ label.input-checkbox {
     color: #FFF;
 }
 /* End Chat message */
+
+/* User Profile */
+.list-group-item.setting-tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#favorite,
+.comments-game {
+    max-height: 640px;
+    overflow: auto;
+}
+/* End User Profile */

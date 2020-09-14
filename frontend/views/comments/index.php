@@ -19,7 +19,7 @@ $get_game_id = isset(Yii::$app->controller->actionParams['game_id']) ? Yii::$app
                 <div class="panel-heading">
                     Игры
                 </div>
-                <div class="panel-body">
+                <div class="panel-body comments-game">
                     <ul class="list-group">
                         <?php if (count($chat_game) > 0) : ?>
                             <?php foreach ($chat_game as $key => $game) : ?>
@@ -42,7 +42,7 @@ $get_game_id = isset(Yii::$app->controller->actionParams['game_id']) ? Yii::$app
                 <div class="panel-heading">
                     Комментарии к игре: <span class="badge"><?= count($comments) ?></span>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body comments-game">
                     <?php foreach ($comments as $comment) : ?>
                         <div class="message_chat">
                             <div class="message_chat__photo">

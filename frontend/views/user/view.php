@@ -42,6 +42,8 @@
         <div class="col-sm-9">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">Общее</a></li>
+                <li><a data-toggle="tab" href="#favorite">Избранное</a></li>
+                <li><a data-toggle="tab" href="#settings">Настройки</a></li>
             </ul>
 
             <div class="tab-content">
@@ -63,6 +65,35 @@
                             <?= $user->email ?>
                         </p>
                     </div>
+                </div>
+                <div class="tab-pane fade" id="favorite">
+                    <ul class="list-group">
+                        <?php if (count($user->userFavorite) > 0) : ?>
+                            <?php foreach ($user->userFavorite as $game) : ?>
+                                <li class="list-group-item">
+                                    <?= $game->game->title ?>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            Избранное отсутствует.
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="settings">
+                    <ul class="list-group">
+                        <li class="list-group-item setting-tab">
+                            Время оповещений
+                            <span class="label label-info">
+                                <?= $user->time_alert ? Yii::$app->formatter->asTime($user->time_alert, 'short') : 'Не указано' ?>
+                            </span>
+                        </li>
+                        <li class="list-group-item setting-tab">
+                            Уведомления о выходе AAA-игр 
+                            <span class="label <?= $user->aaa_notifications ? 'label-success' : 'label-warning' ?>">
+                                <?= $user->aaa_notifications ? 'ВКЛ' : 'ВЫКЛ' ?>
+                            </span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
