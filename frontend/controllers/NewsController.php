@@ -33,7 +33,7 @@ class NewsController extends Controller {
 
     public function actionIndex() {
 
-        $rss_list = RssChannel::find()->where(['type' => RssChannel::TYPE_NEWS])->all();
+        $rss_list = RssChannel::find()->where(['type' => RssChannel::TYPE_NEWS])->orderBy('id')->all();
         $data_provider = new ActiveDataProvider([
             'query' => News::find()->joinWith('rss')->where(['type' => RssChannel::TYPE_NEWS])->orderBy('pub_date DESC'),
             'pagination' => [
@@ -93,15 +93,18 @@ class NewsController extends Controller {
         return $this->redirect('/news');
     }
     
-    public function actionDeleteNews($id, $type = 'news') {
-        if (!News::findOne($id)->delete()) {
-            Yii::$app->session->setFlash('error', ['message' => 'Ошибка удаления новости']);
+    public function actionBlock($id) {
+        $news = News::findOne($id);
+        if (!$news) {
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        Yii::$app->session->setFlash('success', ['message' => 'Новость была успешно удалена']);
+        
+//        var_dump($news->is_block);
+        
+        $news->is_block = $news->is_block ? 0 : 1;
+        $news->save(false);
 
-        return $this->redirect(
-            ($type == 'rss-youtube') ? '/rss-youtube' : '/news'
-        );
+        return $this->redirect(Yii::$app->request->referrer);
     }
     
 }

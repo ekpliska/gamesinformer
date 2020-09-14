@@ -15,6 +15,7 @@ use common\models\NewsViews;
  * @property string $image
  * @property string $link
  * @property int $rss_channel_id
+ * @property int $is_block
  *
  * @property RssChannel $id0
  */
@@ -29,7 +30,7 @@ class News extends ActiveRecord {
             [['title', 'description', 'pub_date', 'link', 'rss_channel_id'], 'required'],
             [['description'], 'string'],
             [['pub_date'], 'safe'],
-            [['rss_channel_id'], 'integer'],
+            [['rss_channel_id', 'is_block'], 'integer'],
             [['title', 'image', 'link'], 'string', 'max' => 255],
             [['rss_channel_id'], 'exist', 'skipOnError' => true, 'targetClass' => RssChannel::className(), 'targetAttribute' => ['rss_channel_id' => 'id']],
         ];
@@ -53,6 +54,7 @@ class News extends ActiveRecord {
             'image' => 'Image',
             'link' => 'Link',
             'rss_channel_id' => 'Rss Channel ID',
+            'is_block' => 'Is Block',
         ];
     }
 
