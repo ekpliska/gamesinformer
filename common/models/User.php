@@ -17,7 +17,10 @@ use yii\web\IdentityInterface;
  * @property string|null $photo
  * @property string|null $created_at
  * @property string|null $updated_at
+ * @property string|null $time_alert
  * @property int $status
+ * @property int $aaa_notifications
+ * 
  *
  * @property UserPlatform[] $userPlatforms
  */
@@ -35,8 +38,8 @@ class User extends ActiveRecord implements IdentityInterface {
     {
         return [
             [['password_hash', 'email', 'token'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['status'], 'integer'],
+            [['created_at', 'updated_at', 'time_alert'], 'safe'],
+            [['status', 'aaa_notifications'], 'integer'],
             [['username', 'password_hash', 'photo'], 'string', 'max' => 255],
             [['auth_key', 'token'], 'string', 'max' => 32],
             [['email'], 'string', 'max' => 70],
@@ -93,6 +96,8 @@ class User extends ActiveRecord implements IdentityInterface {
             'created_at' => 'Зарегистрирован',
             'updated_at' => 'Профиль обновлен',
             'status' => 'Статус',
+            'time_alert' => 'Время оповещений',
+            'aaa_notifications' => 'Уведомления о выходе AAA-игр',
         ];
     }
 

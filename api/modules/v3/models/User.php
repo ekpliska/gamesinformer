@@ -29,6 +29,8 @@ class User extends UserBase {
                 }
                 return $result;
             },
+            'time_alert',
+            'aaa_notifications',
         ];
     }
 

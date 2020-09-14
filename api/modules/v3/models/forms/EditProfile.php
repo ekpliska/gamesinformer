@@ -18,6 +18,8 @@ class EditProfile extends Model {
     public $username;
     public $photo;
     public $platforms = [];
+    public $time_alert;
+    public $aaa_notifications;
     private $_user;
 
     public function __construct(User $user, $config = []) {
@@ -30,7 +32,9 @@ class EditProfile extends Model {
             ['username', 'string', 'max' => 70],
             ['photo', 'safe'],
             ['photo', 'checkBase64'],
-            ['platforms', 'safe']
+            ['platforms', 'safe'],
+            ['aaa_notifications', 'integer'],
+            ['time_alert', 'date', 'format' => 'H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
 
@@ -67,6 +71,8 @@ class EditProfile extends Model {
             }
         }
         $user->username = $this->username;
+        $user->time_alert = $this->time_alert;
+        $user->aaa_notifications = $this->aaa_notifications;
 
         return $user->save(false) ? true : false;
     }
