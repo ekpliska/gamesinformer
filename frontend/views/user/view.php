@@ -101,9 +101,9 @@ $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username :
                                 <span>Дни недели</span>
                                 <?php if (is_array($days_of_week) && count($days_of_week) > 0) : ?>
                                     <div>
-                                        <?php for ($i = 0; $i <= count($days_of_week); $i++) : ?>
-                                        <span class="badge" style="background-color: #337ab7;"><?= $days_of_week[$i] ?></span>
-                                        <?php endfor; ?>
+                                        <?php foreach ($days_of_week as $day) : ?>
+                                        <span class="badge" style="background-color: #337ab7;"><?= $day ?></span>
+                                        <?php endforeach; ?>
                                     </div>
                                 <?php else : ?>
                                     <span>Не указано</span>
