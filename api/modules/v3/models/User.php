@@ -29,7 +29,11 @@ class User extends UserBase {
                 }
                 return $result;
             },
+            'is_time_alert',
             'time_alert',
+            'days_of_week' => function() {
+                return json_decode($this->days_of_week);
+            },
             'aaa_notifications',
         ];
     }

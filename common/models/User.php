@@ -18,6 +18,8 @@ use yii\web\IdentityInterface;
  * @property string|null $created_at
  * @property string|null $updated_at
  * @property string|null $time_alert
+ * @property int $is_time_alert
+ * @property string|null $days_of_week
  * @property int $status
  * @property int $aaa_notifications
  * 
@@ -29,6 +31,8 @@ class User extends ActiveRecord implements IdentityInterface {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 1;
+    
+    const DAYS_OF_WEEK = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
     public static function tableName() {
         return 'user';
@@ -39,9 +43,10 @@ class User extends ActiveRecord implements IdentityInterface {
         return [
             [['password_hash', 'email', 'token'], 'required'],
             [['created_at', 'updated_at', 'time_alert'], 'safe'],
-            [['status', 'aaa_notifications'], 'integer'],
+            [['status', 'aaa_notifications', 'is_time_alert'], 'integer'],
             [['username', 'password_hash', 'photo'], 'string', 'max' => 255],
             [['auth_key', 'token'], 'string', 'max' => 32],
+            [['days_of_week'], 'string', 'max' => 70],
             [['email'], 'string', 'max' => 70],
             [['email'], 'unique'],
             [['token'], 'unique'],
@@ -98,6 +103,8 @@ class User extends ActiveRecord implements IdentityInterface {
             'status' => 'Статус',
             'time_alert' => 'Время оповещений',
             'aaa_notifications' => 'Уведомления о выходе AAA-игр',
+            'is_time_alert' => 'Оповещения по дням недели',
+            'days_of_week' => 'Дни недели',
         ];
     }
 

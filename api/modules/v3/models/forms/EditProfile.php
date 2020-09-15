@@ -20,6 +20,8 @@ class EditProfile extends Model {
     public $platforms = [];
     public $time_alert;
     public $aaa_notifications;
+    public $is_time_alert;
+    public $days_of_week;
     private $_user;
 
     public function __construct(User $user, $config = []) {
@@ -32,8 +34,8 @@ class EditProfile extends Model {
             ['username', 'string', 'max' => 70],
             ['photo', 'safe'],
             ['photo', 'checkBase64'],
-            ['platforms', 'safe'],
-            ['aaa_notifications', 'integer'],
+            [['platforms', 'days_of_week'], 'safe'],
+            [['aaa_notifications', 'is_time_alert'], 'integer'],
             ['time_alert', 'date', 'format' => 'H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
@@ -71,10 +73,28 @@ class EditProfile extends Model {
             }
         }
         $user->username = $this->username;
+        $user->is_time_alert = $this->is_time_alert;
         $user->time_alert = $this->time_alert;
+        
+        $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
+            
         $user->aaa_notifications = $this->aaa_notifications;
 
         return $user->save(false) ? true : false;
+    }
+    
+    private function checkDaysOfWeek($array) {
+        $result = [];
+        if (is_array($array) && count($array) > 0) {
+            for ($i = 0; $i <= count($array); $i++) {
+                if (in_array($array[$i], User::DAYS_OF_WEEK)) {
+                    $result[] = $array[$i];
+                }
+            }
+            return json_encode($result, JSON_UNESCAPED_UNICODE);
+        } else {
+            return null;
+        }
     }
 
     private function uploadImage($base64_string, $user_id) {

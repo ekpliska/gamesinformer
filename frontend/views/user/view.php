@@ -1,5 +1,7 @@
 <?php
 
+$days_of_week = json_decode($user->days_of_week);
+
 $this->title = 'Профиль пользователя';
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['user/index']];
 $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username : $user->email];
@@ -88,11 +90,32 @@ $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username :
                 </div>
                 <div class="tab-pane fade" id="settings">
                     <ul class="list-group">
-                        <li class="list-group-item setting-tab">
-                            Время оповещений
-                            <span class="label label-info">
-                                <?= $user->time_alert ? Yii::$app->formatter->asTime($user->time_alert, 'short') : 'Не указано' ?>
-                            </span>
+                        <li class="list-group-item setting-notice-tab">
+                            <div class="item">
+                                <span>Оповещения</span>
+                                <span class="label <?= $user->is_time_alert ? 'label-info' : 'label-default' ?>">
+                                    <?= $user->is_time_alert ? 'ВКЛ' : 'ВЫКЛ' ?>
+                                </span>
+                            </div>
+                            <div class="item">
+                                <span>Дни недели</span>
+                                <?php if (is_array($days_of_week) && count($days_of_week) > 0) : ?>
+                                    <div>
+                                        <?php for ($i = 0; $i <= count($days_of_week); $i++) : ?>
+                                        <span class="badge" style="background-color: #337ab7;"><?= $days_of_week[$i] ?></span>
+                                        <?php endfor; ?>
+                                    </div>
+                                <?php else : ?>
+                                    <span>Не указано</span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="item">
+                                <span>Время</span>
+                                <span class="label label-info">
+                                    <?= $user->time_alert ? Yii::$app->formatter->asTime($user->time_alert, 'short') : 'Не указано' ?>
+                                </span>
+                            </div>
+                             
                         </li>
                         <li class="list-group-item setting-tab">
                             Уведомления о выходе AAA-игр 

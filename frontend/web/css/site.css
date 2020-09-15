@@ -589,6 +589,22 @@ label.input-checkbox {
     align-items: center;
     justify-content: space-between;
 }
+.list-group-item.setting-notice-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+.list-group-item.setting-notice-tab > div.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+}
+.list-group-item.setting-notice-tab > div.item:last-child {
+    border: none;
+}
 #favorite,
 .comments-game {
     max-height: 640px;
