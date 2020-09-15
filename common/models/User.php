@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\FavoriteSeries;
 
 /**
  * This is the model class for table "user".
@@ -114,6 +115,10 @@ class User extends ActiveRecord implements IdentityInterface {
     
     public function getUserFavorite() {
         return $this->hasMany(Favorite::className(), ['user_uid' => 'id']);
+    }
+    
+    public function getUserFavoriteSeries() {
+        return $this->hasMany(FavoriteSeries::className(), ['user_uid' => 'id']);
     }
     
 }

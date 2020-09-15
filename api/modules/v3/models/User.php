@@ -3,6 +3,7 @@
 namespace api\modules\v3\models;
 use yii\helpers\Url;
 use common\models\User as UserBase;
+use api\modules\v3\models\Series;
 
 class User extends UserBase {
 
@@ -67,6 +68,18 @@ class User extends UserBase {
                     'comments' => $game->getCommentsList(),
                     'is_aaa' => $game->game->is_aaa,
                 ];
+            }
+        }
+        return $result;
+    }
+    
+    public function userFavoriteSeriesList() {
+        $favorites = $this->userFavoriteSeries;
+        $result = [];
+        if ($favorites) {
+            foreach ($favorites as $favorite) {
+                $series = Series::find()->where(['id' => $favorite->series_id])->one();
+                $result[] = $series;
             }
         }
         return $result;

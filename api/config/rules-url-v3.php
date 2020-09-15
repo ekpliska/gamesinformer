@@ -119,4 +119,14 @@ return [
             'POST /create' => 'create',
         ]
     ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v3/favorite-series',
+        'pluralize' => false,
+        'extraPatterns' => [
+            'GET /' => 'index',
+            'GET add/<id:[\d-]+>' => 'add',
+            'GET remove/<id:[\d-]+>' => 'remove',
+        ]
+    ],
 ];
