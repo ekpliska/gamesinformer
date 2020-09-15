@@ -36,7 +36,7 @@ class EditProfile extends Model {
             ['photo', 'checkBase64'],
             [['platforms', 'days_of_week'], 'safe'],
             [['aaa_notifications', 'is_time_alert'], 'integer'],
-            ['time_alert', 'time', 'format' => 'H:i', 'message' => 'Неверный формат времени 00:00'],
+            [['time_alert'], 'time', 'format' => 'php:H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
 
