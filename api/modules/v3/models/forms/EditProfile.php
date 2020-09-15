@@ -87,6 +87,9 @@ class EditProfile extends Model {
         $result = [];
         if (is_array($array) && count($array) > 0) {
             for ($i = 0; $i <= count($array); $i++) {
+                var_dump($array[$i]);
+                var_dump(User::DAYS_OF_WEEK);
+                die();
                 if (in_array($array[$i], User::DAYS_OF_WEEK)) {
                     $result[] = $array[$i];
                 }
