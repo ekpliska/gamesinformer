@@ -4,7 +4,7 @@ namespace api\modules\v3\models\forms;
 
 use Yii;
 use yii\base\Model;
-use api\modules\v3\models\User;
+use common\models\User;
 use common\models\Platform;
 use common\models\UserPlatform;
 
