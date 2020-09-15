@@ -76,7 +76,6 @@ class EditProfile extends Model {
         $user->is_time_alert = $this->is_time_alert;
         $user->time_alert = $this->time_alert;
         
-        var_dump($this->checkDaysOfWeek($this->days_of_week)); die();
         $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
             
         $user->aaa_notifications = $this->aaa_notifications;
@@ -87,9 +86,9 @@ class EditProfile extends Model {
     private function checkDaysOfWeek($array) {
         $result = [];
         if (is_array($array) && count($array) > 0) {
-            for ($i = 0; $i <= count($array); $i++) {
-                if (in_array($array[$i], User::DAYS_OF_WEEK)) {
-                    $result[] = $array[$i];
+            foreach ($array as $item) {
+                if (in_array($item, User::DAYS_OF_WEEK)) {
+                    $result[] = $item;
                 }
             }
             return json_encode($result, JSON_UNESCAPED_UNICODE);
