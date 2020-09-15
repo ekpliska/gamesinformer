@@ -9,6 +9,9 @@ class Series extends SeriesBase {
     public function fields() {
         
         return parent::fields() + [
+            'is_favorite' => function() {
+                return $this->isFavorite();
+            },
             'games' => function() {
                 $games = $this->gameSeries;
                 $result = [];
