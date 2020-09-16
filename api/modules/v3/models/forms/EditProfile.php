@@ -64,12 +64,14 @@ class EditProfile extends Model {
         if (!$this->hasErrors()) {
             if (!is_array($this->days_of_week)) {
                 $this->addError($attribute, 'Неверный формат дней недели');
-            } else {
+            } elseif (count($this->days_of_week) > 0) {
                 foreach ($this->days_of_week as $days) {
                     if (!in_array($days, User::DAYS_OF_WEEK)) {
-                        $this->addError($attribute, 'Некорректные данные');
+                        $this->addError($attribute, 'Некорректные дни недели');
                     }
                 }  
+            } else {
+                $this->addError($attribute, 'Не переданы дни недели');
             }
         }
     }
