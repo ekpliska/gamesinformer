@@ -123,6 +123,18 @@ $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username :
                                 <?= $user->aaa_notifications ? 'ВКЛ' : 'ВЫКЛ' ?>
                             </span>
                         </li>
+                        <li class="list-group-item setting-tab">
+                            Уведомления о раздачах 
+                            <span class="label <?= $user->is_shares ? 'label-success' : 'label-warning' ?>">
+                                <?= $user->is_shares ? 'ВКЛ' : 'ВЫКЛ' ?>
+                            </span>
+                        </li>
+                        <li class="list-group-item setting-tab">
+                            Реклама 
+                            <span class="label <?= $user->is_advertising ? 'label-success' : 'label-warning' ?>">
+                                <?= $user->is_advertising ? 'ВКЛ' : 'ВЫКЛ' ?>
+                            </span>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -20,6 +20,8 @@ use common\models\FavoriteSeries;
  * @property string|null $updated_at
  * @property string|null $time_alert
  * @property int $is_time_alert
+ * @property int $is_advertising
+ * @property int $is_shares
  * @property string|null $days_of_week
  * @property int $status
  * @property int $aaa_notifications
@@ -44,14 +46,24 @@ class User extends ActiveRecord implements IdentityInterface {
         return [
             [['password_hash', 'email', 'token'], 'required'],
             [['created_at', 'updated_at', 'time_alert'], 'safe'],
-            [['status', 'aaa_notifications', 'is_time_alert'], 'integer'],
+            [['status', 'aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares'], 'integer'],
             [['username', 'password_hash', 'photo'], 'string', 'max' => 255],
             [['auth_key', 'token'], 'string', 'max' => 32],
             [['days_of_week'], 'string', 'max' => 70],
             [['email'], 'string', 'max' => 70],
             [['email'], 'unique'],
             [['token'], 'unique'],
+            [['aaa_notifications', 'is_shares'], 'default', 'value' => 1],
+            [['is_time_alert', 'is_advertising'], 'default', 'value' => 0],
         ];
+    }
+    
+    public function beforeSave($insert) {
+        if ($this->is_time_alert == 0) {
+            $this->time_alert = null;
+            $this->days_of_week = null;
+        }
+        return parent::beforeSave($insert);
     }
     
     public static function findIdentity($id) {

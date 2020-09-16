@@ -21,6 +21,8 @@ class EditProfile extends Model {
     public $time_alert;
     public $aaa_notifications;
     public $is_time_alert;
+    public $is_advertising;
+    public $is_shares;
     public $days_of_week;
     private $_user;
 
@@ -34,17 +36,25 @@ class EditProfile extends Model {
             ['username', 'string', 'max' => 70],
             ['photo', 'safe'],
             ['photo', 'checkBase64'],
+            ['is_time_alert', 'checkTimeAlert'],
             [['platforms', 'days_of_week'], 'safe'],
-            [['aaa_notifications', 'is_time_alert'], 'integer'],
+            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares'], 'integer'],
             [['time_alert'], 'time', 'format' => 'php:H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
 
     public function checkBase64($attribute, $param) {
-
         if (!$this->hasErrors()) {
             if (!base64_decode($this->photo, true)) {
                 $this->addError($attribute, 'Загружаемое изображение не соотвествует формату base64');
+            }
+        }
+    }
+    
+    public function checkTimeAlert($attribute, $param) {
+        if (!$this->hasErrors()) {
+            if ($this->is_time_alert && ($this->time_alert || $this->days_of_week)) {
+                $this->addError($attribute, 'Для включения опции "О Нас" необходимо указать время и дни недели');
             }
         }
     }

@@ -36,6 +36,8 @@ class User extends UserBase {
                 return json_decode($this->days_of_week);
             },
             'aaa_notifications',
+            'is_shares',
+            'is_advertising',
         ];
     }
 
