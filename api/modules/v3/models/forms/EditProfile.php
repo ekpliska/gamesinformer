@@ -37,6 +37,7 @@ class EditProfile extends Model {
             ['photo', 'safe'],
             ['photo', 'checkBase64'],
             ['is_time_alert', 'checkTimeAlert'],
+            ['days_of_week', 'checkIsDaysOfWeek'],
             [['platforms', 'days_of_week'], 'safe'],
             [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares'], 'integer'],
             [['time_alert'], 'time', 'format' => 'php:H:i', 'message' => 'Неверный формат времени 00:00'],
@@ -53,8 +54,22 @@ class EditProfile extends Model {
     
     public function checkTimeAlert($attribute, $param) {
         if (!$this->hasErrors()) {
-            if ($this->is_time_alert && ($this->time_alert || $this->days_of_week)) {
+            if ($this->is_time_alert && (!isset($this->time_alert) || !isset($this->days_of_week))) {
                 $this->addError($attribute, 'Для включения опции "О Нас" необходимо указать время и дни недели');
+            }
+        }
+    }
+    
+    public function checkIsDaysOfWeek($attribute, $param) {
+        if (!$this->hasErrors()) {
+            if (!is_array($this->days_of_week)) {
+                $this->addError($attribute, 'Неверный формат дней недели');
+            } else {
+                foreach ($this->days_of_week as $days) {
+                    if (!in_array($days, User::DAYS_OF_WEEK)) {
+                        $this->addError($attribute, 'Некорректные данные');
+                    }
+                }  
             }
         }
     }
