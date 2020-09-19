@@ -96,10 +96,6 @@ class FirebaseNotifications extends BaseObject {
             $body['data'] = $options;
         }
         
-        var_dump('$body');
-        var_dump($body);
-        die();
-        
 //        $body = ArrayHelper::merge($body, $options);
         return $this->send($body);
     }
