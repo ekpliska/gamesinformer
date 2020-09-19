@@ -79,18 +79,26 @@ class FirebaseNotifications extends BaseObject {
      * @param array  $options other FCM options https://firebase.google.com/docs/cloud-messaging/http-server-ref#downstream-http-messages-json
      * @return mixed
      */
-    public function sendNotification($tokens = [], $notification, $options = []) {
+    public function sendNotification($tokens = [], $notification, $data_badge, $options = []) {
         $body = [
             'registration_ids' => $tokens,
         ];
-
+        
         if ($notification) {
             $body['notification'] = $notification;
+        }
+
+        if ($data_badge) {
+            $body['notification'] = $data_badge;
         }
 
         if (count($options) > 0) {
             $body['data'] = $options;
         }
+        
+        var_dump('$body');
+        var_dump($body);
+        die();
         
 //        $body = ArrayHelper::merge($body, $options);
         return $this->send($body);

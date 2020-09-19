@@ -1,12 +1,13 @@
 <?php
 
 namespace console\controllers;
-
 use yii\console\Controller;
 use yii\helpers\Html;
+use common\components\notifications\Notifications;
 use common\models\RssChannel;
 use common\models\News;
 use common\models\AppLogs;
+use common\models\User;
 
 /**
  * Новости
@@ -83,7 +84,7 @@ class NewsController extends Controller {
     /**
      * Обновление новостей
      * Для ежедневного запуска с 8 утра до 23:00
-     * каждые 4 часа
+     * каждый час
      */
     public function actionCheck() {
         $arr_context_options = [
@@ -158,6 +159,7 @@ class NewsController extends Controller {
                 $count_news = 0;
             }
         }
+        $this->sendNewsNotification();
     }
 
     /**
@@ -187,6 +189,22 @@ class NewsController extends Controller {
                 $count_news = 0;
             }
         }
+    }
+    
+    private function sendNewsNotification() {
+
+        $current_date = new \DateTime('NOW');
+        $current_day_of_week = User::DAYS_OF_WEEK[ $current_date->format('N') + 1];
+        $current_time = $current_date->format('H:i');
+        
+        $notification = new Notifications(
+                Notifications::NEWS_TYPE, 
+                null, null,
+                ['day' => $current_day_of_week, 'time' => $current_time]
+        );
+        
+        $notification->createNotification();
+        
     }
 
 }

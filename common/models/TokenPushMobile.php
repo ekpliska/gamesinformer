@@ -23,7 +23,7 @@ class TokenPushMobile extends ActiveRecord {
             [['token'], 'string', 'max' => 255],
             [['token'], 'unique'],
             ['enabled', 'integer'],
-            ['is_auth', 'integer'],
+            [['is_auth', 'user_uid'], 'integer'],
         ];
     }
     
@@ -39,9 +39,9 @@ class TokenPushMobile extends ActiveRecord {
         // Если токена не существует то добавляем его в базу
         if (!$push_token) {
             $new_token = new TokenPushMobile();
-//            $new_token->user_uid = Yii::$app->user->id;
             $new_token->token = $_token;
             $new_token->is_auth = $user_id ? 1 : 0;
+            $new_token->user_uid = $user_id;
             return $new_token->save(false) ? true : false;
         } elseif ($push_token && $user_id) {
             $push_token->is_auth = 1;

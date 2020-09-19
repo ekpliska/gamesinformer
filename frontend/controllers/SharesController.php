@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use common\models\Shares;
+use common\components\notifications\Notifications;
 
 /**
  * Shares controller

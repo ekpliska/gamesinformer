@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property string|null $link
  * @property string|null $date_start
  * @property string|null $date_end
+ * @property string $game_list
  */
 class Shares extends ActiveRecord {
 
@@ -36,7 +37,7 @@ class Shares extends ActiveRecord {
             [['type_share'], 'integer'],
             [['description'], 'string'],
             [['date_start', 'date_end'], 'safe'],
-            [['cover', 'link'], 'string', 'max' => 255],
+            [['cover', 'link', 'game_list'], 'string', 'max' => 255],
             [['link'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
             [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
         ];
@@ -87,6 +88,7 @@ class Shares extends ActiveRecord {
             'link' => 'Ссылка',
             'date_start' => 'Дата начала',
             'date_end' => 'Дата окончания',
+            'game_list' => 'Список игр из раздачи',
         ];
     }
 }

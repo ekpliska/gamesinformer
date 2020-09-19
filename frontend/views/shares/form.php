@@ -57,6 +57,9 @@ use yii\widgets\ActiveForm;
                             'value' => $model->isNewRecord ? date('Y-m-d\TH:i', strtotime('now')) : date('Y-m-d\TH:i', strtotime($model->date_end))]); 
                 ?>
             </div>
+            <div class="col-md-12">
+                <?= $form->field($model, 'game_list')->input('text')->label() ?>
+            </div>
         </div>
     </div>
 </div>

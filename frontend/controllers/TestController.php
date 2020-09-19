@@ -13,10 +13,10 @@ class TestController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'update'],
+                'only' => ['index', 'update', 'daily'],
                 'rules' => [
                     [
-                        'actions' => ['daily', 'push'],
+                        'actions' => ['index', 'daily'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -24,11 +24,12 @@ class TestController extends Controller {
             ],
         ];
     }
-
+    
     /**
      * Для теста пушей
      */
     public function actionDaily() {
+        
 //        $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
 //        $tokens = ArrayHelper::getColumn($_tokens, 'token');
 //        $notes = new FirebaseNotifications();
@@ -40,14 +41,4 @@ class TestController extends Controller {
 //        var_dump($result);
     }
 
-    /*
-     * Игры, редактирование
-     */
-
-    public function actionPush() {
-//        $result = TokenPushMobile::send('Состоялся релиз новой игры', 'Название игры');
-//        echo '<pre>';
-//        var_dump($result);
-    }
-    
 }
