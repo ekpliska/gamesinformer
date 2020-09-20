@@ -29,7 +29,7 @@ class TestController extends Controller {
      * Для теста пушей
      */
     public function actionDaily() {
-        
+
 //        $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
 //        $tokens = ArrayHelper::getColumn($_tokens, 'token');
 //        $notes = new FirebaseNotifications();

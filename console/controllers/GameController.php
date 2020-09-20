@@ -65,19 +65,20 @@ class GameController extends Controller {
         $series = $game_series ? $game_series->series : null;
         $type = Notifications::GAME_FAVORITE_TYPE;
         
-        if ($series) {
-            // Если игра релиз и входит в серию
-            $type = Notifications::SERIES_TYPE;
+        if ($series && $game) {
+
+            $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
+            $notification_series->createNotification();
+            
+            $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
+            $notification_game->createNotification();
+            
         } elseif ($game && $game->is_aaa) {
             // Если игра релиз и она AAA
             $type = Notifications::AAA_GAME_TYPE;
-        } else {
-            // Если игра релиз и без серии
-            $type = Notifications::GAME_FAVORITE_TYPE;
+            $notification = new Notifications($type, $game, $series);
+            $notification->createNotification();
         }
-        
-        $notification = new Notifications($type, $game, $series);
-        $notification->createNotification();
         
     }
 

@@ -26,6 +26,7 @@ class Notifications {
     
     private $_type;
     private $_user_ids = [];
+    private $_user_ids_is_send = [];
     private $_game;
     private $_series;
     private $_notification;
@@ -35,6 +36,9 @@ class Notifications {
         $this->_type = $type;
         $this->_game = $game;
         $this->_series = $series;
+        
+        // Формируем список ID пользоватейлей, у которых есть игра в избранном, у игры есть серия, но серия не в избранном
+        $users_ids_by_series = [];
         
         switch ($type) {
             case self::SERIES_TYPE:
@@ -49,8 +53,17 @@ class Notifications {
                 if ($game == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $series является обязательным.');
                 }
+                if ($series != null) {
+                    $favorite_series_list = FavoriteSeries::find()->where(['series_id' => $series->id])->asArray()->all();
+                    $users_ids_by_series = ArrayHelper::getColumn($favorite_series_list, 'user_uid');
+                }
                 $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
-                $this->_user_ids = ArrayHelper::getColumn($favorite_game_list, 'user_uid');
+                
+                if (count($favorite_series_list) > count($favorite_game_list)) {
+                    $this->_user_ids = array_diff($favorite_series_list, $favorite_game_list);
+                } else {
+                    $this->_user_ids = array_diff($favorite_game_list, $favorite_series_list);
+                }
                 $this->_notification = $this->messageByGame();
                 break;
             case self::AAA_GAME_TYPE:
