@@ -30,14 +30,22 @@ class User extends UserBase {
                 }
                 return $result;
             },
-            'is_time_alert',
+            'is_time_alert'function() {
+                return $this->is_time_alert ? true : false;
+            },
             'time_alert',
             'days_of_week' => function() {
                 return json_decode($this->days_of_week);
             },
-            'aaa_notifications',
-            'is_shares',
-            'is_advertising',
+            'aaa_notifications' => function() {
+                return $this->aaa_notifications ? true : false;
+            },
+            'is_shares' => function() {
+                return $this->is_shares ? true : false;
+            },
+            'is_advertising' => function() {
+                return $this->is_advertising ? true : false;
+            },
         ];
     }
 
