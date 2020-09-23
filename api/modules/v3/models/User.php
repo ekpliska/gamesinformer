@@ -30,7 +30,7 @@ class User extends UserBase {
                 }
                 return $result;
             },
-            'is_time_alert'function() {
+            'is_time_alert' => function() {
                 return $this->is_time_alert ? true : false;
             },
             'time_alert',
