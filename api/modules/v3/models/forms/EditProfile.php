@@ -104,10 +104,10 @@ class EditProfile extends Model {
         $user->time_alert = $this->time_alert;
         
         $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
-            
-        $user->aaa_notifications = (int)$this->aaa_notifications;
-        $user->is_shares = (int)$this->is_shares;
-        $user->is_advertising = (int)$this->is_advertising;
+        
+        $user->aaa_notifications = $this->aaa_notifications ? (int)$this->aaa_notifications : $user->aaa_notifications;
+        $user->is_shares = $this->is_shares ? (int)$this->is_shares : $user->is_shares;
+        $user->is_advertising = $this->is_advertising ? (int)$this->is_advertising : $user->is_advertising;
 
         return $user->save(false) ? true : false;
     }
