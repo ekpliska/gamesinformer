@@ -39,7 +39,7 @@ class EditProfile extends Model {
             ['is_time_alert', 'checkTimeAlert'],
             ['days_of_week', 'checkIsDaysOfWeek'],
             [['platforms', 'days_of_week'], 'safe'],
-            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares'], 'integer'],
+            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares'], 'boolean'],
             [['time_alert'], 'time', 'format' => 'php:H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
@@ -100,12 +100,14 @@ class EditProfile extends Model {
             }
         }
         $user->username = $this->username;
-        $user->is_time_alert = $this->is_time_alert;
+        $user->is_time_alert = (int)$this->is_time_alert;
         $user->time_alert = $this->time_alert;
         
         $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
             
-        $user->aaa_notifications = $this->aaa_notifications;
+        $user->aaa_notifications = (int)$this->aaa_notifications;
+        $user->is_shares = (int)$this->is_shares;
+        $user->is_advertising = (int)$this->is_advertising;
 
         return $user->save(false) ? true : false;
     }
