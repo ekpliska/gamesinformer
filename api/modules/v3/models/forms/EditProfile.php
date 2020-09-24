@@ -100,14 +100,25 @@ class EditProfile extends Model {
             }
         }
         $user->username = $this->username;
-        $user->is_time_alert = (int)$this->is_time_alert;
-        $user->time_alert = $this->time_alert;
+
+        if (isset($this->is_time_alert)) {
+            $user->is_time_alert = (int)$this->is_time_alert;
+            $user->time_alert = $this->time_alert;
+            
+            $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
+        }
         
-        $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
-        
-        $user->aaa_notifications = $this->aaa_notifications ? (int)$this->aaa_notifications : $user->aaa_notifications;
-        $user->is_shares = $this->is_shares ? (int)$this->is_shares : $user->is_shares;
-        $user->is_advertising = $this->is_advertising ? (int)$this->is_advertising : $user->is_advertising;
+        if ($this->aaa_notifications) {
+            $user->aaa_notifications = (int)$this->aaa_notifications;
+        }
+
+        if (isset($this->is_shares)) {
+            $user->is_shares = (int)$this->is_shares;
+        }
+
+        if (isset($this->is_advertising)) {
+            $user->is_advertising = (int)$this->is_advertising;
+        }
 
         return $user->save(false) ? true : false;
     }
