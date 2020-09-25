@@ -105,7 +105,10 @@ class Notifications {
         $tokens = TokenPushMobile::findAll(['in', 'user_uid', $this->_user_ids]);
         $token_ids = ArrayHelper::getColumn($tokens, 'token');
         $notes = new FirebaseNotifications();
-        $notes->sendNotification($token_ids, $this->_notification, null, null);
+        $notes->sendNotification($token_ids, $this->_notification, null, [
+            'game_id' => $this->_game ? $this->_game->id : null,
+            'series_id' => $this->_series ? $this->_series->id : null,
+        ]);
         
     }
     
