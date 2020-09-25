@@ -45,8 +45,8 @@ class TokenPushController extends Controller {
         $user_id = null;
         $auth_token = isset($headers['authorization']) ? $headers['authorization'] : null;
         if ($auth_token) {
-            $token = trim(substr($auth_token, 6));
-            $user = User::find()->where(['token' => $token])->one();
+            $_token = trim(substr($auth_token, 6));
+            $user = User::find()->where(['token' => $_token])->one();
             if ($user) {
                 $user_id = $user->id;
             }
