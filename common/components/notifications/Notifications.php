@@ -108,6 +108,7 @@ class Notifications {
         $notes->sendNotification($token_ids, $this->_notification, null, [
             'game_id' => $this->_game ? $this->_game->id : null,
             'series_id' => $this->_series ? $this->_series->id : null,
+            'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
         ]);
         
     }
