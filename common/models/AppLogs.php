@@ -24,6 +24,14 @@ class AppLogs extends ActiveRecord {
             ['created_at', 'safe'],
         ];
     }
+    
+    static public function addLog($value_1 = null, $value_2 = null, $value_3 = null) {
+        $add_log = new AppLogs();
+        $add_log->value_1 = $value_1;
+        $add_log->value_2 = $value_2;
+        $add_log->value_3 = $value_3;
+        return $add_log->save(false) ? true : false;
+    }
 
     public function attributeLabels() {
         return [
