@@ -17,10 +17,10 @@ class TestController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['games', 'time-alert', 'daily'],
+                'only' => ['games', 'time-alert', 'daily', 'first'],
                 'rules' => [
                     [
-                        'actions' => ['games', 'time-alert', 'daily'],
+                        'actions' => ['games', 'time-alert', 'daily', 'first'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -97,6 +97,31 @@ class TestController extends Controller {
         die();
         
         
+    }
+
+
+    public function actionFirst() {
+        $tokens = [
+            'fKciachiR6WburfWrJLDf9:APA91bGEGsROXoOyAdTAKcVvz-ht5gf0zVOmTQUYq_pn0JSJNPI-Xx04-GHRjoiMJiH2L_9EE0oIupmX7a-MXioxdr_HdMNi7Oeartbk7wv7t_mb-LrHqPcESMDlgTW7Hy1EvTcZWuDN'
+        ];
+        $notes = new FirebaseNotifications();
+        $result = $notes->sendNotification(
+            $tokens,
+            [
+                "body": "В серии DOOM пополнение: встречаем - DOOM-DOOM",
+                "title": "Пополнение в серии"
+            ],
+            null,
+            [
+                "click_action": "FLUTTER_NOTIFICATION_CLICK",
+                "game_id": 1545
+            ]
+        );
+
+
+        echo '<pre>';
+        var_dump($result);
+        die();
     }
 
 }

@@ -5,7 +5,6 @@ namespace common\components\firebasePush;
 use yii\base\BaseObject;
 use Yii;
 use yii\helpers\ArrayHelper;
-use common\models\AppLogs;
 
 /**
  * PUSH Notification
@@ -56,15 +55,13 @@ class FirebaseNotifications extends BaseObject {
         ]);
         $result = curl_exec($ch);
         if ($result === false) {
-            AppLogs::addLog('ERROR: Send notifications. Curl failed: ' . curl_error($ch) . ', with result= ' . $result);
             Yii::error('Curl failed: ' . curl_error($ch) . ", with result=$result");
             throw new \Exception("Could not send notification");
         }
         $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($code < 200 || $code >= 300) {
-            AppLogs::addLog("Got unexpected response code $code with result=$result");
-            Yii::error("Got unexpected response code $code with result=$result");
+            Yii::error("got unexpected response code $code with result=$result");
             throw new \Exception("Could not send notification");
         }
         curl_close($ch);
