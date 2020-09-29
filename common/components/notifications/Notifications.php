@@ -39,6 +39,8 @@ class Notifications {
         
         // Формируем список ID пользоватейлей, у которых есть игра в избранном, у игры есть серия, но серия не в избранном
         $users_ids_by_series = [];
+        $favorite_series_list = [];
+        $favorite_game_list = [];
         
         switch ($type) {
             case self::SERIES_TYPE:
