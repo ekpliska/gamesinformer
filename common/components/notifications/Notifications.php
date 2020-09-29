@@ -149,6 +149,7 @@ class Notifications {
         return [
             "body" => "На это стоит обратить внимание! {$this->_game->title}!",
             "title" => "Выход AAA игры"
+        ];
     }
     
     private function messageByShares($games_list) {
