@@ -89,12 +89,13 @@ class Notifications {
                         'AND',
                         ['is_time_alert' => 1],
                         ['time_alert' => $other['time']],
-                        ['IN', 'days_of_week', $other['day']],
+                        ['LIKE', 'days_of_week', $other['day']],
                     ])
                     ->asArray()
                     ->all();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageByNews();
+                break;
             default:
                 $this->_user_ids = [];
                 break;

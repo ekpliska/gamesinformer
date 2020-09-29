@@ -63,23 +63,20 @@ class GameController extends Controller {
         
         $game_series = GameSeries::findOne(['game_id' => $game->id]);
         $series = $game_series ? $game_series->series : null;
-        $type = Notifications::GAME_FAVORITE_TYPE;
-        
+
         if ($game && $game->is_aaa) {
             // Если игра релиз и она AAA
-            $type = Notifications::AAA_GAME_TYPE;
-            $notification = new Notifications($type, $game, $series);
+            $notification = new Notifications(Notifications::class, $game, $series);
             $notification->createNotification();
-
-            
-        } else {
+        } elseif ($series) {
+            // Если игра имеет серию
             $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
             $notification_series->createNotification();
-            
+        } else {
+            // Если не имеет серии
             $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
             $notification_game->createNotification();
         }
-        
     }
 
 }
