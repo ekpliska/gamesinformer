@@ -51,7 +51,7 @@ class TestController extends Controller {
      */
     public function actionGames() {
 
-        $game = \common\models\Game::findOne(1);
+        $game = \common\models\Game::findOne(1536);
         
         $game_series = \common\models\GameSeries::findOne(['game_id' => $game->id]);
         $series = $game_series ? $game_series->series : null;
