@@ -33,6 +33,11 @@ class TestController extends Controller {
      * Для теста пушей
      */
     public function actionDaily() {
+        
+        $consoleController = new \console\controllers\NewsController('news', \Yii::$app);
+        $consoleController->runAction('check');
+        
+        die();
 
 //        $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
 //        $tokens = ArrayHelper::getColumn($_tokens, 'token');

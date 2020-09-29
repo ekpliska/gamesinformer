@@ -83,6 +83,7 @@ class Notifications {
                     ])
                     ->asArray()
                     ->all();
+            var_dump($users); die();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageByNews();
                 break;
