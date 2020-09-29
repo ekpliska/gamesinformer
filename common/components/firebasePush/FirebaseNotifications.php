@@ -98,8 +98,6 @@ class FirebaseNotifications extends BaseObject {
         if (count($options) > 0) {
             $body['data'] = $options;
         }
-        
-        echo "<pre>"; var_dump($body); die();
 
         return $this->send($body);
     }
