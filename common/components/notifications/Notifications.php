@@ -106,7 +106,7 @@ class Notifications {
             return false;
         }
 
-        $tokens = TokenPushMobile::findAll(['in', 'user_uid', $this->_user_ids]);
+        $tokens = TokenPushMobile::find()->where(['in', 'user_uid', $this->_user_ids])->all();
         $token_ids = ArrayHelper::getColumn($tokens, 'token');
         $notes = new FirebaseNotifications();
         $notes->sendNotification($token_ids, $this->_notification, null, [
