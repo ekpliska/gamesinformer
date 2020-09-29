@@ -117,8 +117,8 @@ class TestController extends Controller {
     
     public function actionTimeAlert() {
 
-        $current_date = new \DateTime('NOW');
-        $current_day_of_week = \common\models\User::DAYS_OF_WEEK[$current_date->format('N') + 1];
+        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $current_day_of_week = \common\models\User::DAYS_OF_WEEK[$current_date->format('N') - 1];
         $current_time = $current_date->format('H');
         
         $notification = new Notifications(
