@@ -62,10 +62,10 @@ class TestController extends Controller {
             $type = Notifications::AAA_GAME_TYPE;
             $notification = new Notifications($type, $game, $series);
             $notification->createNotification();
-        } else {
+        } elseif ($series) {
             $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
             $notification_series->createNotification();
-            
+        } else {
             $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
             $notification_game->createNotification();
         }
