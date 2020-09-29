@@ -54,20 +54,10 @@ class Notifications {
                 break;
             case self::GAME_FAVORITE_TYPE:
                 if ($game == null) {
-                    throw new ErrorException('Ошибка передачи параметров. Параметр $series является обязательным.');
-                }
-                if ($series != null) {
-                    $favorite_series_list = FavoriteSeries::find()->where(['series_id' => $series->id])->asArray()->all();
-                    $users_ids_by_series = ArrayHelper::getColumn($favorite_series_list, 'user_uid');
+                    throw new ErrorException('Ошибка передачи параметров. Параметр $game является обязательным.');
                 }
                 $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
-                $users_ids_by_games = ArrayHelper::getColumn($favorite_game_list, 'user_uid');
-                
-                if (count($users_ids_by_series) > count($users_ids_by_games)) {
-                    $this->_user_ids = array_diff($users_ids_by_series, $users_ids_by_games);
-                } else {
-                    $this->_user_ids = array_diff($users_ids_by_games, $users_ids_by_series);
-                }
+                $this->_user_ids = ArrayHelper::getColumn($favorite_game_list, 'user_uid');
                 $this->_notification = $this->messageByGame();
                 break;
             case self::AAA_GAME_TYPE:
@@ -88,7 +78,7 @@ class Notifications {
                     ->where([
                         'AND',
                         ['is_time_alert' => 1],
-                        ['time_alert' => $other['time']],
+                        ['DATE_FORMAT(`time_alert`, "%H")' => $other['cur_hour']],
                         ['LIKE', 'days_of_week', $other['day']],
                     ])
                     ->asArray()
@@ -110,12 +100,8 @@ class Notifications {
         $tokens = TokenPushMobile::find()->where(['in', 'user_uid', $this->_user_ids])->all();
         $token_ids = ArrayHelper::getColumn($tokens, 'token');
         $notes = new FirebaseNotifications();
-        $notes->sendNotification($token_ids, $this->_notification, null, [
-            'game_id' => $this->_game ? $this->_game->id : null,
-            'series_id' => $this->_series ? $this->_series->id : null,
-            'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
-        ]);
-        
+        $data_body = $this->genereateDataBody();
+        $notes->sendNotification($token_ids, $this->_notification, null, $data_body);
     }
     
     private function messageBySeries() {
@@ -177,5 +163,22 @@ class Notifications {
             "title" => "Новости"
         ];
     }
+    
+    private function genereateDataBody() {
+        $data_body = [
+            'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
+        ];
+        if ($this->_type === self::SERIES_TYPE) {
+            $data_body[] = [
+                'series_id' => $this->_series ? $this->_series->id : null,
+            ];
+        } elseif ($this->_type === self::GAME_FAVORITE_TYPE || $this->_type === self::AAA_GAME_TYPE) {
+            $data_body[] = [
+                'game_id' => $this->_game ? $this->_game->id : null,
+            ];
+        }
+        return $data_body;
+    }
+    
     
 }

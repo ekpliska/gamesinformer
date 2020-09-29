@@ -195,12 +195,12 @@ class NewsController extends Controller {
 
         $current_date = new \DateTime('NOW');
         $current_day_of_week = User::DAYS_OF_WEEK[$current_date->format('N') + 1];
-        $current_time = $current_date->format('H:i:00');
+        $current_time = $current_date->format('H');
         
         $notification = new Notifications(
             Notifications::NEWS_TYPE, 
             null, null,
-            ['day' => $current_day_of_week, 'time' => $current_time]
+            ['day' => $current_day_of_week, 'cur_hour' => $current_time]
         );
         
         $notification->createNotification();

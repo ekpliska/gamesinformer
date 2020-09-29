@@ -51,7 +51,7 @@ class TestController extends Controller {
      */
     public function actionGames() {
 
-        $game = \common\models\Game::findOne(1536);
+        $game = \common\models\Game::findOne(1);
         
         $game_series = \common\models\GameSeries::findOne(['game_id' => $game->id]);
         $series = $game_series ? $game_series->series : null;
@@ -119,12 +119,12 @@ class TestController extends Controller {
 
         $current_date = new \DateTime('NOW');
         $current_day_of_week = \common\models\User::DAYS_OF_WEEK[$current_date->format('N') + 1];
-        $current_time = $current_date->format('H:i:00');
+        $current_time = $current_date->format('H');
         
         $notification = new Notifications(
             Notifications::NEWS_TYPE, 
             null, null,
-            ['day' => $current_day_of_week, 'time' => $current_time]
+            ['day' => $current_day_of_week, 'cur_hour' => $current_time]
         );
         
         $notification->createNotification();
