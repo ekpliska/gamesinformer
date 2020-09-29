@@ -108,13 +108,13 @@ class TestController extends Controller {
         $result = $notes->sendNotification(
             $tokens,
             [
-                "body": "В серии DOOM пополнение: встречаем - DOOM-DOOM",
-                "title": "Пополнение в серии"
+                "body" => "В серии DOOM пополнение: встречаем - DOOM-DOOM",
+                "title" => "Пополнение в серии"
             ],
             null,
             [
-                "click_action": "FLUTTER_NOTIFICATION_CLICK",
-                "game_id": 1545
+                "click_action" => "FLUTTER_NOTIFICATION_CLICK",
+                "game_id" => 1545
             ]
         );
 
