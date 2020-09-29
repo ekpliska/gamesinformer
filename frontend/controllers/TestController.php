@@ -57,11 +57,11 @@ class TestController extends Controller {
         $series = $game_series ? $game_series->series : null;
         $type = Notifications::GAME_FAVORITE_TYPE;
         
-        if ($series && $game) {
+        if ($series) {
 
             $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
             $notification_series->createNotification();
-            
+        } elseif ($game) {
             $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
             $notification_game->createNotification();
             
