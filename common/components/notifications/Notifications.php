@@ -115,35 +115,61 @@ class Notifications {
     
     private function messageBySeries() {
         if ($this->_game == null || $this->_series == null) {
-            return "В избранной серии пополнение! Встречаем!";
+            return [
+                "body" => "В избранной серии пополнение! Встречаем!",
+                "title" => "Изменение в серии"
+            ];
         }
-        return "В серии {$this->_series->series_name} пополнение! Встречаем {$this->_game->title}!";
+        return [
+            "body" => "В серии {$this->_series->series_name} пополнение! Встречаем {$this->_game->title}!",
+            "title" => "Изменение в серии"
+        ];
     }
     
     private function messageByGame() {
         if ($this->_game == null) {
-            return "Вы ждали и Вы дождались! Встречаем релиз игры из Избранного!";
+            return [
+                "body" => "Вы ждали и Вы дождались! Встречаем релиз игры из Избранного!",
+                "title" => "Выход игры из Избранного"
+            ];
         }
-        return "Вы ждали и Вы дождались! Встречаем {$this->_game->title}!";
+        return [
+            "body" => "Вы ждали и Вы дождались! Встречаем {$this->_game->title}!",
+            "title" => "Выход игры из Избранного"
+        ];
     }
     
     private function messageByAAAGame() {
         if ($this->_game == null) {
-            return "На это стоит обратить внимание! Выход AAA-игры!";
+            return [
+                "body" => "На это стоит обратить внимание! Выход AAA-игры!",
+                "title" => "Выход AAA игры"
+            ];
         }
-        return "На это стоит обратить внимание! {$this->_game->title}!";
+        return [
+            "body" => "На это стоит обратить внимание! {$this->_game->title}!",
+            "title" => "Выход AAA игры"
     }
     
     private function messageByShares($games_list) {
         if ($games_list == null) {
-            return "Обновился список раздач!";
+            return [
+                "body" => "Обновился список раздач!",
+                "title" => "Раздачи"
+            ];
         }
         $list = mb_strimwidth($games_list, 0, 30, '...');
-        return "Сейчас бесплатно - {$list}";
+        return [
+            "body" => "Сейчас бесплатно - {$list}",
+            "title" => "Раздачи"
+        ];
     }
     
     private function messageByNews() {
-        return "Время пришло!";
+        return [
+            "body" => "Время пришло!",
+            "title" => "Новости"
+        ];
     }
     
 }
