@@ -39,6 +39,7 @@ class Notifications {
         
         // Формируем список ID пользоватейлей, у которых есть игра в избранном, у игры есть серия, но серия не в избранном
         $users_ids_by_series = [];
+        $users_ids_by_games = [];
         $favorite_series_list = [];
         $favorite_game_list = [];
         
@@ -60,11 +61,12 @@ class Notifications {
                     $users_ids_by_series = ArrayHelper::getColumn($favorite_series_list, 'user_uid');
                 }
                 $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
+                $users_ids_by_games = ArrayHelper::getColumn($favorite_game_list, 'user_uid');
                 
-                if (count($favorite_series_list) > count($favorite_game_list)) {
-                    $this->_user_ids = array_diff($favorite_series_list, $favorite_game_list);
+                if (count($users_ids_by_series) > count($users_ids_by_games)) {
+                    $this->_user_ids = array_diff($users_ids_by_series, $users_ids_by_games);
                 } else {
-                    $this->_user_ids = array_diff($favorite_game_list, $favorite_series_list);
+                    $this->_user_ids = array_diff($users_ids_by_games, $users_ids_by_series);
                 }
                 $this->_notification = $this->messageByGame();
                 break;
