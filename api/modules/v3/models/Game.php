@@ -34,7 +34,9 @@ class Game extends GameBase {
             'comments' => function() {
                 return $this->getCommentsList();
             },
-            'is_aaa',
+            'is_aaa' => function() {
+                return $this->is_aaa ? true : false;
+            },
         ];
     }
     
