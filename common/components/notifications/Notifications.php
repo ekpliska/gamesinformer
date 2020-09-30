@@ -26,7 +26,6 @@ class Notifications {
     
     private $_type;
     private $_user_ids = [];
-    private $_user_ids_is_send = [];
     private $_game;
     private $_series;
     private $_notification;
@@ -39,7 +38,6 @@ class Notifications {
         
         // Формируем список ID пользоватейлей, у которых есть игра в избранном, у игры есть серия, но серия не в избранном
         $users_ids_by_series = [];
-        $users_ids_by_games = [];
         $favorite_series_list = [];
         $favorite_game_list = [];
         
@@ -56,7 +54,18 @@ class Notifications {
                 if ($game == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $game является обязательным.');
                 }
-                $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
+                if ($series) {
+                    $favorite_series_list = FavoriteSeries::find()->where(['series_id' => $series->id])->asArray()->all();
+                    $users_ids_by_series = ArrayHelper::getColumn($favorite_series_list, 'user_uid');
+                }
+                $favorite_game_list = Favorite::find()
+                        ->where([
+                            'AND',
+                            ['game_id' => $game->id],
+                            ['NOT IN', 'user_uid', $users_ids_by_series]
+                        ])
+                        ->asArray()
+                        ->all();
                 $this->_user_ids = ArrayHelper::getColumn($favorite_game_list, 'user_uid');
                 $this->_notification = $this->messageByGame();
                 break;
@@ -96,7 +105,6 @@ class Notifications {
         if ($this->_user_ids == null) {
             return false;
         }
-
         $tokens = TokenPushMobile::find()->where(['in', 'user_uid', $this->_user_ids])->all();
         $token_ids = ArrayHelper::getColumn($tokens, 'token');
         $notes = new FirebaseNotifications();
@@ -179,6 +187,5 @@ class Notifications {
         }
         return $data_body;
     }
-    
     
 }

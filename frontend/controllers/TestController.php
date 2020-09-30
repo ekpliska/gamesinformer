@@ -67,13 +67,25 @@ class TestController extends Controller {
 //            $type = Notifications::AAA_GAME_TYPE;
 //            $notification = new Notifications($type, $game, $series);
 //            $notification->createNotification();
-//        } elseif ($series) {
+//        } 
+//        if ($series) {
+//            $app = new \common\models\AppLogs();
+//            $app->value_1 = 'SERIES_TYPE';
+//            $app->save();
+//
 //            $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
 //            $notification_series->createNotification();
-//        } else {
-//            $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
-//            $notification_game->createNotification();
 //        }
+//
+//        $app = new \common\models\AppLogs();
+//        $app->value_1 = 'GAME_FAVORITE_TYPE';
+//        $app->save();
+//
+//        $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
+//        $notification_game->createNotification();
+//
+//        die();
+
     }
 
     public function actionSeries() {
