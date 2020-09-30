@@ -76,7 +76,7 @@ class User extends UserBase {
                     'gamePlatformReleases' => $game->getGamePlatformReleasesList(),
                     'is_favorite' => true,
                     'comments' => $game->getCommentsList(),
-                    'is_aaa' => $game->is_aaa,
+                    'is_aaa' => $game->is_aaa ? true : false,
                 ];
             }
         }
