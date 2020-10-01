@@ -39,9 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-7">
             
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-            
             <?= $form->field($model, 'release_date')->textInput(['type' => 'date']); ?>
-           
+            <?= $form->field($model, 'only_year')->checkbox() ?>
             <?= $form->field($model, 'website')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'youtube')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'youtube_btnlink')->textInput(['maxlength' => true]) ?>

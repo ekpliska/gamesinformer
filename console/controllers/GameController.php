@@ -19,7 +19,7 @@ class GameController extends Controller {
     public function actionPublish() {
 
         $games = Game::find()
-                ->where(['published' => 0])
+                ->where(['AND', ['published' => 0], ['only_year' => 0]])
                 ->all();
 
         $current_date = strtotime(date('Y-m-d 00:00:00'));

@@ -23,18 +23,48 @@ $this->params['breadcrumbs'][] = $this->title;
                         </a>
                     </h4>
                 </div>
-                <div id="collapse1" class="panel-collapse collapse">
+                <div id="collapse1" class="panel-collapse collapse" style="max-height: 540px; overflow: auto;">
                     <ul class="list-group">
                         <?php if (count($waiting_publish) > 0) : ?>
                             <?php foreach ($waiting_publish as $publish) : ?>
-                                <li class="list-group-item">
-                                    <span class="label label-success"><?= date('Y-m-d', strtotime($publish['publish_at'])) ?></span>
-                                    <?= $publish['title'] ?>
-                                    <?= Html::a('<span class="glyphicon glyphicon-log-out"></span>', ['game/update', 'id' => $publish['id']]) ?>
-                                </li>
+                                <?php if (!$publish['only_year']) : ?>
+                                    <li class="list-group-item">
+                                        <span class="label label-success"><?= date('Y-m-d', strtotime($publish['publish_at'])) ?></span>
+                                        <?= $publish['title'] ?>
+                                        <?= Html::a('<span class="glyphicon glyphicon-log-out"></span>', ['game/update', 'id' => $publish['id']]) ?>
+                                    </li>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         <?php else : ?>
-                        <li class="list-group-item">Отложенных публикаций не найдено</li>
+                        <li class="list-group-item">Список пуст</li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-group">
+            <div class="panel panel-default panel-danger" style="max-height: 540px; overflow: auto;">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse2">
+                            Дата релиза неизвестна <span class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                    <ul class="list-group">
+                        <?php if (count($waiting_publish) > 0) : ?>
+                            <?php foreach ($waiting_publish as $publish) : ?>
+                                <?php if ($publish['only_year']) : ?>
+                                    <li class="list-group-item">
+                                        <span class="label label-success"><?= date('Y-m-d', strtotime($publish['publish_at'])) ?></span>
+                                        <?= $publish['title'] ?>
+                                        <?= Html::a('<span class="glyphicon glyphicon-log-out"></span>', ['game/update', 'id' => $publish['id']]) ?>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                        <li class="list-group-item">Список пуст</li>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -52,13 +82,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
                     'title',
-                    'release_date',
+                    [
+                        'attribute' => 'release_date',
+                        'format' => ['date', 'php:d M Y'],
+                    ],
                     [
                         'attribute' => 'published',
-                        'content' => function($data){
+                        'content' => function($data) {
+                            $message = $data->only_year ? '<span class="label label-danger">Нет даты релиза</span>' : '';
                             return $data->published 
                                 ? '<span class="label label-success">Опубликовано</span>' 
-                                : '<span class="label label-default">Ждет публикации</span>';
+                                : '<span class="label label-default">Ждет публикации</span><br />' . $message;
                         }
                     ],
                     [

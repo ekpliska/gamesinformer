@@ -3,7 +3,6 @@
 namespace console\controllers;
 use yii\console\Controller;
 use common\models\AppLogs;
-use yii\db\Expression;
 
 /**
  * Логи

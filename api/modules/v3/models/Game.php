@@ -37,6 +37,9 @@ class Game extends GameBase {
             'is_aaa' => function() {
                 return $this->is_aaa ? true : false;
             },
+            'only_year' => function() {
+                return $this->only_year ? true : false;
+            },
         ];
     }
     

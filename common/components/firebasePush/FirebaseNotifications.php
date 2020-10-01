@@ -5,7 +5,6 @@ namespace common\components\firebasePush;
 use common\models\AppLogs;
 use yii\base\BaseObject;
 use Yii;
-use yii\helpers\ArrayHelper;
 
 /**
  * PUSH Notification
@@ -83,6 +82,7 @@ class FirebaseNotifications extends BaseObject {
      * @return mixed
      */
     public function sendNotification($tokens = [], $notification, $data_badge, $options = []) {
+        
         $body = [
             'registration_ids' => $tokens,
         ];

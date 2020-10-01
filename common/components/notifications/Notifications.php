@@ -10,6 +10,7 @@ use common\models\FavoriteSeries;
 use common\models\Favorite;
 use common\models\TokenPushMobile;
 use common\components\firebasePush\FirebaseNotifications;
+use common\models\AppLogs;
 
 class Notifications {
     
@@ -105,11 +106,21 @@ class Notifications {
         if ($this->_user_ids == null) {
             return false;
         }
-        $tokens = TokenPushMobile::find()->where(['in', 'user_uid', $this->_user_ids])->all();
-        $token_ids = ArrayHelper::getColumn($tokens, 'token');
-        $notes = new FirebaseNotifications();
-        $data_body = $this->genereateDataBody();
-        $notes->sendNotification($token_ids, $this->_notification, null, $data_body);
+        try {
+            $tokens = TokenPushMobile::find()->where(['AND', ['in', 'user_uid', $this->_user_ids], ['is_auth' => 1]])->all();
+            $token_ids = ArrayHelper::getColumn($tokens, 'token');
+                    
+            if (count($token_ids) <= 0) {
+                return false;
+            }
+            
+            $notes = new FirebaseNotifications();
+            $data_body = $this->genereateDataBody();
+            $notes->sendNotification($token_ids, $this->_notification, null, $data_body);
+            AppLogs::addLog("PUSH Notice, {$this->_notification['title']}");
+        } catch (\Exception $ex) {
+            AppLogs::addLog('ERROR PUSH Notice, ' . $this->_notification['title']);
+        }
     }
     
     private function messageBySeries() {

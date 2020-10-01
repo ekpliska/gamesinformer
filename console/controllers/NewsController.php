@@ -7,7 +7,6 @@ use common\components\notifications\Notifications;
 use common\models\RssChannel;
 use common\models\News;
 use common\models\AppLogs;
-use common\models\User;
 
 /**
  * Новости
