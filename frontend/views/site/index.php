@@ -85,14 +85,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'release_date',
                         'format' => ['date', 'php:d M Y'],
+                        'content' => function($data) {
+                            $message = $data->only_year ? '<span class="label label-danger">Нет даты релиза</span>' : '';
+                            return $data->only_year 
+                                    ? $message 
+                                    : Yii::$app->formatter->asDate($data->release_date, 'medium');
+                        }
                     ],
                     [
                         'attribute' => 'published',
                         'content' => function($data) {
-                            $message = $data->only_year ? '<span class="label label-danger">Нет даты релиза</span>' : '';
                             return $data->published 
                                 ? '<span class="label label-success">Опубликовано</span>' 
-                                : '<span class="label label-default">Ждет публикации</span><br />' . $message;
+                                : '<span class="label label-default">Ждет публикации</span><br />' ;
                         }
                     ],
                     [
