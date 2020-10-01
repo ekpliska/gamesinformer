@@ -56,26 +56,26 @@ class TestController extends Controller {
      */
     public function actionGames() {
 
-        $game = \common\models\Game::findOne(1);
-        
-        $game_series = \common\models\GameSeries::findOne(['game_id' => $game->id]);
-        $series = $game_series ? $game_series->series : null;
-        $type = Notifications::GAME_FAVORITE_TYPE;
-        
-        if ($game && $game->is_aaa) {
-            // Если игра релиз и она AAA
-            $type = Notifications::AAA_GAME_TYPE;
-            $notification = new Notifications($type, $game, $series);
-            $notification->createNotification();
-        } 
-        if ($series) {
-            $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
-            $notification_series->createNotification();
-        }
-        $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
-        $notification_game->createNotification();
-
-        die();
+//        $game = \common\models\Game::findOne(1);
+//        
+//        $game_series = \common\models\GameSeries::findOne(['game_id' => $game->id]);
+//        $series = $game_series ? $game_series->series : null;
+//        $type = Notifications::GAME_FAVORITE_TYPE;
+//        
+//        if ($game && $game->is_aaa) {
+//            // Если игра релиз и она AAA
+//            $type = Notifications::AAA_GAME_TYPE;
+//            $notification = new Notifications($type, $game, $series);
+//            $notification->createNotification();
+//        } 
+//        if ($series) {
+//            $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
+//            $notification_series->createNotification();
+//        }
+//        $notification_game = new Notifications(Notifications::GAME_FAVORITE_TYPE, $game, $series);
+//        $notification_game->createNotification();
+//
+//        die();
 
     }
 
