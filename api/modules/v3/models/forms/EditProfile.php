@@ -108,7 +108,7 @@ class EditProfile extends Model {
             $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
         }
         
-        if ($this->aaa_notifications) {
+        if (isset($this->aaa_notifications)) {
             $user->aaa_notifications = (int)$this->aaa_notifications;
         }
 
