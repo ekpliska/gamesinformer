@@ -55,14 +55,14 @@ class FirebaseNotifications extends BaseObject {
         ]);
         $result = curl_exec($ch);
         if ($result === false) {
-            AppLogs::addLog('ERROR SEND NOTICE. Curl failed: ' . curl_error($ch) . ", with result=$result");
+            AppLogs::addLog('ERROR SEND NOTICE. Curl failed: ' . curl_error($ch) . ", with result=$result. Body " . $body['notification']);
             Yii::error('Curl failed: ' . curl_error($ch) . ", with result=$result");
             throw new \Exception("Could not send notification");
         }
         $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($code < 200 || $code >= 300) {
-            AppLogs::addLog("Got unexpected response code $code with result=$result");
+            AppLogs::addLog("Got unexpected response code $code with result=$result. Body " . $body['notification']);
             Yii::error("Got unexpected response code $code with result=$result");
             throw new \Exception("Could not send notification");
         }
@@ -83,23 +83,32 @@ class FirebaseNotifications extends BaseObject {
      */
     public function sendNotification($tokens = [], $notification, $data_badge, $options = []) {
         
-        $body = [
-            'registration_ids' => $tokens,
-        ];
+        $sender_count = ceil(count($tokens) / 1000);
         
-        if ($notification) {
-            $body['notification'] = $notification;
+        $default_token_count = 1000;
+        
+        for ($i = 0; $i < $sender_count; $i++) {
+            
+            $body = [
+                'registration_ids' => array_slice($tokens, $default_token_count, 1000),
+            ];
+            if ($notification) {
+                $body['notification'] = $notification;
+            }
+            if ($data_badge) {
+                $body['notification'] = $data_badge;
+            }
+            if (count($options) > 0) {
+                $body['data'] = $options;
+            }
+            
+            $default_token_count = ++$default_token_count + 999;
+            
+            $this->send($body);
         }
+        
+        return true;
 
-        if ($data_badge) {
-            $body['notification'] = $data_badge;
-        }
-
-        if (count($options) > 0) {
-            $body['data'] = $options;
-        }
-
-        return $this->send($body);
     }
 
 }

@@ -168,7 +168,13 @@ class NewsController extends Controller {
      * Для ежедневного запуска в 00:00
      */
     public function actionRemove() {
-        $news = News::find()->where(['type' => RssChannel::TYPE_NEWS])->all();
+        $news = \common\models\News::find()
+            ->joinWith([
+                'rss' => function ($query) {
+                    $query->andWhere(['type' => RssChannel::TYPE_NEWS]);
+                },
+            ])
+            ->all();
         $current_date = new \DateTime('NOW');
         $count_news = 0;
         if ($news) {

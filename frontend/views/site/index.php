@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
         <div class="panel-group">
-            <div class="panel panel-default panel-danger" style="max-height: 540px; overflow: auto;">
+            <div class="panel panel-default panel-danger">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" href="#collapse2">
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </a>
                     </h4>
                 </div>
-                <div id="collapse2" class="panel-collapse collapse">
+                <div id="collapse2" class="panel-collapse collapse" style="max-height: 540px; overflow: auto;">
                     <ul class="list-group">
                         <?php if (count($waiting_publish) > 0) : ?>
                             <?php foreach ($waiting_publish as $publish) : ?>
