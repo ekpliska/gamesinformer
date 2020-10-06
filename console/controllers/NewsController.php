@@ -181,18 +181,17 @@ class NewsController extends Controller {
             foreach ($news as $news_item) {
                 $date_pub = new \DateTime($news_item->pub_date, new \DateTimeZone('Europe/Moscow'));
                 // Если разница между текущей датой и датой публикации больше 3 дней, то такую новость удаляем
-                if ($current_date->diff($date_pub)->d > 3) {
+                if ($current_date->diff($date_pub)->days > 3) {
                     $count_news++;
                     if (!$news_item->delete()) {
                         continue;
                     }
                 }
-                if ($count_news > 0) {
-                    $new_log = new AppLogs();
-                    $new_log->value_1 = "RSS лента {$news_item->rss->rss_channel_name}, удаление неактуальных новостей, количество {$count_news}";
-                    $new_log->save(false);
-                }
-                $count_news = 0;
+            }
+            if ($count_news > 0) {
+                $new_log = new AppLogs();
+                $new_log->value_1 = "Удаление неактуальных новостей, количество {$count_news}";
+                $new_log->save(false);
             }
         }
     }
