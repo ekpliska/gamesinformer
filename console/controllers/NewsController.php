@@ -175,13 +175,14 @@ class NewsController extends Controller {
                 },
             ])
             ->all();
-        $current_date = new \DateTime('NOW');
+        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
         $count_news = 0;
         if ($news) {
             foreach ($news as $news_item) {
-                $date_pub = new \DateTime($news_item->pub_date);
+                $date_pub = new \DateTime($news_item->pub_date, new \DateTimeZone('Europe/Moscow'));
                 // Если разница между текущей датой и датой публикации больше 3 дней, то такую новость удаляем
                 if ($current_date->diff($date_pub)->d > 3) {
+                    $count_news++;
                     if (!$news_item->delete()) {
                         continue;
                     }
