@@ -36,6 +36,8 @@ class GameSearch extends Game {
         $platforms_ids = [];
         $genres_ids = [];
         $series_ids = [];
+        $is_mode_future = isset($params['mode']) ? $params['mode'] : null;
+        $order_type = $is_mode_future && $is_mode_future === 'future' ? SORT_ASC : SORT_DESC;
 
         $query = Game::find();
         $dataProvider = new ActiveDataProvider([
@@ -46,10 +48,12 @@ class GameSearch extends Game {
             return $dataProvider;
         }
         
-        if (!isset($params['mode'])) {
+        if ($is_mode_future && $is_mode_future === 'future') {
+            $query->where(['published' => false]);
+        } elseif ($is_mode_future && $is_mode_future === 'publish') {
             $query->where(['published' => true]);
         }
-
+        
         if (isset($params['title'])) {
             $query->andFilterWhere(['like', 'title', $params['title']]);
         }
@@ -73,19 +77,19 @@ class GameSearch extends Game {
         // Фильтр по платформам
         if (isset($params['platforms'])) {
             $platforms_ids = $this->getPlatformsId(Html::encode($params['platforms']));
-            $query->joinWith(['gamePlatformReleases' => function($q) use ($platforms_ids) {
+            $query->joinWith(['gamePlatformReleases' => function($q) use ($platforms_ids, $order_type) {
                 $q->where(['in', 'platform_id', $platforms_ids]);
                 // Если в фильтре используется одна платформа сортируем список публикаций по дате редиза игры
                 if (count($platforms_ids) == 1) {
-                    $q->orderBy(['date_platform_release' => SORT_DESC]);
+                    $q->orderBy(['date_platform_release' => $order_type]);
                 }
             }]);
             // Если в фильтре используется более одной платформы сортируем список публикаций по дате публикации
             if (count($platforms_ids) > 1) {
-                $query->orderBy(['publish_at' => SORT_DESC]);
+                $query->orderBy(['publish_at' => $order_type]);
             }
         } else {
-            $query->orderBy(['publish_at' => SORT_DESC]);
+            $query->orderBy(['publish_at' => $order_type]);
         }
 
 
