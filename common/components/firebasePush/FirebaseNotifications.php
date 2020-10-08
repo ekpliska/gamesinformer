@@ -85,7 +85,7 @@ class FirebaseNotifications extends BaseObject {
         
         $sender_count = ceil(count($tokens) / 1000);
         
-        $default_token_count = 1000;
+        $default_token_count = 0;
         
         for ($i = 0; $i < $sender_count; $i++) {
             
