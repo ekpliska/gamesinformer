@@ -94,8 +94,8 @@ class Game extends ActiveRecord {
         }
         
         if ($this->only_year) {
-            $this->release_date = \Yii::$app->formatter->asDate($this->release_date, 'yyyy-01-01');
-            $this->publish_at = \Yii::$app->formatter->asDate($this->publish_at, 'yyyy-01-01');
+            $this->release_date = \Yii::$app->formatter->asDate($this->release_date, 'yyyy-12-31');
+            $this->publish_at = \Yii::$app->formatter->asDate($this->publish_at, 'yyyy-12-31');
         }
         
         return parent::beforeSave($insert);
