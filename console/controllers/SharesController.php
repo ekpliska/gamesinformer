@@ -28,7 +28,9 @@ class SharesController extends Controller {
 
         foreach ($shares as $key => $item) {
             $date_start = new \DateTime($item->date_start, new \DateTimeZone('Europe/Moscow'));
-            if ($current_date->diff($date_start)->h === 0) {
+            $diff = $current_date->diff($date_start);
+            $hours = $diff->h + ($diff->days * 24);
+            if ($hours == 0) {
                 $games_list[] = $item->game_list;
                 $count_new_shares++;
             }
