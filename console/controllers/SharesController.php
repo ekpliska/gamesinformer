@@ -13,19 +13,35 @@ class SharesController extends Controller {
 
     /**
      * Рассылка уведомлений о старте раздач
-     * Ежедневно в 13:00
+     * Ежедневно каждый час
      */
     public function actionSend() {
-        $current_date = new \DateTime('NOW');
-        $shares = Shares::find()->where(['>=', 'date_start', $current_date->format('Y-m-d')])->asArray()->all();
-        $games_list = ArrayHelper::getColumn($shares, 'game_list');
+        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $shares = Shares::find()->all();
+        $games_list = [];
         
-        $notification = new Notifications(
-                Notifications::SHARES_TYPE, 
-                null, null, 
-                ['games_list' => implode(', ', $games_list)]
-        );
-        $notification->createNotification();
+        if (count($shares) == 0) {
+            return false;
+        }
+
+        $count_new_shares = 0;
+
+        foreach ($shares as $key => $item) {
+            $date_start = new \DateTime($item->date_start, new \DateTimeZone('Europe/Moscow'));
+            if ($current_date->diff($date_start)->h === 0) {
+                $games_list[] = $item->game_list;
+                $count_new_shares++;
+            }
+        }
+
+        if ($count_new_shares > 0) {
+            $notification = new Notifications(
+                    Notifications::SHARES_TYPE, 
+                    null, null, 
+                    ['games_list' => implode(', ', $games_list)]
+            );
+            $notification->createNotification();
+        }
     }
 
 }

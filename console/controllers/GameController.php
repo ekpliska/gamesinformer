@@ -22,13 +22,13 @@ class GameController extends Controller {
                 ->where(['AND', ['published' => 0], ['only_year' => 0]])
                 ->all();
 
-        $current_date = strtotime(date('Y-m-d 00:00:00'));
+        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
         $new_publishies = 0;
 
         if (count($games)) {
             foreach ($games as $game) {
-                $release_date = strtotime($game->publish_at);
-                if ($current_date == $release_date) {
+                $release_date = new \DateTime($game->publish_at, new \DateTimeZone('Europe/Moscow'));
+                if ($current_date->diff($release_date)->days == 0) {
                     $game->published = true;
                     $game->save(false);
                     $this->sendNotification($game);
