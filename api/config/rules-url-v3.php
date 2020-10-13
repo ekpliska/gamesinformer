@@ -76,6 +76,7 @@ return [
         'extraPatterns' => [
             'GET /' => 'index',
             'GET view/<id:[\d-]+>' => 'view',
+            'GET like/<id:[\d-]+>' => 'like',
         ]
     ],
     [

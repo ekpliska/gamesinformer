@@ -66,6 +66,10 @@ class News extends ActiveRecord {
         return $this->hasMany(NewsViews::className(), ['news_id' => 'id']);
     }
     
+    public function getLikes() {
+        return $this->hasMany(NewsLikes::className(), ['news_id' => 'id']);
+    }
+    
     public static function checkNews($title) {
         $news = self::find()
                 ->where(['title' => $title])

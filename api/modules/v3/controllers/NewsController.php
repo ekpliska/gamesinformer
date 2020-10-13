@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\rest\ActiveController;
 use api\modules\v3\models\News;
 use api\modules\v3\models\search\NewsSearch;
+use api\modules\v3\models\RssChannel;
 
 class NewsController extends ActiveController {
     
@@ -72,11 +73,40 @@ class NewsController extends ActiveController {
         return $news;
     }
     
+    public function actionLike($id) {
+        $news = News::findOne((int)$id);
+        if (!$news) {
+            Yii::$app->response->statusCode = 404;
+            return [
+                'success' => false,
+                'errors' => ['Новость не найдена'],
+            ];
+        }
+        if ($news->rss->type === RssChannel::TYPE_YOUTUBE) {
+            Yii::$app->response->statusCode = 400;
+            return [
+                'success' => false,
+                'errors' => ['Для данной новости функция лайков недоступена'],
+            ];
+        }
+        
+        if ($news->like()) {
+            return $news->save() ? ['success' => true] : ['success' => false];
+        }
+        
+        Yii::$app->response->statusCode = 403;
+        return [
+            'success' => false,
+            'errors' => ['Недостаточно прав'],
+        ];
+    }
+    
     public function verbs() {
         parent::verbs();
         return [
             'index' => ['GET'],
             'view' => ['GET'],
+            'like' => ['GET'],
         ];
     }
     
