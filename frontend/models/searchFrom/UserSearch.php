@@ -48,16 +48,9 @@ class UserSearch extends User {
         }
         
         $query->orderBy(['created_at' => SORT_ASC]);
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'username' => $this->username,
-            'email' => $this->email
-        ]);
-
-        $query->andFilterWhere(['username', 'title', $this->username])
-            ->andFilterWhere(['email', 'description', $this->email]);
+        
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }
