@@ -26,6 +26,7 @@ use common\models\Comments;
  * @property string|null $created_at
  * @property string|null $updated_at
  * @property int $only_year
+ * @property int $tags
  *
  * @property GameGenre[] $gameGenres
  * @property GamePlatformRelease[] $gamePlatformReleases
@@ -57,7 +58,7 @@ class Game extends ActiveRecord {
             [['release_date', 'publish_at', 'created_at', 'updated_at'], 'safe'],
             [['published', 'is_aaa', 'only_year'], 'integer'],
             [['title'], 'string', 'max' => 170],
-            [['series', 'cover', 'website', 'youtube', 'youtube_btnlink', 'twitch'], 'string', 'max' => 255],
+            [['series', 'cover', 'website', 'youtube', 'youtube_btnlink', 'twitch', 'tags'], 'string', 'max' => 255],
             [
                 ['website', 'youtube', 'youtube_btnlink', 'twitch'], 
                 'url',
@@ -262,7 +263,8 @@ class Game extends ActiveRecord {
             'genres_list' => '',
             'cover_file' => 'Обложка',
             'is_aaa' => 'AAA',
-            'only_year' => 'Точная дата релиза неизвестна'
+            'only_year' => 'Точная дата релиза неизвестна',
+            'tags' => 'Теги',
         ];
     }
     

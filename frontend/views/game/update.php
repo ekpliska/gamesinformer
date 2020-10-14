@@ -68,6 +68,12 @@ $this->params['breadcrumbs'][] = 'Просмотр';
             
             <?= $form->field($model, 'cover_file')->fileInput(['accept' => 'image/*']) ?>
             
+            <?= $form->field($model, 'tags')->textarea(['rows' => 3]) ?>
+            <div class="alert alert-info">
+                <strong>Внимание!</strong>
+                Для разделения тегов друг от друга используйте символ <code>&#x3b;</code>
+            </div>
+            
         </div>
     
         <div class="col-md-5">
