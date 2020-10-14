@@ -22,7 +22,8 @@ class GameController extends Controller {
                 ->where(['AND', ['published' => 0], ['only_year' => 0]])
                 ->all();
 
-        $current_date = strtotime(date('Y-m-d 00:00:00'));
+        $date = $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $current_date = strtotime($date->format('Y-m-d 00:00:00'));
         $new_publishies = 0;
 
         if (count($games)) {
