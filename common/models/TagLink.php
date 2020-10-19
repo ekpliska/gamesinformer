@@ -36,7 +36,7 @@ class TagLink extends ActiveRecord {
     static public function getTypeList() {
         return self::TYPE_LIST;
     }
-    
+
     public function getTag() {
         return $this->hasOne(Tag::className(), ['id' => 'tag_id']);
     }

@@ -4,6 +4,7 @@ namespace common\models;
 use yii\db\ActiveRecord;
 use Yii;
 use common\models\NewsViews;
+use common\models\TagLink;
 
 /**
  * This is the model class for table "news".
@@ -53,6 +54,11 @@ class News extends ActiveRecord {
             return true;
         }
         return false;
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        TagLink::deleteAll(['AND', ['type_uid' => $this->id], ['type' => TagLink::TYPE_LIST[501]]]);
     }
 
     public function attributeLabels() {

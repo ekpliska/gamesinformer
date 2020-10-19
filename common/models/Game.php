@@ -147,7 +147,12 @@ class Game extends ActiveRecord {
         return $this->hasMany(TagLink::className(), ['type_uid' => 'id']);
     }
     
-    public static function getWaitingPublish() {
+    public function afterDelete() {
+        parent::afterDelete();
+        TagLink::deleteAll(['AND', ['type_uid' => $this->id], ['type' => TagLink::TYPE_LIST[502]]]);
+    }
+
+        public static function getWaitingPublish() {
         return Game::find()
                 ->where(['published' => false])
                 ->orderBy(['publish_at' => SORT_DESC])
