@@ -101,12 +101,18 @@ class NewsController extends ActiveController {
         ];
     }
     
+    public function actionPersonalNewsList() {
+        $news_list = new News();
+        return $news_list->getPersonalNewsList();
+    }
+    
     public function verbs() {
         parent::verbs();
         return [
             'index' => ['GET'],
             'view' => ['GET'],
             'like' => ['GET'],
+            'personal-news-list' => ['GET'],
         ];
     }
     

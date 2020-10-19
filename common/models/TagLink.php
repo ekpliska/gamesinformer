@@ -49,6 +49,20 @@ class TagLink extends ActiveRecord {
     public function getNewsList() {
         return $this->hasMany(News::className(), ['id' => 'type_uid'], ['type' => self::TYPE_LIST[501]]);
     }
+    
+    public static function getTagsByGameIds($game_ids) {
+        return self::find()
+                ->where(['in', 'type_uid', $game_ids])
+                ->andWhere(['type' => self::TYPE_LIST[502]])
+                ->all();
+    }
+    
+    public static function getNewsByTags($tags_ids) {
+        return self::find()
+                ->where(['in', 'tag_id', $tags_ids])
+                ->andWhere(['type' => self::TYPE_LIST[501]])
+                ->all();
+    }
 
     public function attributeLabels() {
         return [

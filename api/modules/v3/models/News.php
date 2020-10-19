@@ -7,6 +7,8 @@ use api\modules\v3\models\User;
 use common\models\NewsViews;
 use common\models\NewsLikes;
 use common\models\RssChannel;
+use common\models\Favorite;
+use common\models\TagLink;
 
 class News extends NewsBase {
     
@@ -81,6 +83,38 @@ class News extends NewsBase {
         $add_like->user_id = $this->_user->id;
         $add_like->news_id = $this->id;
         return $add_like->save() ? true : false;
+    }
+    
+    public function getPersonalNewsList() {
+        if (!$this->_user) {
+            \Yii::$app->response->statusCode = 401;
+            return [
+                'success' => false,
+                'items' => [],
+                'error' => ['Ошибка авторизации'],
+            ];
+        }
+        
+        $favorite_games = Favorite::find()->where(['user_uid' => $this->_user->id])->all();
+        if (!$favorite_games) {
+            return [
+                'success' => true,
+                'items' => [],
+            ];
+        }
+        
+        $favorite_games_ids = ArrayHelper::getColumn($favorite_games, 'game_id');
+        
+        $tags_link_game = TagLink::getTagsByGameIds($favorite_games_ids);
+        $tags_link_game_ids = ArrayHelper::getColumn($tags_link_game, 'tag_id');
+        
+        $tags_link_news = TagLink::getNewsByTags($tags_link_game_ids);
+        $tags_link_news_ids = ArrayHelper::getColumn($tags_link_news, 'type_uid');
+        
+        return [
+            'success' => true, 
+            'news' => News::find()->where(['in', 'id', $tags_link_news_ids])->orderBy(['pub_date' => SORT_DESC])->all(),
+        ];
     }
     
     private function checkAuthUser() {
