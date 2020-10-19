@@ -144,7 +144,7 @@ class Game extends ActiveRecord {
      * Связь с тегами
      */
     public function getTagsGame() {
-        return $this->hasMany(TagLink::className(), ['type_uid' => 'id']);
+        return $this->hasMany(TagLink::className(), ['type_uid' => 'id'], ['type' => TagLink::TYPE_LIST[502]]);
     }
     
     public function afterDelete() {
@@ -241,6 +241,17 @@ class Game extends ActiveRecord {
                     'description' => $item->series->description,
                     'image' => $item->series->image,
                 ];
+            }
+        }
+        return $result;
+    }
+    
+    public function getGametagsList() {
+        $tags = $this->tagsGame;
+        $result = [];
+        if ($tags) {
+            foreach ($tags as $item) {
+                $result[] = $item->tag->name;
             }
         }
         return $result;

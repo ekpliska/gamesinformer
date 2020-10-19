@@ -52,6 +52,7 @@ class Platform extends PlatformBase {
                             'is_favorite' => $item->game->isFavorite(),
                             'is_aaa' => $item->game->is_aaa ? true : false,
                             'only_year' => $item->game->only_year ? true : false,
+                            'tags' => $item->game->getGametagsList(),
                         ];
                     }
                 }

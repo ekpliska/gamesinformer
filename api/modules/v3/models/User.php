@@ -77,6 +77,7 @@ class User extends UserBase {
                     'is_favorite' => true,
                     'comments' => $game->getCommentsList(),
                     'is_aaa' => $game->is_aaa ? true : false,
+                    'tags' => $game->game->getGametagsList(),
                 ];
             }
         }

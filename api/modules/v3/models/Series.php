@@ -39,6 +39,7 @@ class Series extends SeriesBase {
                             'comments' => $item->game->getCommentsList(),
                             'is_aaa' => $item->game->is_aaa ? true : false,
                             'only_year' => $item->game->only_year ? true : false,
+                            'tags' => $item->game->getGametagsList(),
                         ];
                     }
                 }
