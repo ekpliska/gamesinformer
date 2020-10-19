@@ -5,7 +5,6 @@ use yii\db\ActiveRecord;
 use Yii;
 use common\models\NewsViews;
 use common\models\TagLink;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "news".
@@ -93,6 +92,21 @@ class News extends ActiveRecord {
     
     public function getLikes() {
         return $this->hasMany(NewsLikes::className(), ['news_id' => 'id']);
+    }
+    
+    public function getTagsList() {
+        return $this->hasMany(TagLink::className(), ['type_uid' => id], ['type' => TagLink::TYPE_LIST[501]]);
+    }
+    
+    public function getNewseTagsList() {
+        $tags = $this->tagsList;
+        $result = [];
+        if ($tags) {
+            foreach ($tags as $item) {
+                $result[] = $item->tag->name;
+            }
+        }
+        return $result;
     }
     
     public static function checkNews($title) {

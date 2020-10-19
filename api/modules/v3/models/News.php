@@ -51,6 +51,9 @@ class News extends NewsBase {
             'count_likes' => function() {
                 return $this->getLikes()->count();
             },
+            'tags' => function() {
+                return $this->getNewseTagsList();
+            },
         ];
     }
     

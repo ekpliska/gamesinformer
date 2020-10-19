@@ -246,7 +246,7 @@ class Game extends ActiveRecord {
         return $result;
     }
     
-    public function getGametagsList() {
+    public function getGameTagsList() {
         $tags = $this->tagsGame;
         $result = [];
         if ($tags) {

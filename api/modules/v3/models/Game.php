@@ -41,7 +41,7 @@ class Game extends GameBase {
                 return $this->only_year ? true : false;
             },
             'tags' => function() {
-                return $this->getGametagsList();
+                return $this->getGameTagsList();
             },
         ];
     }
