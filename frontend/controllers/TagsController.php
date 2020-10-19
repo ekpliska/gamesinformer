@@ -4,11 +4,11 @@ namespace frontend\controllers;
 use yii\web\Controller;
 use Yii;
 use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use common\models\Tag;
 use frontend\models\form\TagForm;
 use common\models\Game;
+use frontend\models\searchFrom\TagSearch;
 
 /**
  * Tags controller
@@ -44,7 +44,7 @@ class TagsController extends Controller {
             return $this->redirect(['index']);
         }
         
-        $searchModel = new \frontend\models\searchFrom\TagSearch();
+        $searchModel = new TagSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         return $this->render('index', [

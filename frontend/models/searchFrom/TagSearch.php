@@ -25,7 +25,7 @@ class TagSearch extends TagLink {
     }
     
     public function search($params) {
-        $query = TagLink::find();
+        $query = TagLink::find()->where(['type' => TagLink::TYPE_LIST[502]]);
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

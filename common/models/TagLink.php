@@ -12,6 +12,7 @@ use common\models\News;
  * @property int $id
  * @property string $type
  * @property int $type_uid
+ * @property int $tag_id
  */
 class TagLink extends ActiveRecord {
 

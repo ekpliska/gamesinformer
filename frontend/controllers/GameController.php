@@ -187,7 +187,8 @@ class GameController extends Controller {
                             $item->delete();
                         }
                     }
-                    if (is_array($model->tagsGame) && count($model->tag_list) > 0) {
+                    
+                    if (is_array($model->tag_list) > 0) {
                         foreach ($model->tag_list as $tag_id) {
                             $tag_link = new TagLink();
                             $tag_link->type = TagLink::TYPE_LIST[502];

@@ -5,6 +5,7 @@ use yii\db\ActiveRecord;
 use Yii;
 use common\models\NewsViews;
 use common\models\TagLink;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "news".
@@ -40,23 +41,31 @@ class News extends ActiveRecord {
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             $this->pub_date = \Yii::$app->formatter->asDate($this->pub_date, 'yyyy-MM-dd hh:mm:ss');
-            $this->description = strip_tags($this->description);
-            
-//            $tags = ["Assassin's Creed Valhalla", "PUBG", "Metal Gear Solid V"];
-//            $news_tag = [];
-//            for ($i = 0; $i < count($tags); $i++) {
-//                if (mb_stripos("NEWS_{$this->title}", $tags[$i])) {
-//                    $news_tag[] = $tags[$i];
-//                }
-//            }
-//            $this->tags = json_encode($news_tag, JSON_UNESCAPED_UNICODE);
-            
+            $this->description = strip_tags($this->description);    
             return true;
         }
         return false;
     }
     
-    public function afterDelete() {
+    public function afterSave($insert, $changedAttributes) {
+        if ($insert) {
+            $tags = Tag::find()->all();
+            if (count($tags) > 0) {
+                foreach ($tags as $tag) {
+                    if (mb_stripos("NEWS_{$this->title}", $tag->name)) {
+                        $tag_link = new TagLink();
+                        $tag_link->type = TagLink::TYPE_LIST[501];
+                        $tag_link->type_uid = $this->id;
+                        $tag_link->tag_id = $tag->id;
+                        $tag_link->save(false);
+                    }
+                }
+            }
+        }
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+        public function afterDelete() {
         parent::afterDelete();
         TagLink::deleteAll(['AND', ['type_uid' => $this->id], ['type' => TagLink::TYPE_LIST[501]]]);
     }
