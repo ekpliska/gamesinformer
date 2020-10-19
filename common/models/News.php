@@ -40,6 +40,16 @@ class News extends ActiveRecord {
         if (parent::beforeSave($insert)) {
             $this->pub_date = \Yii::$app->formatter->asDate($this->pub_date, 'yyyy-MM-dd hh:mm:ss');
             $this->description = strip_tags($this->description);
+            
+//            $tags = ["Assassin's Creed Valhalla", "PUBG", "Metal Gear Solid V"];
+//            $news_tag = [];
+//            for ($i = 0; $i < count($tags); $i++) {
+//                if (mb_stripos("NEWS_{$this->title}", $tags[$i])) {
+//                    $news_tag[] = $tags[$i];
+//                }
+//            }
+//            $this->tags = json_encode($news_tag, JSON_UNESCAPED_UNICODE);
+            
             return true;
         }
         return false;

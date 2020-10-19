@@ -44,6 +44,7 @@ AppAsset::register($this);
                 ['label' => 'Платформы', 'url' => '/platform'],
                 ['label' => 'Жанры', 'url' => '/genre'],
                 ['label' => 'Серии', 'url' => '/series'],
+                ['label' => 'Теги', 'url' => '/tags'],
             ]
         ],
         ['label' => 'Новости',

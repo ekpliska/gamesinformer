@@ -6,6 +6,8 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use common\models\Favorite;
 use common\models\Comments;
+use common\models\Tag;
+use common\models\TagLink;
 
 /**
  * Игры
@@ -36,7 +38,9 @@ class Game extends ActiveRecord {
     public $genres_list;
     public $cover_file;
     public $series_id;
-    
+    public $tag_list;
+
+
     private $_user;
 
     public function __construct($config = array()) {
@@ -55,7 +59,7 @@ class Game extends ActiveRecord {
                 'required',
                 'message' => 'Данное поле должно быть заполнено'],
             [['description'], 'string'],
-            [['release_date', 'publish_at', 'created_at', 'updated_at'], 'safe'],
+            [['release_date', 'publish_at', 'created_at', 'updated_at', 'tag_list'], 'safe'],
             [['published', 'is_aaa', 'only_year'], 'integer'],
             [['title'], 'string', 'max' => 170],
             [['series', 'cover', 'website', 'youtube', 'youtube_btnlink', 'twitch', 'tags'], 'string', 'max' => 255],
@@ -98,7 +102,6 @@ class Game extends ActiveRecord {
             $this->release_date = \Yii::$app->formatter->asDate($this->release_date, 'yyyy-12-31');
             $this->publish_at = \Yii::$app->formatter->asDate($this->publish_at, 'yyyy-12-31');
         }
-        
         return parent::beforeSave($insert);
     }
     
@@ -135,6 +138,13 @@ class Game extends ActiveRecord {
         return ArrayHelper::getColumn($genres, function($item) {
             return $item->genre_id;
         });
+    }
+    
+    /**
+     * Связь с тегами
+     */
+    public function getTagsGame() {
+        return $this->hasMany(TagLink::className(), ['type_uid' => 'id']);
     }
     
     public static function getWaitingPublish() {
@@ -264,7 +274,7 @@ class Game extends ActiveRecord {
             'cover_file' => 'Обложка',
             'is_aaa' => 'AAA',
             'only_year' => 'Точная дата релиза неизвестна',
-            'tags' => 'Теги',
+            'tag_list' => 'Теги',
         ];
     }
     

@@ -112,7 +112,6 @@ class SeriesController extends Controller {
                         }
                     }
                 }
-//                $this->sendNotification($selected_ids, $model);
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', ['message' => 'Серия успешно создана!']);
                 return $this->redirect(['update', 'id' => $model->id]);
@@ -144,23 +143,5 @@ class SeriesController extends Controller {
         
         return $this->redirect(['series/index']);
     }
-    
-//    private function sendNotification($old_game_ids, $series) {
-//        $game_ids = [];
-//        if (count($series->game_ids) > count($old_game_ids)) {
-//            $game_ids = array_diff($series->game_ids, $old_game_ids);
-//        } else {
-//            $game_ids = array_diff($old_game_ids, $series->game_ids);
-//        }
-//        
-//        if (count($game_ids) == 0) {
-//            return false;
-//        }
-//        
-//        $games = Game::find()->where(['IN', 'id', $game_ids])->all();
-//        
-//        $notification = new Notifications(Notifications::SERIES_TYPE, $games, $series, null, null);
-//        die();
-//    }
 
 }

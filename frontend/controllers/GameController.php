@@ -12,6 +12,8 @@ use common\models\Genre;
 use common\models\GameGenre;
 use common\models\Series;
 use common\models\GameSeries;
+use common\models\Tag;
+use common\models\TagLink;
 
 /**
  * Site controller
@@ -76,6 +78,22 @@ class GameController extends Controller {
                         $game_series->series_id = $model->series_id;
                         $game_series->save(false);
                     }
+                    if ($model->tag_list) {
+                        $tags = explode('; ', $model->tag_list);
+                        if (is_array($tags)) {
+                            foreach ($tags as $tag) {
+                                $add_tag = new Tag();
+                                $add_tag->name = str_replace(';', '', $tag);
+                                $add_tag->save(false);
+
+                                $add_tag_link = new TagLink();
+                                $add_tag_link->type = TagLink::TYPE_LIST[502];
+                                $add_tag_link->type_uid = $model->id;
+                                $add_tag_link->tag_id = $add_tag->id;
+                                $add_tag_link->save(false);
+                            }
+                        }
+                    }
                 }
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', ['message' => 'Публикация успешно создана!']);
@@ -108,6 +126,12 @@ class GameController extends Controller {
         $platforms = ArrayHelper::map(Platform::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_platform');
         $genres = ArrayHelper::map(Genre::find()->orderBy(['isRelevant' => SORT_DESC])->all(), 'id', 'name_genre');
         $series = ArrayHelper::map(Series::find()->all(), 'id', 'series_name');
+        
+        $tags = ArrayHelper::map(Tag::find()->asArray()->all(), 'id', 'name');
+        $selected_tag_ids = [];
+        if ($model->tagsGame) {
+            $selected_tag_ids = ArrayHelper::getColumn($model->tagsGame, 'tag_id');
+        }
         
         if (!$model) {
             return $this->redirect(['/']);
@@ -157,6 +181,21 @@ class GameController extends Controller {
                         $game_series->series_id = $model->series_id;
                         $game_series->save(false);
                     }
+                    
+                    if ($model->tagsGame) {
+                        foreach ($model->tagsGame as $item) {
+                            $item->delete();
+                        }
+                    }
+                    if (is_array($model->tagsGame) && count($model->tag_list) > 0) {
+                        foreach ($model->tag_list as $tag_id) {
+                            $tag_link = new TagLink();
+                            $tag_link->type = TagLink::TYPE_LIST[502];
+                            $tag_link->type_uid = $model->id;
+                            $tag_link->tag_id = $tag_id;
+                            $tag_link->save(false);
+                        }
+                    }
                 }
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', ['message' => 'Данные публикации успешно обновлены!']);
@@ -171,6 +210,8 @@ class GameController extends Controller {
             'platforms' => $platforms,
             'genres' => $genres,
             'series' => $series,
+            'tags' => $tags,
+            'selected_tag_ids' => $selected_tag_ids,
         ]);
     }
     

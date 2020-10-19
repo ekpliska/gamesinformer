@@ -32,7 +32,6 @@ class TestController extends Controller {
     /**
      * Для теста пушей
      */
-    public function actionDaily() {
-    }
+    public function actionDaily() {}
 
 }
