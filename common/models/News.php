@@ -95,7 +95,7 @@ class News extends ActiveRecord {
     }
     
     public function getTagsList() {
-        return $this->hasMany(TagLink::className(), ['type_uid' => id], ['type' => TagLink::TYPE_LIST[501]]);
+        return $this->hasMany(TagLink::className(), ['type_uid' => 'id'], ['type' => TagLink::TYPE_LIST[501]]);
     }
     
     public function getNewseTagsList() {
