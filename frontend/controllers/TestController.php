@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use common\models\Game;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use common\models\TokenPushMobile;

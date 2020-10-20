@@ -93,7 +93,7 @@ class News extends NewsBase {
             \Yii::$app->response->statusCode = 401;
             return [
                 'success' => false,
-                'items' => [],
+                'news' => [],
                 'error' => ['Ошибка авторизации'],
             ];
         }
@@ -102,7 +102,7 @@ class News extends NewsBase {
         if (!$favorite_games) {
             return [
                 'success' => true,
-                'items' => [],
+                'news' => [],
             ];
         }
         
