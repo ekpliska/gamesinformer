@@ -62,7 +62,7 @@ class Game extends ActiveRecord {
             [['release_date', 'publish_at', 'created_at', 'updated_at', 'tag_list'], 'safe'],
             [['published', 'is_aaa', 'only_year'], 'integer'],
             [['title'], 'string', 'max' => 170],
-            [['series', 'cover', 'website', 'youtube', 'youtube_btnlink', 'twitch', 'tags'], 'string', 'max' => 255],
+            [['series', 'cover', 'website', 'youtube', 'youtube_btnlink', 'twitch'], 'string', 'max' => 255],
             [
                 ['website', 'youtube', 'youtube_btnlink', 'twitch'], 
                 'url',
