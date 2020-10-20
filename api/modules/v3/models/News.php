@@ -14,7 +14,7 @@ class News extends NewsBase {
     
     private $_user;
     private $_news_views = [];
-    private $_news_likes = 0;
+    private $_news_likes = [];
 
     public function __construct($config = array()) {
         parent::__construct($config);
