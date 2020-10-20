@@ -8,6 +8,12 @@ $index++;
     <img src="<?= $model->image ? $model->image : 'https://placehold.it/400x350?text=NO_PREVIEW' ?>" alt="Preview news" class="preview-news" style="width:100%">
     <span class="date_new">
         <?= Yii::$app->formatter->asDate($model->pub_date, 'medium') ?>
+        <span class="like_news">
+            <i class="glyphicon glyphicon-heart"></i>&nbsp;<?= count($model->likes) ?>
+        </span>
+    </span>
+    <span class="tags_new">
+        Теги:&nbsp;<?= count($model->getNewseTagsList()) == 0 ? 'Нет тегов' : implode($model->getNewseTagsList(), ', ') ?>
     </span>
     <h5>
         <?=
