@@ -8,12 +8,14 @@ use yii\data\ActiveDataProvider;
 use api\modules\v3\models\News;
 use api\modules\v3\models\RssChannel;
 
+
 class NewsSearch extends News {
 
     public $title;
     public $rss_name;
     public $type;
     public $type_list;
+    public $order_by;
 
     public function __construct($config = array()) {
         $this->type_list = RssChannel::getTypesListApi();
@@ -22,7 +24,7 @@ class NewsSearch extends News {
 
     public function rules() {
         return [
-            [['title', 'rss_ids', 'type'], 'safe'],
+            [['title', 'rss_ids', 'type', 'order_by'], 'safe'],
         ];
     }
 
@@ -34,8 +36,12 @@ class NewsSearch extends News {
         
         $rss_ids = [];
         $type = isset($params['type']) ? $params['type'] : null;
+        
+        $query = News::find()
+            ->select(['`news`.*', 'COUNT(`news_likes`.`news_id`) AS `likes_count`'])
+            ->joinWith('likes')
+            ->groupBy('`news`.`id`');
 
-        $query = News::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -47,6 +53,10 @@ class NewsSearch extends News {
         
         $query->where(['is_block' => 0])->orderBy(['pub_date' => SORT_DESC]);
 
+        if (isset($params['order_by']) && $params['order_by'] === 'likes') {
+            $query->orderBy(['likes_count' => SORT_DESC]);
+        }
+        
         if (in_array($type, $this->type_list)) {
             $query->joinWith('rss')->where(['type' => array_search($type, $this->type_list)]);
         } else {
