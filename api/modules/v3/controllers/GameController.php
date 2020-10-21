@@ -60,14 +60,14 @@ class GameController extends ActiveController {
     
     public function actionSpotAaaGame() {
         $games = new Game();
-        if (!$games->checkSubscribe()) {
-            Yii::$app->response->statusCode = 401;
-            return [
-                'success' => false,
-                'news' => [],
-                'error' => ['Ошибка авторизации'],
-            ];
-        }
+//        if (!$games->checkSubscribe()) {
+//            Yii::$app->response->statusCode = 401;
+//            return [
+//                'success' => false,
+//                'news' => [],
+//                'error' => ['Ошибка авторизации'],
+//            ];
+//        }
         return [
             'success' => true,
             'news' => $games->getPersonalAaaGameList(),
