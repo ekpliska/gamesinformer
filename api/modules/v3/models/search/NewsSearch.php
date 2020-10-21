@@ -54,7 +54,7 @@ class NewsSearch extends News {
         $query->where(['is_block' => 0]);
 
         if (isset($params['order_by']) && $params['order_by'] == 'likes') {
-            $query->orderBy(['likes_count' => SORT_DESC]);
+            $query->orderBy(['likes_count' => SORT_DESC, 'pub_date' => SORT_DESC]);
         } else {
             $query->orderBy(['pub_date' => SORT_DESC]);
         }
