@@ -6,6 +6,8 @@ use common\models\Game as GameBase;
 
 class Game extends GameBase {
     
+    
+    
     public function fields() {
         
         return [
@@ -44,6 +46,30 @@ class Game extends GameBase {
                 return $this->getGameTagsList();
             },
         ];
+    }
+    
+    public function getPersonalAaaGameList() {
+        
+        $date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $plus_days = strtotime($date->modify('+15 day')->format('Y-m-d 00:00:00'));
+        $minus_days = strtotime($date->modify('-30 day')->format('Y-m-d 00:00:00'));
+        
+        $games_future = Game::find()
+                ->where(['<=', 'UNIX_TIMESTAMP(release_date)', $plus_days])
+                ->andWhere(['published' => 0])
+                ->orderBy(['release_date' => SORT_DESC]);
+        
+        $games_publish = Game::find()
+                ->where(['>=', 'UNIX_TIMESTAMP(release_date)', $minus_days])
+                ->andWhere(['published' => 1])
+                ->limit(10 - $games_future->count())
+                ->orderBy(['release_date' => SORT_DESC]);
+        
+        return [
+            'success' => true,
+            'games' => array_merge($games_future->all(), $games_publish->all()),
+        ];
+        
     }
     
 }

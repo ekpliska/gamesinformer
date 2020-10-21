@@ -7,6 +7,7 @@ return [
         'pluralize' => true,
         'extraPatterns' => [
             'GET /' => 'index',
+            'GET /spot-aaa-game' => 'spot-aaa-game',
         ]
     ],
     [

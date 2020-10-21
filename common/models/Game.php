@@ -39,8 +39,7 @@ class Game extends ActiveRecord {
     public $cover_file;
     public $series_id;
     public $tag_list;
-
-
+    
     private $_user;
 
     public function __construct($config = array()) {
@@ -255,6 +254,13 @@ class Game extends ActiveRecord {
             }
         }
         return $result;
+    }
+    
+    public function checkSubscribe() {
+        if (!$this->_user) {
+            return false;
+        }
+        return true;
     }
     
     private function checkAuthUser() {

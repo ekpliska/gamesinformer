@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\rest\ActiveController;
 use api\modules\v3\models\search\GameSearch;
+use api\modules\v3\models\Game;
 
 class GameController extends ActiveController {
     
@@ -57,11 +58,28 @@ class GameController extends ActiveController {
 
     }
     
+    public function actionSpotAaaGame() {
+        $games = new Game();
+        if (!$games->checkSubscribe()) {
+            Yii::$app->response->statusCode = 401;
+            return [
+                'success' => false,
+                'news' => [],
+                'error' => ['Ошибка авторизации'],
+            ];
+        }
+        return [
+            'success' => true,
+            'news' => $games->getPersonalAaaGameList(),
+        ];
+    }
+    
     public function verbs() {
         parent::verbs();
         return [
             'index' => ['GET'],
             'view' => ['GET'],
+            'spot-aaa-game' => ['GET'],
         ];
     }
     
