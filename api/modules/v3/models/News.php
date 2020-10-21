@@ -49,7 +49,7 @@ class News extends NewsBase {
                 return in_array($this->id, $this->_news_likes) ? true : false;
             },
             'count_likes' => function() {
-                return $this->getLikes()->count();
+                return (int)$this->getLikes()->count();
             },
             'tags' => function() {
                 return $this->getNewseTagsList();
