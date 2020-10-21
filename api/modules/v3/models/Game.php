@@ -14,37 +14,37 @@ class Game extends GameBase {
             'id', 'title', 'description', 
             'release_date', 
             'publish_at', 'published', 
-//            'website', 'youtube', 'youtube_btnlink', 'twitch',
-//            'cover' => function() {
-//                if (strpos($this->cover, 'youtube.com')) {
-//                    return $this->cover;
-//                }
-//                return Url::home(true) . ltrim($this->cover, '/');
-//            },
-//            'series' => function() {                
-//                return $this->getGameSeries();
-//            },
-//            'gameGenres' => function() {
-//                return $this->getGameGenresList();
-//            },
-//            'gamePlatformReleases' => function() {
-//                return $this->getGamePlatformReleasesList();
-//            },
-//            'is_favorite' => function() {
-//                return $this->isFavorite();
-//            },
-//            'comments' => function() {
-//                return $this->getCommentsList();
-//            },
-//            'is_aaa' => function() {
-//                return $this->is_aaa ? true : false;
-//            },
-//            'only_year' => function() {
-//                return $this->only_year ? true : false;
-//            },
-//            'tags' => function() {
-//                return $this->getGameTagsList();
-//            },
+            'website', 'youtube', 'youtube_btnlink', 'twitch',
+            'cover' => function() {
+                if (strpos($this->cover, 'youtube.com')) {
+                    return $this->cover;
+                }
+                return Url::home(true) . ltrim($this->cover, '/');
+            },
+            'series' => function() {                
+                return $this->getGameSeries();
+            },
+            'gameGenres' => function() {
+                return $this->getGameGenresList();
+            },
+            'gamePlatformReleases' => function() {
+                return $this->getGamePlatformReleasesList();
+            },
+            'is_favorite' => function() {
+                return $this->isFavorite();
+            },
+            'comments' => function() {
+                return $this->getCommentsList();
+            },
+            'is_aaa' => function() {
+                return $this->is_aaa ? true : false;
+            },
+            'only_year' => function() {
+                return $this->only_year ? true : false;
+            },
+            'tags' => function() {
+                return $this->getGameTagsList();
+            },
         ];
     }
     
@@ -57,17 +57,14 @@ class Game extends GameBase {
         $games_future = Game::find()
                 ->where(['<=', 'UNIX_TIMESTAMP(release_date)', $plus_days])
                 ->andWhere(['published' => 0])
+                ->limit(5)
                 ->orderBy(['release_date' => SORT_DESC]);
-        
-        if ($games_future->count() > 5) {
-            $games_future->limit(5);
-        }
         
         $games_publish = Game::find()
                 ->where(['>=', 'UNIX_TIMESTAMP(release_date)', $minus_days])
                 ->andWhere(['published' => 1])
-                ->limit(10 - $games_future->count())
-                ->orderBy(['release_date' => SORT_DESC]);
+                ->limit(5)
+                ->orderBy(['release_date' => SORT_DESC]);        
         
         return [
             'success' => true,
