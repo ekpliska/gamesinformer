@@ -46,6 +46,12 @@ class User extends UserBase {
             'is_advertising' => function() {
                 return $this->is_advertising ? true : false;
             },
+            'is_favorite_list' => function() {
+                return $this->is_advertising ? true : false;
+            },
+            'is_subscription' => function() {
+                return $this->is_subscription ? true : false;
+            },
         ];
     }
 

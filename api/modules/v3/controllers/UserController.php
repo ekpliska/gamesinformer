@@ -23,7 +23,7 @@ class UserController extends Controller {
 
         $behaviors = parent::behaviors();
 
-        $behaviors['authenticator']['only'] = ['index', 'update', 'change-password'];
+        $behaviors['authenticator']['only'] = ['index', 'update', 'change-password', 'subscribe', 'unsubscribe'];
         $behaviors['authenticator']['authMethods'] = [
             HttpBasicAuth::className(),
             HttpBearerAuth::className(),
@@ -31,7 +31,7 @@ class UserController extends Controller {
 
         $behaviors['access'] = [
             'class' => AccessControl::className(),
-            'only' => ['index', 'update', 'reset-password'],
+            'only' => ['index', 'update', 'reset-password', 'subscribe', 'unsubscribe'],
             'rules' => [
                 [
                     'allow' => true,
@@ -124,6 +124,8 @@ class UserController extends Controller {
             'index' => ['GET'],
             'update' => ['POST'],
             'change-password' => ['POST'],
+            'subscribe' => ['GET'],
+            'unsubscribe' => ['GET'],
         ];
     }
 

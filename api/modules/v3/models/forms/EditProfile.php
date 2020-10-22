@@ -23,6 +23,7 @@ class EditProfile extends Model {
     public $is_time_alert;
     public $is_advertising;
     public $is_shares;
+    public $is_favorite_list;
     public $days_of_week;
     private $_user;
 
@@ -39,7 +40,7 @@ class EditProfile extends Model {
             ['is_time_alert', 'checkTimeAlert'],
             ['days_of_week', 'checkIsDaysOfWeek'],
             [['platforms', 'days_of_week'], 'safe'],
-            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares'], 'boolean'],
+            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares', 'is_favorite_list'], 'boolean'],
             [['time_alert'], 'time', 'format' => 'php:H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
@@ -108,16 +109,20 @@ class EditProfile extends Model {
             $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
         }
         
-        if (isset($this->aaa_notifications)) {
+        if ($user->is_subscription && isset($this->aaa_notifications)) {
             $user->aaa_notifications = (int)$this->aaa_notifications;
         }
-
-        if (isset($this->is_shares)) {
+        
+        if ($user->is_subscription && isset($this->is_shares)) {
             $user->is_shares = (int)$this->is_shares;
         }
 
         if (isset($this->is_advertising)) {
             $user->is_advertising = (int)$this->is_advertising;
+        }
+        
+        if (isset($this->is_favorite_list)) {
+            $user->is_favorite_list = (int)$this->is_favorite_list;
         }
 
         return $user->save(false) ? true : false;

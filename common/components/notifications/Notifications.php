@@ -74,12 +74,12 @@ class Notifications {
                 if ($game == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $game является обязательным.');
                 }
-                $users = User::find()->where(['aaa_notifications' => 1])->asArray()->all();
+                $users = User::find()->where(['aaa_notifications' => 1])->andWhere(['is_subscription' => 1])->asArray()->all();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageByAAAGame();
                 break;
             case self::SHARES_TYPE:
-                $users = User::find()->where(['is_shares' => 1])->asArray()->all();
+                $users = User::find()->where(['is_shares' => 1])->andWhere(['is_subscription' => 1])->asArray()->all();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageByShares($other['games_list']);
                 break;

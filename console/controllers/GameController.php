@@ -70,8 +70,8 @@ class GameController extends Controller {
             // Если игра релиз и она AAA
             $notification = new Notifications(Notifications::AAA_GAME_TYPE, $game, $series);
             $notification->createNotification();
-            return true;
         }
+        
         if ($series) {
             // Если игра имеет серию
             $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);

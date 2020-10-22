@@ -26,6 +26,7 @@ use common\models\FavoriteSeries;
  * @property int $status
  * @property int $aaa_notifications
  * @property int $is_subscription
+ * @property int $is_favorite_list
  * 
  *
  * @property UserPlatform[] $userPlatforms
@@ -54,7 +55,8 @@ class User extends ActiveRecord implements IdentityInterface {
             [['email'], 'string', 'max' => 70],
             [['email'], 'unique'],
             [['token'], 'unique'],
-            [['aaa_notifications', 'is_shares'], 'default', 'value' => 1],
+            [['is_favorite_list'], 'default', 'value' => 1],
+            [['aaa_notifications', 'is_shares'], 'default', 'value' => 0],
             [['is_time_alert', 'is_advertising', 'is_subscription'], 'default', 'value' => 0],
         ];
     }
@@ -137,11 +139,15 @@ class User extends ActiveRecord implements IdentityInterface {
 
     public function subscribe() {
         $this->is_subscription = true;
+        $this->aaa_notifications = 1;
+        $this->is_shares = 1;
         return $this->save() ? true : false;
     }
     
     public function unSubscribe() {
         $this->is_subscription = false;
+        $this->aaa_notifications = 0;
+        $this->is_shares = 0;
         return $this->save() ? true : false;
     }
     

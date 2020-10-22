@@ -260,6 +260,9 @@ class Game extends ActiveRecord {
         if (!$this->_user) {
             return false;
         }
+        if (!$this->_user->is_subscription) {
+            return false;
+        }
         return true;
     }
     
