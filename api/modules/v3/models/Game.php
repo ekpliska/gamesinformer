@@ -66,10 +66,7 @@ class Game extends GameBase {
                 ->limit(5)
                 ->orderBy(['release_date' => SORT_DESC]);        
         
-        return [
-            'success' => true,
-            'games' => array_merge($games_future->all(), $games_publish->all()),
-        ];
+        return array_merge($games_future->all(), $games_publish->all());
         
     }
     
