@@ -24,11 +24,20 @@ $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username :
             <br />
 
             <div class="panel panel-default">
-                <div class="panel-heading">Статус</div>
+                <div class="panel-heading">Дополнительная информация</div>
                 <div class="panel-body">
-                    <span class="label <?= $user->status ? 'label-success' : 'label-danger' ?>">
-                        <?= $user->status ? 'Активен' : 'Заблокирован' ?>
-                    </span>
+                    <p>
+                        Статус 
+                        <span class="label <?= $user->status ? 'label-success' : 'label-danger' ?>">
+                            <?= $user->status ? 'Активен' : 'Заблокирован' ?>
+                        </span>
+                    </p>
+                    <p>
+                        Подписка 
+                        <span class="label <?= $user->is_subscription ? 'label-success' : 'label-danger' ?>">
+                            <?= $user->is_subscription ? 'Есть' : 'Нет' ?>
+                        </span>
+                    </p>
                 </div>
             </div>
 

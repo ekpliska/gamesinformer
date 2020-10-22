@@ -104,6 +104,16 @@ class UserController extends Controller {
         ];
         
     }
+
+    public function actionSubscribe() {
+        $user = $this->getUserProfile();
+        return ['success' => $user->subscribe()];
+    }
+    
+    public function actionUnsubscribe() {
+        $user = $this->getUserProfile();
+        return ['success' => $user->unSubscribe()];
+    }
     
     private function getUserProfile() {
         return User::findOne(Yii::$app->user->id);

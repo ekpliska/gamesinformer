@@ -25,6 +25,7 @@ use common\models\FavoriteSeries;
  * @property string|null $days_of_week
  * @property int $status
  * @property int $aaa_notifications
+ * @property int $is_subscription
  * 
  *
  * @property UserPlatform[] $userPlatforms
@@ -54,7 +55,7 @@ class User extends ActiveRecord implements IdentityInterface {
             [['email'], 'unique'],
             [['token'], 'unique'],
             [['aaa_notifications', 'is_shares'], 'default', 'value' => 1],
-            [['is_time_alert', 'is_advertising'], 'default', 'value' => 0],
+            [['is_time_alert', 'is_advertising', 'is_subscription'], 'default', 'value' => 0],
         ];
     }
     
@@ -118,6 +119,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'aaa_notifications' => 'Уведомления о выходе AAA-игр',
             'is_time_alert' => 'Оповещения по дням недели',
             'days_of_week' => 'Дни недели',
+            'is_subscription' => 'Подписка',
         ];
     }
 
@@ -131,6 +133,16 @@ class User extends ActiveRecord implements IdentityInterface {
     
     public function getUserFavoriteSeries() {
         return $this->hasMany(FavoriteSeries::className(), ['user_uid' => 'id']);
+    }
+
+    public function subscribe() {
+        $this->is_subscription = true;
+        return $this->save() ? true : false;
+    }
+    
+    public function unSubscribe() {
+        $this->is_subscription = false;
+        return $this->save() ? true : false;
     }
     
 }

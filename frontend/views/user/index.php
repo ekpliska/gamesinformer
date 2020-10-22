@@ -30,6 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     ],
                     [
+                        'attribute' => 'is_subscription',
+                        'content' => function($data){
+                            return $data->is_subscription 
+                                    ? '<span class="label label-success">Есть</span>' 
+                                    : '<span class="label label-danger">Нет</span>';
+                        }
+                    ],
+                    [
                         'class' => 'yii\grid\ActionColumn',
                         'template' => '{update}',
                         'buttons' => [
