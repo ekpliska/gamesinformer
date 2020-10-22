@@ -64,13 +64,13 @@ class GameController extends ActiveController {
             Yii::$app->response->statusCode = 401;
             return [
                 'success' => false,
-                'news' => [],
+                'games' => [],
                 'error' => ['Ошибка авторизации'],
             ];
         }
         return [
             'success' => true,
-            'news' => $games->getPersonalAaaGameList(),
+            'games' => $games->getPersonalAaaGameList(),
         ];
     }
     
