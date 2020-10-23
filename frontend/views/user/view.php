@@ -139,6 +139,12 @@ $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username :
                             </span>
                         </li>
                         <li class="list-group-item setting-tab">
+                            Уведомление об изменениях в сериях из избранного
+                            <span class="label <?= $user->is_favorite_series ? 'label-success' : 'label-warning' ?>">
+                                <?= $user->is_favorite_series ? 'ВКЛ' : 'ВЫКЛ' ?>
+                            </span>
+                        </li>
+                        <li class="list-group-item setting-tab">
                             Уведомления о раздачах 
                             <span class="label <?= $user->is_shares ? 'label-success' : 'label-warning' ?>">
                                 <?= $user->is_shares ? 'ВКЛ' : 'ВЫКЛ' ?>

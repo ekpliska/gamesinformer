@@ -37,20 +37,18 @@ class Notifications {
         $this->_game = $game;
         $this->_series = $series;
         
-        // Формируем список ID пользоватейлей, у которых есть игра в избранном, у игры есть серия, но серия не в избранном
-        $users_ids_by_series = [];
         $favorite_series_list = [];
         $favorite_game_list = [];
         
         switch ($type) {
             case self::SERIES_TYPE:
-                if ($series == null || $game == null) {
+                if ($series == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $series является обязательным.');
                 }
                 $favorite_series_list = FavoriteSeries::find()->where(['series_id' => $series->id])->asArray()->all();
                 $users = User::find()
-                        ->where(['IN', 'id', $favorite_series_list])
-                        ->andWhere(['is_favorite_list' => 1])
+                        ->where(['IN', 'id', ArrayHelper::getColumn($favorite_series_list, 'user_uid')])
+                        ->andWhere(['is_favorite_series' => 1])
                         ->asArray()
                         ->all();
                 
@@ -61,20 +59,9 @@ class Notifications {
                 if ($game == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $game является обязательным.');
                 }
-                if ($series) {
-                    $favorite_series_list = FavoriteSeries::find()->where(['series_id' => $series->id])->asArray()->all();
-                    $users_ids_by_series = ArrayHelper::getColumn($favorite_series_list, 'user_uid');
-                }
-                $favorite_game_list = Favorite::find()
-                        ->where([
-                            'AND',
-                            ['game_id' => $game->id],
-                            ['NOT IN', 'user_uid', ArrayHelper::getColumn($favorite_game_list, 'user_uid')]
-                        ])
-                        ->asArray()
-                        ->all();
+                $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
                 $users = User::find()
-                        ->where(['IN', 'id', $favorite_series_list])
+                        ->where(['IN', 'id', ArrayHelper::getColumn($favorite_game_list, 'user_uid')])
                         ->andWhere(['is_favorite_list' => 1])
                         ->asArray()
                         ->all();

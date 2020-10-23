@@ -5,6 +5,8 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use common\models\User;
+use yii\helpers\ArrayHelper;
+use common\components\notifications\Notifications;
 
 /**
  * This is the model class for table "series".
@@ -58,6 +60,27 @@ class Series extends ActiveRecord {
             $this->image->saveAs($dir . $file_name);
             $this->image = $file_name;
             @unlink(Yii::getAlias(Yii::getAlias('@api/web') . $current_image));
+        }
+        
+        if (!$insert) {
+            if (count($this->gameSeries) > 0) {
+                $series_ids = ArrayHelper::getColumn($this->gameSeries, 'game_id');
+                $new_series_list = $this->game_ids;
+                $new_series_ids = [];
+                
+                if (count($series_ids) > count($new_series_list)) {
+                    $new_series_ids = array_diff($series_ids, $new_series_list);
+                } else {
+                    $new_series_ids = array_diff($new_series_list, $series_ids);
+                }
+                
+                if (count($new_series_list) > 0) {
+                    $game = count($new_series_ids) !== 1 ? null : Game::findOne(['id' => current($new_series_ids)]);
+                    $series = Series::findOne(['id' => $this->id]);
+                    $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
+                    $notification_series->createNotification();
+                }
+            }
         }
 
         return parent::beforeSave($insert);

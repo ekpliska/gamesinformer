@@ -24,6 +24,7 @@ class EditProfile extends Model {
     public $is_advertising;
     public $is_shares;
     public $is_favorite_list;
+    public $is_favorite_series;
     public $days_of_week;
     private $_user;
 
@@ -40,7 +41,7 @@ class EditProfile extends Model {
             ['is_time_alert', 'checkTimeAlert'],
             ['days_of_week', 'checkIsDaysOfWeek'],
             [['platforms', 'days_of_week'], 'safe'],
-            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares', 'is_favorite_list'], 'boolean'],
+            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares', 'is_favorite_list', 'is_favorite_series'], 'boolean'],
             [['time_alert'], 'time', 'format' => 'php:H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
@@ -123,6 +124,10 @@ class EditProfile extends Model {
         
         if (isset($this->is_favorite_list)) {
             $user->is_favorite_list = (int)$this->is_favorite_list;
+        }
+        
+        if (isset($this->is_favorite_series)) {
+            $user->is_favorite_series = (int)$this->is_favorite_series;
         }
 
         return $user->save(false) ? true : false;
