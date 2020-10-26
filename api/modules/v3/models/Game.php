@@ -59,7 +59,7 @@ class Game extends GameBase {
                 ->andWhere(['published' => 0])
                 ->andWhere(['is_aaa' => 1])
                 ->limit(5)
-                ->orderBy(['release_date' => SORT_ASC]);
+                ->orderBy(['release_date' => SORT_DESC]);
         
         $games_publish = Game::find()
                 ->where(['>=', 'UNIX_TIMESTAMP(release_date)', $minus_days])
