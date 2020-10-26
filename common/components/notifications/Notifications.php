@@ -37,49 +37,48 @@ class Notifications {
         $this->_game = $game;
         $this->_series = $series;
         
-        // Формируем список ID пользоватейлей, у которых есть игра в избранном, у игры есть серия, но серия не в избранном
-        $users_ids_by_series = [];
         $favorite_series_list = [];
         $favorite_game_list = [];
         
         switch ($type) {
             case self::SERIES_TYPE:
-                if ($series == null || $game == null) {
+                if ($series == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $series является обязательным.');
                 }
                 $favorite_series_list = FavoriteSeries::find()->where(['series_id' => $series->id])->asArray()->all();
-                $this->_user_ids = ArrayHelper::getColumn($favorite_series_list, 'user_uid');
+                $users = User::find()
+                        ->where(['IN', 'id', ArrayHelper::getColumn($favorite_series_list, 'user_uid')])
+                        ->andWhere(['is_favorite_series' => 1])
+                        ->asArray()
+                        ->all();
+                
+                $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageBySeries();
                 break;
             case self::GAME_FAVORITE_TYPE:
                 if ($game == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $game является обязательным.');
                 }
-                if ($series) {
-                    $favorite_series_list = FavoriteSeries::find()->where(['series_id' => $series->id])->asArray()->all();
-                    $users_ids_by_series = ArrayHelper::getColumn($favorite_series_list, 'user_uid');
-                }
-                $favorite_game_list = Favorite::find()
-                        ->where([
-                            'AND',
-                            ['game_id' => $game->id],
-                            ['NOT IN', 'user_uid', $users_ids_by_series]
-                        ])
+                $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
+                $users = User::find()
+                        ->where(['IN', 'id', ArrayHelper::getColumn($favorite_game_list, 'user_uid')])
+                        ->andWhere(['is_favorite_list' => 1])
                         ->asArray()
                         ->all();
-                $this->_user_ids = ArrayHelper::getColumn($favorite_game_list, 'user_uid');
+                
+                $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageByGame();
                 break;
             case self::AAA_GAME_TYPE:
                 if ($game == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $game является обязательным.');
                 }
-                $users = User::find()->where(['aaa_notifications' => 1])->asArray()->all();
+                $users = User::find()->where(['aaa_notifications' => 1])->andWhere(['is_subscription' => 1])->asArray()->all();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageByAAAGame();
                 break;
             case self::SHARES_TYPE:
-                $users = User::find()->where(['is_shares' => 1])->asArray()->all();
+                $users = User::find()->where(['is_shares' => 1])->andWhere(['is_subscription' => 1])->asArray()->all();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
                 $this->_notification = $this->messageByShares($other['games_list']);
                 break;

@@ -172,10 +172,10 @@ class GameController extends Controller {
                             $genre_model->save();
                         }
                     }
+                    if ($model->seriesGame) {
+                        GameSeries::deleteAll(['game_id' => $model->id]);
+                    }
                     if ($model->series_id) {
-                        if ($model->seriesGame) {
-                            GameSeries::deleteAll(['game_id' => $model->id]);
-                        }
                         $game_series = new GameSeries();
                         $game_series->game_id = $model->id;
                         $game_series->series_id = $model->series_id;

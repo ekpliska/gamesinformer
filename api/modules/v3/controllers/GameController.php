@@ -65,7 +65,7 @@ class GameController extends ActiveController {
             return [
                 'success' => false,
                 'games' => [],
-                'error' => ['Ошибка авторизации'],
+                'error' => ['У вас недостаточно прав для выполнения этой операции'],
             ];
         }
         return [

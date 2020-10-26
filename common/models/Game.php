@@ -6,8 +6,8 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use common\models\Favorite;
 use common\models\Comments;
-use common\models\Tag;
 use common\models\TagLink;
+use common\components\notifications\Notifications;
 
 /**
  * Игры
@@ -101,6 +101,18 @@ class Game extends ActiveRecord {
             $this->release_date = \Yii::$app->formatter->asDate($this->release_date, 'yyyy-12-31');
             $this->publish_at = \Yii::$app->formatter->asDate($this->publish_at, 'yyyy-12-31');
         }
+        
+        if ($this->series_id) {
+            $series = Series::findOne(['id' => $this->series_id]);
+            $game_series = ArrayHelper::getColumn($series->gameSeries, 'game_id');
+            if (!in_array($this->id, $game_series)) {
+                $game = Game::findOne(['id' => $this->id]);
+                $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
+                $notification_series->createNotification();
+                
+            }
+        }
+        
         return parent::beforeSave($insert);
     }
     
@@ -258,6 +270,9 @@ class Game extends ActiveRecord {
     
     public function checkSubscribe() {
         if (!$this->_user) {
+            return false;
+        }
+        if (!$this->_user->is_subscription) {
             return false;
         }
         return true;

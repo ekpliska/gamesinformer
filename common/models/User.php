@@ -26,6 +26,8 @@ use common\models\FavoriteSeries;
  * @property int $status
  * @property int $aaa_notifications
  * @property int $is_subscription
+ * @property int $is_favorite_list
+ * @property int $is_favorite_series
  * 
  *
  * @property UserPlatform[] $userPlatforms
@@ -54,7 +56,8 @@ class User extends ActiveRecord implements IdentityInterface {
             [['email'], 'string', 'max' => 70],
             [['email'], 'unique'],
             [['token'], 'unique'],
-            [['aaa_notifications', 'is_shares'], 'default', 'value' => 1],
+            [['is_favorite_list', 'is_favorite_series'], 'default', 'value' => 1],
+            [['aaa_notifications', 'is_shares'], 'default', 'value' => 0],
             [['is_time_alert', 'is_advertising', 'is_subscription'], 'default', 'value' => 0],
         ];
     }
@@ -120,6 +123,8 @@ class User extends ActiveRecord implements IdentityInterface {
             'is_time_alert' => 'Оповещения по дням недели',
             'days_of_week' => 'Дни недели',
             'is_subscription' => 'Подписка',
+            'is_favorite_list' => 'Уведомления о выходе игры из избранного',
+            'is_favorite_series' => 'Уведомления об изменении в избранной серии',
         ];
     }
 
@@ -137,11 +142,15 @@ class User extends ActiveRecord implements IdentityInterface {
 
     public function subscribe() {
         $this->is_subscription = true;
+        $this->aaa_notifications = 1;
+        $this->is_shares = 1;
         return $this->save() ? true : false;
     }
     
     public function unSubscribe() {
         $this->is_subscription = false;
+        $this->aaa_notifications = 0;
+        $this->is_shares = 0;
         return $this->save() ? true : false;
     }
     

@@ -3,6 +3,7 @@
 namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
+use common\components\notifications\Notifications;
 
 /**
  * This is the model class for table "game_series".
