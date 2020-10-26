@@ -54,19 +54,20 @@ class Game extends GameBase {
         $plus_days = strtotime($date->modify('+15 day')->format('Y-m-d 00:00:00'));
         $minus_days = strtotime($date->modify('-30 day')->format('Y-m-d 00:00:00'));
         
-        $games_future = Game::find()
-                ->where(['<=', 'UNIX_TIMESTAMP(release_date)', $plus_days])
-                ->andWhere(['published' => 0])
-                ->andWhere(['is_aaa' => 1])
-                ->limit(5)
-                ->orderBy(['release_date' => SORT_DESC]);
-        
         $games_publish = Game::find()
                 ->where(['>=', 'UNIX_TIMESTAMP(release_date)', $minus_days])
                 ->andWhere(['published' => 1])
                 ->andWhere(['is_aaa' => 1])
                 ->limit(5)
-                ->orderBy(['release_date' => SORT_DESC]);        
+                ->orderBy(['release_date' => SORT_DESC]);
+
+        $games_future = Game::find()
+                ->where(['<=', 'UNIX_TIMESTAMP(release_date)', $plus_days])
+                ->andWhere(['published' => 0])
+                ->andWhere(['is_aaa' => 1])
+                ->limit(10 - $games_publish->count())
+                ->orderBy(['release_date' => SORT_DESC]);
+        
         
         return array_merge($games_future->all(), $games_publish->all());
         
