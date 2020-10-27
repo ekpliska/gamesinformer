@@ -131,8 +131,6 @@ class NewsController extends Controller {
                             $news->pub_date = $date_pub->format('Y-m-d H:i:s');
                         }
 
-                        $count_news++;
-
                         if (!property_exists($item, $tag)) {
                             continue;
                         }
@@ -149,6 +147,8 @@ class NewsController extends Controller {
                     if (!$news->save()) {
                         continue;
                     }
+                    
+                    $count_news++;
                 }
                 if ($count_news > 0) {
                     $new_log = new AppLogs();

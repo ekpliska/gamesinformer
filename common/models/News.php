@@ -40,7 +40,7 @@ class News extends ActiveRecord {
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             $this->pub_date = \Yii::$app->formatter->asDate($this->pub_date, 'yyyy-MM-dd hh:mm:ss');
-            $this->description = strip_tags($this->description);    
+            $this->description = strip_tags(html_entity_decode($this->description));
             return true;
         }
         return false;
