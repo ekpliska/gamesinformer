@@ -69,7 +69,10 @@ class Game extends GameBase {
                 ->orderBy(['publish_at' => SORT_DESC]);
         
         
-        return array_merge($games_future->all(), $games_publish->all());
+        return array_merge(
+            $games_publish->orderBy(['publish_at' => SORT_ASC])->all(), 
+            $games_future->orderBy(['publish_at' => SORT_ASC])->all()
+        );
         
     }
     
