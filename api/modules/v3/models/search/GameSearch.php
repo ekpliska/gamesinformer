@@ -16,13 +16,14 @@ class GameSearch extends Game {
     public $platforms;
     public $geners;
     public $mode;
+    public $order_by;
 
     public function rules() {
         return [
             [[
                 'title', 'series',
                 'platforms', 'geners',
-                'mode',
+                'mode', 'order_by',
             ], 'safe'],
         ];
     }
@@ -39,7 +40,11 @@ class GameSearch extends Game {
         $is_mode_future = isset($params['mode']) ? $params['mode'] : null;
         $order_type = $is_mode_future && $is_mode_future === 'future' ? SORT_ASC : SORT_DESC;
 
-        $query = Game::find();
+        $query = Game::find()
+            ->select(['`game`.*', 'COUNT(`game_likes`.`game_id`) AS `likes_count`'])
+            ->joinWith('gameLikes')
+            ->groupBy('`game`.`id`');
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query
         ]);
@@ -91,7 +96,10 @@ class GameSearch extends Game {
         } else {
             $query->orderBy(['publish_at' => $order_type]);
         }
-
+        
+        if (isset($params['order_by']) && $params['order_by'] == 'likes') {
+            $query->orderBy(['likes_count' => SORT_DESC]);
+        }
 
         return $dataProvider;
     }
