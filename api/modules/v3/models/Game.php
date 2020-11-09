@@ -5,9 +5,7 @@ use yii\helpers\Url;
 use common\models\Game as GameBase;
 
 class Game extends GameBase {
-    
-    
-    
+
     public function fields() {
         
         return [
@@ -44,6 +42,12 @@ class Game extends GameBase {
             },
             'tags' => function() {
                 return $this->getGameTagsList();
+            },
+            'is_like' => function() {
+                return $this->checkLike();
+            },
+            'count_likes' => function() {
+                return (int)$this->getGameLikes()->count();
             },
         ];
     }

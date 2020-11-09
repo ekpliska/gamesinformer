@@ -8,6 +8,7 @@ use common\models\Favorite;
 use common\models\Comments;
 use common\models\TagLink;
 use common\components\notifications\Notifications;
+use common\models\GameLikes;
 
 /**
  * Игры
@@ -158,6 +159,13 @@ class Game extends ActiveRecord {
         return $this->hasMany(TagLink::className(), ['type_uid' => 'id'], ['type' => TagLink::TYPE_LIST[502]]);
     }
     
+    /**
+     * Связь с лайками
+     */
+    public function getGameLikes() {
+        return $this->hasMany(GameLikes::className(), ['game_id' => 'id']);
+    }
+    
     public function afterDelete() {
         parent::afterDelete();
         TagLink::deleteAll(['AND', ['type_uid' => $this->id], ['type' => TagLink::TYPE_LIST[502]]]);
@@ -178,6 +186,18 @@ class Game extends ActiveRecord {
 
         $favorite = Favorite::find()->andWhere(['AND', ['user_uid' => $this->_user->id], ['game_id' => $this->id]])->asArray()->one();
         if (!$favorite) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public function checkLike() {
+        if (!$this->_user) {
+            return false;
+        }
+        $like = GameLikes::find()->andWhere(['AND', ['user_id' => $this->_user->id], ['game_id' => $this->id]])->asArray()->one();
+        if (!$like) {
             return false;
         }
 
@@ -288,6 +308,23 @@ class Game extends ActiveRecord {
             return $user;
         }
         return false;
+    }
+    
+    public function like() {
+        if (!$this->_user) {
+            return false;
+        }
+        
+        $user_like = GameLikes::find()->where(['AND', ['user_id' => $this->_user->id], ['game_id' => $this->id]])->one();
+
+        if ($user_like) {
+            return $user_like->delete() ? true : false;
+        }
+        
+        $add_like = new GameLikes();
+        $add_like->user_id = $this->_user->id;
+        $add_like->game_id = $this->id;
+        return $add_like->save() ? true : false;
     }
     
     public function attributeLabels() {

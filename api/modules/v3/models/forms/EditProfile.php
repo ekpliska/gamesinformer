@@ -84,7 +84,7 @@ class EditProfile extends Model {
         }
 
         $user = $this->_user;
-        if ($this->photo) {
+        if (isset($this->photo)) {
             $user->photo = $this->uploadImage($this->photo, $user->id);
         }
         if (is_array($this->platforms) && $this->platforms) {
@@ -101,7 +101,10 @@ class EditProfile extends Model {
                 $user_pl->save();
             }
         }
-        $user->username = $this->username;
+        
+        if (isset($this->username)) {
+            $user->username = $this->username;
+        }
 
         if (isset($this->is_time_alert)) {
             $user->is_time_alert = (int)$this->is_time_alert;

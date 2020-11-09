@@ -40,6 +40,8 @@ class Series extends SeriesBase {
                             'is_aaa' => $item->game->is_aaa ? true : false,
                             'only_year' => $item->game->only_year ? true : false,
                             'tags' => $item->game->getGametagsList(),
+                            'is_like' => $item->game->checkLike(),
+                            'count_likes' => $item->game->getGameLikes()->count(),
                         ];
                     }
                 }

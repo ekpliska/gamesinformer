@@ -46,8 +46,8 @@ class NewsController extends Controller {
                     }
                     $date_pub = new \DateTime($item->{$tags['pub_date']});
                     $current_date = new \DateTime('NOW');
-                    // Если разница между текущей датой и датой публикации больше 3 дней, то такую новость не запоминаем
-                    if ($current_date->diff($date_pub)->d > 3) {
+                    // Если разница между текущей датой и датой публикации больше 30 дней, то такую новость не запоминаем
+                    if ($current_date->diff($date_pub)->d > 30) {
                         continue;
                     }
                     $news = new News();
@@ -119,8 +119,8 @@ class NewsController extends Controller {
                     }
                     $date_pub = new \DateTime($item->{$tags['pub_date']});
                     $current_date = new \DateTime('NOW');
-                    // Если разница между текущей датой и датой публикации больше 3 дней, то такую новость не запоминаем
-                    if ($current_date->diff($date_pub)->d > 3) {
+                    // Если разница между текущей датой и датой публикации больше 30 дней, то такую новость не запоминаем
+                    if ($current_date->diff($date_pub)->d > 30) {
                         continue;
                     }
                     $news = new News();
@@ -180,8 +180,8 @@ class NewsController extends Controller {
         if ($news) {
             foreach ($news as $news_item) {
                 $date_pub = new \DateTime($news_item->pub_date, new \DateTimeZone('Europe/Moscow'));
-                // Если разница между текущей датой и датой публикации больше 3 дней, то такую новость удаляем
-                if ($current_date->diff($date_pub)->days > 3) {
+                // Если разница между текущей датой и датой публикации больше 30 дней, то такую новость удаляем
+                if ($current_date->diff($date_pub)->days > 30) {
                     $count_news++;
                     if (!$news_item->delete()) {
                         continue;

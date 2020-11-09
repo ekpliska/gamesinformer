@@ -74,12 +74,34 @@ class GameController extends ActiveController {
         ];
     }
     
+    public function actionLike($id) {
+        $game = Game::findOne((int)$id);
+        if (!$game) {
+            Yii::$app->response->statusCode = 404;
+            return [
+                'success' => false,
+                'errors' => ['Игра не найдена'],
+            ];
+        }
+        
+        if ($game->like()) {
+            return $game->save() ? ['success' => true] : ['success' => false];
+        }
+        
+        Yii::$app->response->statusCode = 403;
+        return [
+            'success' => false,
+            'errors' => ['Недостаточно прав'],
+        ];
+    }
+    
     public function verbs() {
         parent::verbs();
         return [
             'index' => ['GET'],
             'view' => ['GET'],
             'spot-aaa-game' => ['GET'],
+            'like' => ['GET'],
         ];
     }
     
