@@ -59,6 +59,10 @@ class NewsSearch extends News {
             $query->orderBy(['pub_date' => SORT_DESC]);
         }
         
+        if (isset($params['title'])) {
+            $query->where(['like', 'title', $params['title']]);
+        }
+        
         if (in_array($type, $this->type_list)) {
             $query->joinWith('rss')->where(['type' => array_search($type, $this->type_list)]);
         } else {
