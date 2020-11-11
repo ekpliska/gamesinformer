@@ -138,13 +138,15 @@ class NewsController extends Controller {
                         if (!property_exists($item, $tag)) {
                             continue;
                         }
-                        $news->{$key} = Html::decode($item->{$tag});
+                        $news->{$key} = trim(Html::decode($item->{$tag}));
                         if ($tags['image'] == null) {
                             $description = Html::decode($item->{$tags['description']});
-                            preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches);
-                            $news->image = $matches ? $matches[1] : null;
+                            trim(preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches));
+                            $news->image = $matches ? trim($matches[1]) : null;
                         } elseif ($tags['image'] !== 'image') {
-                            $image_url = isset($item->{$tags['image']}['url']) ? (string) $item->{$tags['image']}['url'] : null;
+                            $image_url = isset($item->{$tags['image']}['url']) 
+                                ? (string) trim($item->{$tags['image']}['url']) 
+                                : null;
                             $news->image = $image_url;
                         }
                     }
