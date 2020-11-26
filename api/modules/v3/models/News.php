@@ -94,18 +94,18 @@ class News extends NewsBase {
             return [
                 'success' => false,
                 'news' => [],
-                'error' => ['Ошибка авторизации'],
+                'error' => ['Неавторизованный пользователь'],
             ];
         }
         
-        if (!$this->_user->is_subscription) {
-            \Yii::$app->response->statusCode = 403;
-            return [
-                'success' => false,
-                'news' => [],
-                'error' => ['У вас недостаточно прав для выполнения этой операции'],
-            ];
-        }
+        // if (!$this->_user->is_subscription) {
+        //     \Yii::$app->response->statusCode = 403;
+        //     return [
+        //         'success' => false,
+        //         'news' => [],
+        //         'error' => ['У вас недостаточно прав для выполнения этой операции'],
+        //     ];
+        // }
         
         $favorite_games = Favorite::find()->where(['user_uid' => $this->_user->id])->all();
         if (!$favorite_games) {

@@ -288,13 +288,19 @@ class Game extends ActiveRecord {
         return $result;
     }
     
-    public function checkSubscribe() {
+    public function checkUser() {
         if (!$this->_user) {
             return false;
         }
-        if (!$this->_user->is_subscription) {
-            return false;
+    }
+
+    public function checkSubscribe() {
+        if (!$this->_user) {
+            return 'no auth';
         }
+        // if (!$this->_user->is_subscription) {
+        //     return 'no sub';
+        // }
         return true;
     }
     
