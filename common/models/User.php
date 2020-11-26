@@ -56,9 +56,13 @@ class User extends ActiveRecord implements IdentityInterface {
             [['email'], 'string', 'max' => 70],
             [['email'], 'unique'],
             [['token'], 'unique'],
-            [['is_favorite_list', 'is_favorite_series'], 'default', 'value' => 1],
-            [['aaa_notifications', 'is_shares'], 'default', 'value' => 0],
-            [['is_time_alert', 'is_advertising', 'is_subscription'], 'default', 'value' => 0],
+
+            [['is_time_alert', 'is_subscription'], 'default', 'value' => 0],
+            [['aaa_notifications', 'is_shares', 'is_advertising', 'is_favorite_list', 'is_favorite_series'], 'default', 'value' => 1],
+            
+            // [['aaa_notifications', 'is_shares'], 'default', 'value' => 0],
+            // [['is_time_alert', 'is_advertising', 'is_subscription'], 'default', 'value' => 0],
+            // [['is_favorite_list', 'is_favorite_series'], 'default', 'value' => 1],
         ];
     }
     

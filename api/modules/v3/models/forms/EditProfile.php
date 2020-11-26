@@ -113,15 +113,17 @@ class EditProfile extends Model {
             $user->days_of_week = $this->checkDaysOfWeek($this->days_of_week);
         }
         
-        if ($user->is_subscription && isset($this->aaa_notifications)) {
+        // Добавить для проверки, если потребуется для сабов $user->is_subscription 
+        if (isset($this->aaa_notifications)) {
             $user->aaa_notifications = (int)$this->aaa_notifications;
         }
         
-        if ($user->is_subscription && isset($this->is_shares)) {
+        // Добавить для проверки, если потребуется для сабов $user->is_subscription 
+        if (isset($this->is_shares)) {
             $user->is_shares = (int)$this->is_shares;
         }
 
-        if (isset($this->is_advertising)) {
+        if ($user->is_subscription && isset($this->is_advertising)) {
             $user->is_advertising = (int)$this->is_advertising;
         }
         

@@ -30,6 +30,7 @@ class Notifications {
     private $_game;
     private $_series;
     private $_notification;
+    private $_tokens;
 
     public function __construct($type, Game $game = null, Series $series = null, $other = []) {
         
@@ -58,6 +59,7 @@ class Notifications {
                         ->all();
                 
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
+                $this->_tokens = TokenPushMobile::find()->where(['AND', ['in', 'user_uid', $this->_user_ids], ['is_auth' => 1]])->all();
                 $this->_notification = $this->messageBySeries();
                 break;
             case self::GAME_FAVORITE_TYPE:
@@ -82,6 +84,7 @@ class Notifications {
                         ->asArray()
                         ->all();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
+                $this->_tokens = TokenPushMobile::find()->where(['AND', ['in', 'user_uid', $this->_user_ids], ['is_auth' => 1]])->all();
                 $this->_notification = $this->messageByGame();
                 break;
             case self::AAA_GAME_TYPE:
@@ -89,18 +92,20 @@ class Notifications {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $game является обязательным.');
                 }
                 $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
-                $users = User::find()
-                        ->where(['aaa_notifications' => 1])
-                        ->andWhere(['is_subscription' => 1])
-                        ->andWhere(['NOT IN', 'id', ArrayHelper::getColumn($favorite_game_list, 'user_uid')])
-                        ->asArray()
-                        ->all();
-                $this->_user_ids = ArrayHelper::getColumn($users, 'id');
+                // $users = User::find()
+                //         ->where(['aaa_notifications' => 1])
+                //         ->andWhere(['is_subscription' => 1])
+                //         ->andWhere(['NOT IN', 'id', ArrayHelper::getColumn($favorite_game_list, 'user_uid')])
+                //         ->asArray()
+                //         ->all();
+                // $this->_user_ids = ArrayHelper::getColumn($users, 'id');
+                $this->_tokens = TokenPushMobile::find()->all();
                 $this->_notification = $this->messageByAAAGame();
                 break;
             case self::SHARES_TYPE:
-                $users = User::find()->where(['is_shares' => 1])->andWhere(['is_subscription' => 1])->asArray()->all();
-                $this->_user_ids = ArrayHelper::getColumn($users, 'id');
+                // $users = User::find()->where(['is_shares' => 1])->andWhere(['is_subscription' => 1])->asArray()->all();
+                // $this->_user_ids = ArrayHelper::getColumn($users, 'id');
+                $this->_tokens = TokenPushMobile::find()->all();
                 $this->_notification = $this->messageByShares($other['games_list']);
                 break;
             case self::NEWS_TYPE:
@@ -114,6 +119,7 @@ class Notifications {
                     ->asArray()
                     ->all();
                 $this->_user_ids = ArrayHelper::getColumn($users, 'id');
+                $this->_tokens = TokenPushMobile::find()->where(['AND', ['in', 'user_uid', $this->_user_ids], ['is_auth' => 1]])->all();
                 $this->_notification = $this->messageByNews();
                 break;
             default:
@@ -127,8 +133,8 @@ class Notifications {
             return false;
         }
         try {
-            $tokens = TokenPushMobile::find()->where(['AND', ['in', 'user_uid', $this->_user_ids], ['is_auth' => 1]])->all();
-            $token_ids = ArrayHelper::getColumn($tokens, 'token');
+            // $tokens = TokenPushMobile::find()->where(['AND', ['in', 'user_uid', $this->_user_ids], ['is_auth' => 1]])->all();
+            $token_ids = ArrayHelper::getColumn($this->_tokens, 'token');
                     
             if (count($token_ids) <= 0) {
                 return false;
