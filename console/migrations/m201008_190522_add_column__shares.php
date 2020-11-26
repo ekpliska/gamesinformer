@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m200917_190522_add_column__shares extends Migration {
+class m201008_190522_add_column__shares extends Migration {
     
     public function safeUp() {
         $this->addColumn('{{%shares}}', 'game_list', $this->string(255));
