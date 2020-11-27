@@ -47,7 +47,7 @@ class User extends UserBase {
                 return $this->is_advertising ? true : false;
             },
             'is_favorite_list' => function() {
-                return $this->is_advertising ? true : false;
+                return $this->is_favorite_list ? true : false;
             },
             'is_favorite_series' => function() {
                 return $this->is_favorite_series ? true : false;
