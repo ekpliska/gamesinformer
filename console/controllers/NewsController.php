@@ -13,7 +13,7 @@ use common\models\AppLogs;
  */
 class NewsController extends Controller {
     
-    private $count_days = 3;
+    private $count_days = 30;
 
     /**
      * Первоначальная загрузка новостей из лент
