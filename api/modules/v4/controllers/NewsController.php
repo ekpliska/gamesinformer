@@ -68,12 +68,22 @@ class NewsController extends ActiveController {
                 'errors' => ['Новость не найдена'],
             ];
         }
-        // Отмечаем прсмотр
+        // Отмечаем прсмотр по установленной сессии
         $news->addViews();
         return $news;
     }
-    
+
+    /**
+     * Метод отключен (возможно временно)
+     */
     public function actionLike($id) {
+        Yii::$app->response->statusCode = 404;
+
+        return [
+            'success' => false,
+        ];
+
+        /*
         $news = News::findOne((int)$id);
         if (!$news) {
             Yii::$app->response->statusCode = 404;
@@ -99,6 +109,7 @@ class NewsController extends ActiveController {
             'success' => false,
             'errors' => ['Недостаточно прав'],
         ];
+        */
     }
     
     public function actionPersonalNewsList() {

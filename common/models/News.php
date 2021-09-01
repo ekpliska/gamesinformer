@@ -17,6 +17,7 @@ use common\models\TagLink;
  * @property string $link
  * @property int $rss_channel_id
  * @property int $is_block
+ * @property int $number_views
  *
  * @property RssChannel $id0
  */
@@ -31,7 +32,7 @@ class News extends ActiveRecord {
             [['title', 'description', 'pub_date', 'link', 'rss_channel_id'], 'required'],
             [['description'], 'string'],
             [['pub_date'], 'safe'],
-            [['rss_channel_id', 'is_block'], 'integer'],
+            [['rss_channel_id', 'is_block', 'number_views'], 'integer'],
             [['title', 'image', 'link'], 'string', 'max' => 255],
             [['rss_channel_id'], 'exist', 'skipOnError' => true, 'targetClass' => RssChannel::className(), 'targetAttribute' => ['rss_channel_id' => 'id']],
         ];
@@ -79,6 +80,7 @@ class News extends ActiveRecord {
             'link' => 'Link',
             'rss_channel_id' => 'Rss Channel ID',
             'is_block' => 'Is Block',
+            'number_views' => 'Number Views',
         ];
     }
 

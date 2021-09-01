@@ -56,8 +56,20 @@ class News extends NewsBase {
             },
         ];
     }
-    
+
     public function addViews() {
+        $session = \Yii::$app->session;
+        if (!isset($session['news_view'])) {
+            $session->set('news_view', [$this->id]);
+            $this->updateCounters(['number_views' => 1]);
+        }
+    }
+
+    /**
+     * Метод добавления просмотров только для зарегистрированных пользователей
+     * Метод не используется
+     */
+    public function addViewsHide() {
         if (!$this->_user) {
             return false;
         }
