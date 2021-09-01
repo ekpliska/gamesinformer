@@ -46,4 +46,24 @@ class SharesController extends Controller {
         }
     }
 
+    /**
+     * Проверка даты окончания у Скидок/Акций/Раздач
+     * Ежедневно в 20:00
+     */
+    public function actionCheckDateEnd() {
+        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $shares = Shares::find()->all();
+        if (count($shares)) {
+            foreach ($shares as $key => $share) {
+                $date_end = new \DateTime($share->date_end, new \DateTimeZone('Europe/Moscow'));
+                $diff = $current_date->diff($date_end);
+                $hours = $diff->h + ($diff->days * 24);
+                if ($hours <= 0) {
+                    $share->is_published = false;
+                    $share->save();
+                }
+            }
+        }
+    }
+
 }
