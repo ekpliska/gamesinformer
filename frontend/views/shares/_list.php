@@ -10,6 +10,10 @@ use yii\helpers\Html;
             <?= Yii::$app->formatter->asDatetime($model->date_start, 'medium') ?>
             <br />
             <?= Yii::$app->formatter->asDatetime($model->date_end, 'medium') ?>
+            <br />
+            <span class="label <?= $model->is_published ? 'label-info' : 'label-default' ?>">
+                <?= $model->is_published ? 'Опубликовано' : 'Снято с публикации' ?>
+            </span>
             <span class="share_item_btn">
                 <?=
                     Html::a('<span class="glyphicon glyphicon-file"></span>' , ['shares/update', 'id' => $model->id], [
