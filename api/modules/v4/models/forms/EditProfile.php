@@ -21,7 +21,6 @@ class EditProfile extends Model {
     public $time_alert;
     public $aaa_notifications;
     public $is_time_alert;
-    public $is_advertising;
     public $is_shares;
     public $is_favorite_list;
     public $is_favorite_series;
@@ -41,7 +40,7 @@ class EditProfile extends Model {
             ['is_time_alert', 'checkTimeAlert'],
             ['days_of_week', 'checkIsDaysOfWeek'],
             [['platforms', 'days_of_week'], 'safe'],
-            [['aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares', 'is_favorite_list', 'is_favorite_series'], 'boolean'],
+            [['aaa_notifications', 'is_time_alert', 'is_shares', 'is_favorite_list', 'is_favorite_series'], 'boolean'],
             [['time_alert'], 'time', 'format' => 'php:H:i', 'message' => 'Неверный формат времени 00:00'],
         ];
     }
@@ -121,10 +120,6 @@ class EditProfile extends Model {
         // Добавить для проверки, если потребуется для сабов $user->is_subscription 
         if (isset($this->is_shares)) {
             $user->is_shares = (int)$this->is_shares;
-        }
-
-        if ($user->is_subscription && isset($this->is_advertising)) {
-            $user->is_advertising = (int)$this->is_advertising;
         }
         
         if (isset($this->is_favorite_list)) {

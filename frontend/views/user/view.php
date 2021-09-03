@@ -151,7 +151,7 @@ $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username :
                             </span>
                         </li>
                         <li class="list-group-item setting-tab">
-                            Реклама 
+                            Реклама (Не актуальная настройка)
                             <span class="label <?= $user->is_advertising ? 'label-success' : 'label-warning' ?>">
                                 <?= $user->is_advertising ? 'ВКЛ' : 'ВЫКЛ' ?>
                             </span>

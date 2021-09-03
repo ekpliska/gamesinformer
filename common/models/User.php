@@ -20,7 +20,7 @@ use common\models\FavoriteSeries;
  * @property string|null $updated_at
  * @property string|null $time_alert
  * @property int $is_time_alert
- * @property int $is_advertising
+ * @property int $is_advertising // Не актуальная настройка
  * @property int $is_shares
  * @property string|null $days_of_week
  * @property int $status
