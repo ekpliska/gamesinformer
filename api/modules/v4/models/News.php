@@ -3,7 +3,6 @@
 namespace api\modules\v4\models;
 use yii\helpers\ArrayHelper;
 use common\models\News as NewsBase;
-use api\modules\v4\models\User;
 use common\models\NewsViews;
 use common\models\NewsLikes;
 use common\models\RssChannel;
@@ -45,15 +44,10 @@ class News extends NewsBase {
             'is_youtube_news' => function() {
                 return ($this->rss->type == RssChannel::TYPE_YOUTUBE) ? true : false;
             },
-            'is_like' => function() {
-                return in_array($this->id, $this->_news_likes) ? true : false;
-            },
-            'count_likes' => function() {
-                return (int)$this->getLikes()->count();
-            },
             'tags' => function() {
                 return $this->getNewseTagsList();
             },
+            'number_views',
         ];
     }
 

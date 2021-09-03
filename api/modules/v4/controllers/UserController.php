@@ -105,14 +105,26 @@ class UserController extends Controller {
         
     }
 
+    /**
+     * Метод отключен
+     */
     public function actionSubscribe() {
-        $user = $this->getUserProfile();
-        return ['success' => $user->subscribe()];
+        Yii::$app->response->statusCode = 404;
+        return ['success' => false];
+
+//        $user = $this->getUserProfile();
+//        return ['success' => $user->subscribe()];
     }
-    
+
+    /**
+     * Метод отключен
+     */
     public function actionUnsubscribe() {
-        $user = $this->getUserProfile();
-        return ['success' => $user->unSubscribe()];
+        Yii::$app->response->statusCode = 404;
+        return ['success' => false];
+
+//        $user = $this->getUserProfile();
+//        return ['success' => $user->unSubscribe()];
     }
     
     private function getUserProfile() {

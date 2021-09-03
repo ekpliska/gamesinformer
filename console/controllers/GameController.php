@@ -12,7 +12,7 @@ use common\models\AppLogs;
 use common\components\notifications\Notifications;
 
 /**
- * Отложенный пуликации
+ * Отложенный публикации
  */
 class GameController extends Controller {
 

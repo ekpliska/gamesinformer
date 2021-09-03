@@ -325,6 +325,12 @@ label.input-checkbox {
     color: #e74c3c;
 }
 
+.like_views {
+    padding: 3px 5px;
+    font-size: 10px;
+    color: #e74c3c;
+}
+
 .date_new {
     display: inline-block;
     background: #ecf0f1;

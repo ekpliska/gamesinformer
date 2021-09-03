@@ -11,6 +11,9 @@ $index++;
         <span class="like_news">
             <i class="glyphicon glyphicon-heart"></i>&nbsp;<?= count($model->likes) ?>
         </span>
+        <span class="like_views">
+            <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?= count($model->number_views) ?>
+        </span>
     </span>
     <span class="tags_new">
         Теги:&nbsp;<?= count($model->getNewseTagsList()) == 0 ? 'Нет тегов' : implode($model->getNewseTagsList(), ', ') ?>
