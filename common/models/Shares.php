@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property string|null $date_start
  * @property string|null $date_end
  * @property string $game_list
+ * @property int $is_published
  */
 class Shares extends ActiveRecord {
 
@@ -34,12 +35,13 @@ class Shares extends ActiveRecord {
     public function rules() {
         return [
             [['type_share'], 'required'],
-            [['type_share'], 'integer'],
+            [['type_share', 'is_published'], 'integer'],
             [['description'], 'string'],
             [['date_start', 'date_end'], 'safe'],
             [['cover', 'link', 'game_list'], 'string', 'max' => 255],
             [['link'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
             [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            [['is_published'], 'default', 'value' => 1],
         ];
     }
     
@@ -89,6 +91,7 @@ class Shares extends ActiveRecord {
             'date_start' => 'Дата начала',
             'date_end' => 'Дата окончания',
             'game_list' => 'Список игр из раздачи',
+            'is_published' => 'Опубликовано',
         ];
     }
 }

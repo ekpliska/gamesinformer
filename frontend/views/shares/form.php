@@ -60,6 +60,12 @@ use yii\widgets\ActiveForm;
             <div class="col-md-12">
                 <?= $form->field($model, 'game_list')->input('text')->label() ?>
             </div>
+            <div class="col-md-12">
+                <?= $model->isNewRecord
+                    ? $form->field($model, 'is_published')->checkbox(['checked' => true])->label(false)
+                    : $form->field($model, 'is_published')->checkbox()->label(false)
+                ?>
+            </div>
         </div>
     </div>
 </div>
