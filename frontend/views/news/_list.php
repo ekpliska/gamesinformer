@@ -11,8 +11,8 @@ $index++;
         <span class="like_news">
             <i class="glyphicon glyphicon-heart"></i>&nbsp;<?= count($model->likes) ?>
         </span>
-        <span class="like_views">
-            <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?= count($model->number_views) ?>
+        <span class="news_views">
+            <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?= $model->number_views ?>
         </span>
     </span>
     <span class="tags_new">
