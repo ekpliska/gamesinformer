@@ -51,33 +51,21 @@ class Game extends GameBase {
             },
         ];
     }
-    
+
+    /**
+     * Список ААА игр, вышедших в диапазоне
+     * [-30 дней от текущего дня; все будущие публикации]
+     */
     public function getPersonalAaaGameList() {
         
         $date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
-        $plus_days = strtotime($date->modify('+15 day')->format('Y-m-d 00:00:00'));
-        $minus_days = strtotime($date->modify('-30 day')->format('Y-m-d 00:00:00'));
-        
-        $games_publish = Game::find()
-                ->where(['>=', 'UNIX_TIMESTAMP(publish_at)', $minus_days])
-                ->andWhere(['published' => 1])
-                ->andWhere(['is_aaa' => 1])
-                ->limit(5)
-                ->orderBy(['publish_at' => SORT_DESC]);
+        $thirty_days_ago = strtotime($date->modify('-30 day')->format('Y-m-d 00:00:00'));
 
-        $games_future = Game::find()
-                ->where(['<=', 'UNIX_TIMESTAMP(publish_at)', $plus_days])
-                ->andWhere(['published' => 0])
+        return Game::find()
+                ->where(['>=', 'UNIX_TIMESTAMP(publish_at)', $thirty_days_ago])
                 ->andWhere(['is_aaa' => 1])
-                ->limit(10 - count($games_publish->count()))
-                ->orderBy(['publish_at' => SORT_DESC]);
-        
-        
-        return array_merge(
-            $games_publish->orderBy(['publish_at' => SORT_ASC])->all(), 
-            $games_future->orderBy(['publish_at' => SORT_ASC])->all()
-        );
-        
+                ->orderBy(['published' => SORT_DESC, 'publish_at' => SORT_ASC])
+                ->all();
     }
     
 }

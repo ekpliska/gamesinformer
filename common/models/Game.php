@@ -292,6 +292,7 @@ class Game extends ActiveRecord {
         if (!$this->_user) {
             return false;
         }
+        return true;
     }
 
     public function checkSubscribe() {
