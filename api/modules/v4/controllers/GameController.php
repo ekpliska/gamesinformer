@@ -84,16 +84,16 @@ class GameController extends ActiveController {
                 'errors' => ['Игра не найдена'],
             ];
         }
-        
-        if ($game->like()) {
-            return $game->save() ? ['success' => true] : ['success' => false];
+
+        if (!$game->checkUser()) {
+            Yii::$app->response->statusCode = 403;
+            return [
+                'success' => false,
+                'errors' => ['Недостаточно прав'],
+            ];
         }
         
-        Yii::$app->response->statusCode = 403;
-        return [
-            'success' => false,
-            'errors' => ['Недостаточно прав'],
-        ];
+        return $game->like() ? ['success' => true] : ['success' => false];
     }
     
     public function verbs() {
