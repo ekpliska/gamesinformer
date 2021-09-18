@@ -12,16 +12,12 @@ use common\models\TagLink;
 class News extends NewsBase {
     
     private $_user;
-    private $_news_views = [];
     private $_news_likes = [];
 
     public function __construct($config = array()) {
         parent::__construct($config);
         $this->_user = $this->checkAuthUser();
         if ($this->_user) {
-            $views_news = NewsViews::find()->where(['user_id' => $this->_user->id])->asArray()->all();
-            $this->_news_views = ArrayHelper::getColumn($views_news, 'news_id');
-            
             $likes_news = NewsLikes::find()->where(['user_id' => $this->_user->id])->asArray()->all();
             $this->_news_likes = ArrayHelper::getColumn($likes_news, 'news_id');
         }
@@ -37,9 +33,6 @@ class News extends NewsBase {
             'link', 
             'rss' => function() {
                 return $this->rss->rss_channel_name;
-            },
-            'is_read' => function() {
-                return in_array($this->id, $this->_news_views) ? true : false;
             },
             'is_youtube_news' => function() {
                 return ($this->rss->type == RssChannel::TYPE_YOUTUBE) ? true : false;
@@ -93,7 +86,10 @@ class News extends NewsBase {
         $add_like->news_id = $this->id;
         return $add_like->save() ? true : false;
     }
-    
+
+    /**
+     * В Центре внимания
+     */
     public function getPersonalNewsList() {
         if (!$this->_user) {
             \Yii::$app->response->statusCode = 401;
@@ -103,16 +99,8 @@ class News extends NewsBase {
                 'error' => ['Неавторизованный пользователь'],
             ];
         }
-        
-        // if (!$this->_user->is_subscription) {
-        //     \Yii::$app->response->statusCode = 403;
-        //     return [
-        //         'success' => false,
-        //         'news' => [],
-        //         'error' => ['У вас недостаточно прав для выполнения этой операции'],
-        //     ];
-        // }
-        
+
+        // Избранные игры текущего пользователя
         $favorite_games = Favorite::find()->where(['user_uid' => $this->_user->id])->all();
         if (!$favorite_games) {
             return [
@@ -120,18 +108,28 @@ class News extends NewsBase {
                 'news' => [],
             ];
         }
-        
+
         $favorite_games_ids = ArrayHelper::getColumn($favorite_games, 'game_id');
-        
+
+        // Теги Игр по Избранным играм
         $tags_link_game = TagLink::getTagsByGameIds($favorite_games_ids);
         $tags_link_game_ids = ArrayHelper::getColumn($tags_link_game, 'tag_id');
-        
+
+        // Теги Новостей по Избранным играм
         $tags_link_news = TagLink::getNewsByTags($tags_link_game_ids);
         $tags_link_news_ids = ArrayHelper::getColumn($tags_link_news, 'type_uid');
-        
+
+        $current_date = new \DateTime('NOW');
+        // Новости за текущий день по избранным играм
+        $news = News::find()
+            ->where(['in', 'id', $tags_link_news_ids])
+            ->andWhere(['between', 'pub_date', $current_date->format('Y-m-d 00:00:00'), $current_date->format('Y-m-d 23:59:59')])
+            ->orderBy(['number_views' => SORT_DESC])
+            ->all();
+
         return [
             'success' => true, 
-            'news' => News::find()->where(['in', 'id', $tags_link_news_ids])->orderBy(['pub_date' => SORT_DESC])->all(),
+            'news' => $news,
         ];
     }
     
