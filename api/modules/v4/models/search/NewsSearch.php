@@ -59,20 +59,17 @@ class NewsSearch extends News {
             $query->orderBy(['pub_date' => SORT_DESC]);
         }
         
-        
         if (in_array($type, $this->type_list)) {
             $query->joinWith('rss')->where(['type' => array_search($type, $this->type_list)]);
-        } else {
-            return $dataProvider;
         }
         
         if (isset($params['title'])) {
-            $query->where(['like', 'title', $params['title']]);
+            $query->andWhere(['like', 'title', $params['title']]);
         }
 
         if (isset($params['rss_ids'])) {
             $rss_ids = $this->checkRssIds($params['rss_ids'], $type);
-            $query->where(['in', 'rss_channel_id', $rss_ids]);
+            $query->andWhere(['in', 'rss_channel_id', $rss_ids]);
         }
         
         return $dataProvider;
