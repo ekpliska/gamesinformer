@@ -12,18 +12,19 @@ use common\models\AppLogs;
 use common\components\notifications\Notifications;
 
 /**
- * Отложенный публикации
+ * Получение опубликованных игр ночью
+ * Ежедневно в 00:00
  */
 class GameController extends Controller {
 
-    public function actionPublish() {
-
+    public function actionPreparePublish() {
         $games = Game::find()
-                ->where(['AND', ['published' => 0], ['only_year' => 0]])
-                ->all();
+            ->where(['AND', ['published' => 0], ['only_year' => 0], ['is_prepare' => 0]])
+            ->all();
 
         $date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
         $current_date = strtotime($date->format('Y-m-d 00:00:00'));
+
         $new_publishies = 0;
 
         if (count($games)) {
@@ -32,24 +33,46 @@ class GameController extends Controller {
                 $diff = ($release_date - $current_date)/3600/24;
                 if ($diff == 0) {
                     $game->published = true;
+                    $game->is_prepare = true;
                     $game->save(false);
-                    $this->sendNotification($game);
-                    $new_publishies++;
                 }
             }
         }
 
         if ($new_publishies > 0) {
+            $new_log = new AppLogs();
+            $new_log->value_1 = "Обновлен статус ОПУБЛИКОВАНО у игр, их количество, {$new_publishies}";
+            $new_log->save(false);
+        }
+    }
+
+
+    /**
+     * Отправка уведомлений о выходе новых игр
+     * Ежедневно в 10:00
+     * @throws \Exception
+     */
+    public function actionSendNoticeByPublish() {
+
+        $games = Game::find()
+            ->where(['AND', ['published' => 1], ['is_prepare' => 1]])
+                ->all();
+
+        $count_games = count($games);
+
+        if ($count_games) {
+            foreach ($games as $game) {
+                $game->is_prepare = false;
+                $this->sendNotification($game);
+                $game->save(false);
+            }
+
             $_tokens = TokenPushMobile::find()->andWhere(['enabled' => true])->asArray()->all();
             $tokens = ArrayHelper::getColumn($_tokens, 'token');
             $notes = new FirebaseNotifications();
             $notes->sendNotification(
-                $tokens, null, ['badge' => $new_publishies], ['daily_games_count' => $new_publishies]
+                $tokens, null, ['badge' => $count_games], ['daily_games_count' => $count_games]
             );
-
-            $new_log = new AppLogs();
-            $new_log->value_1 = "Обновлен статус ОПУБЛИКОВАНО у игр, их количество, {$new_publishies}";
-            $new_log->save(false);
         }
     }
     

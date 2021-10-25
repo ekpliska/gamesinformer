@@ -30,6 +30,7 @@ use common\models\GameLikes;
  * @property string|null $updated_at
  * @property int $only_year
  * @property int $tags
+ * @property int $is_prepare
  *
  * @property GameGenre[] $gameGenres
  * @property GamePlatformRelease[] $gamePlatformReleases
@@ -72,7 +73,7 @@ class Game extends ActiveRecord {
             
             [['cover_file'], 'file', 'extensions' => 'png, jpg, jpeg'],
             [['series_id'], 'safe'],
-            
+            [['is_prepare'], 'default', 'value' => 0],
         ];
     }
     
@@ -356,6 +357,7 @@ class Game extends ActiveRecord {
             'is_aaa' => 'AAA',
             'only_year' => 'Точная дата релиза неизвестна',
             'tag_list' => 'Теги',
+            'is_prepare' => 'Is Prepare',
         ];
     }
     
