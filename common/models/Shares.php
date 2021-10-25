@@ -41,7 +41,7 @@ class Shares extends ActiveRecord {
             [['cover', 'link', 'game_list'], 'string', 'max' => 255],
             [['link'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
             [['image_cover'], 'file', 'extensions' => 'png, jpg, jpeg'],
-            [['is_published'], 'default', 'value' => 1],
+            [['is_published'], 'default', 'value' => 0],
         ];
     }
     

@@ -47,6 +47,7 @@ class SharesController extends Controller {
     }
 
     /**
+     * Проверка даты начала у Скидок/Акций/Раздач
      * Проверка даты окончания у Скидок/Акций/Раздач
      * Ежедневно в 20:00
      */
@@ -57,13 +58,20 @@ class SharesController extends Controller {
             foreach ($shares as $key => $share) {
                 $date_end = new \DateTime($share->date_end, new \DateTimeZone('Europe/Moscow'));
                 $diff = $current_date->diff($date_end);
-                $hours = $diff->h + ($diff->days * 24);
-                if ($hours <= 0) {
-                    $share->is_published = false;
+                $hours_end = $diff->h + ($diff->days * 24);
+                if ($hours_end <= 0) {
+                    $share->is_published = 0;
+                    $share->save();
+                }
+
+                $date_start = new \DateTime($share->date_start, new \DateTimeZone('Europe/Moscow'));
+                $diff = $current_date->diff($date_start);
+                $hours_start = $diff->h + ($diff->days * 24);
+                if ($hours_start <= 0) {
+                    $share->is_published = 1;
                     $share->save();
                 }
             }
         }
     }
-
 }
