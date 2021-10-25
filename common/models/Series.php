@@ -16,7 +16,6 @@ use common\components\notifications\Notifications;
  * @property string|null $description
  * @property string|null $image
  * @property int|null $enabled
- * @property int $is_published
  *
  * @property GameSeries[] $gameSeries
  */
@@ -44,8 +43,6 @@ class Series extends ActiveRecord {
             [['description'], 'string', 'max' => 1000],
             [['image'], 'string', 'max' => 255],
             [['image_file'], 'file', 'extensions' => 'png, jpg, jpeg'],
-            [['is_published'], 'boolean'],
-            [['is_published'], 'default', 'value' => 1],
             ['game_ids', 'safe'],
         ];
     }

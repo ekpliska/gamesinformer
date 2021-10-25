@@ -33,7 +33,7 @@ class TagsController extends Controller {
 
     public function actionIndex() {
         $model = new TagForm();
-        $game_list = Game::find()->orderBy(['title' => SORT_DESC])->all();
+        $game_list = Game::find()->orderBy(['title' => SORT_ASC])->all();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $result = $model->save();
             if (!$result['sucess']) {
