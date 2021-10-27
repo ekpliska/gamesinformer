@@ -8,6 +8,7 @@ return [
         'extraPatterns' => [
             'GET /' => 'index',
             'GET /spot-aaa-game' => 'spot-aaa-game',
+            'GET /future-aaa-game' => 'future-aaa-game',
             'GET like/<id:\d+>' => 'like',
         ]
     ],
