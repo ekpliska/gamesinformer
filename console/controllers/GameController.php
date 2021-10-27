@@ -35,6 +35,7 @@ class GameController extends Controller {
                     $game->published = true;
                     $game->is_prepare = true;
                     $game->save(false);
+                    $new_publishies++;
                 }
             }
         }
