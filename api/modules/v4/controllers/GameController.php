@@ -75,16 +75,6 @@ class GameController extends ActiveController {
         ];
     }
 
-    public function actionFutureAaaGame() {
-        return [
-            'success' => true,
-            'games' => Game::find()
-                ->where(['AND', ['is_aaa' => 1], ['published' => false]])
-                ->orderBy(['published' => SORT_DESC, 'publish_at' => SORT_ASC])
-                ->all(),
-        ];
-    }
-    
     public function actionLike($id) {
         $game = Game::findOne((int)$id);
         if (!$game) {

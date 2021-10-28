@@ -52,24 +52,27 @@ class SharesController extends Controller {
      * Ежедневно в 20:00
      */
     public function actionCheckDateEnd() {
-        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $current_date = strtotime($date->format('Y-m-d 00:00:00'));
+
         $shares = Shares::find()->all();
         if (count($shares)) {
             foreach ($shares as $key => $share) {
-                $date_end = new \DateTime($share->date_end, new \DateTimeZone('Europe/Moscow'));
-                $diff = $current_date->diff($date_end);
-                $hours_end = $diff->h + ($diff->days * 24);
-                if ($hours_end <= 0) {
-                    $share->is_published = 0;
-                    $share->save();
-                }
-
-                $date_start = new \DateTime($share->date_start, new \DateTimeZone('Europe/Moscow'));
-                $diff = $current_date->diff($date_start);
-                $hours_start = $diff->h + ($diff->days * 24);
-                if ($hours_start <= 0) {
-                    $share->is_published = 1;
-                    $share->save();
+                if ($share->is_published) {
+                    $date_end = strtotime($share->date_end);
+                    $diff_end = ($date_end - $current_date)/3600/24;
+                    if ($diff_end <= 0) {
+                        $share->is_published = 0;
+                        $share->save();
+                    }
+                } else {
+                    $date_start = strtotime($share->date_start);
+                    $diff_start = ($date_start - $current_date)/3600/24;
+                    var_dump($diff_start);
+                    if ($diff_start <= 0) {
+                        $share->is_published = 1;
+                        $share->save();
+                    }
                 }
             }
         }
