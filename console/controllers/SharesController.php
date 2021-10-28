@@ -68,7 +68,6 @@ class SharesController extends Controller {
                 } else {
                     $date_start = strtotime($share->date_start);
                     $diff_start = ($date_start - $current_date)/3600/24;
-                    var_dump($diff_start);
                     if ($diff_start <= 0) {
                         $share->is_published = 1;
                         $share->save();
