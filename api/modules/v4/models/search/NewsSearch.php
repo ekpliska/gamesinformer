@@ -24,7 +24,7 @@ class NewsSearch extends News {
 
     public function rules() {
         return [
-            [['title', 'rss_ids', 'type', 'order_by'], 'safe'],
+            [['title', 'rss_ids', 'type', 'order_by', 'day'], 'safe'],
         ];
     }
 
@@ -36,11 +36,7 @@ class NewsSearch extends News {
         
         $rss_ids = [];
         $type = isset($params['type']) ? $params['type'] : null;
-        
-        $query = News::find()
-            ->select(['`news`.*', 'COUNT(`news_likes`.`news_id`) AS `likes_count`'])
-            ->joinWith('likes')
-            ->groupBy('`news`.`id`');
+        $query = News::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,10 +49,16 @@ class NewsSearch extends News {
         
         $query->where(['is_block' => 0]);
 
-        if (isset($params['order_by']) && $params['order_by'] == 'likes') {
-            $query->orderBy(['likes_count' => SORT_DESC, 'pub_date' => SORT_DESC]);
+        if (isset($params['order_by']) && $params['order_by'] == 'views') {
+            $query->orderBy(['number_views' => SORT_DESC, 'pub_date' => SORT_DESC]);
         } else {
             $query->orderBy(['pub_date' => SORT_DESC]);
+        }
+
+        if (isset($params['day']) && $params['day'] === 'current_day') {
+            $current_date = new \DateTime('NOW');
+            $query
+                ->andWhere(['between', 'pub_date', $current_date->format('Y-m-d 00:00:00'), $current_date->format('Y-m-d 23:59:59')]);
         }
         
         if (in_array($type, $this->type_list)) {
