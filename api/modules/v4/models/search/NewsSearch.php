@@ -55,7 +55,7 @@ class NewsSearch extends News {
             $query->orderBy(['pub_date' => SORT_DESC]);
         }
 
-        if (isset($params['day']) && $params['day'] === 'current_day') {
+        if (isset($params['day']) && $params['day'] === 'current') {
             $current_date = new \DateTime('NOW');
             $query
                 ->andWhere(['between', 'pub_date', $current_date->format('Y-m-d 00:00:00'), $current_date->format('Y-m-d 23:59:59')]);
