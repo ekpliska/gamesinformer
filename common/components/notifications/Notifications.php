@@ -1,6 +1,7 @@
 <?php
 
 namespace common\components\notifications;
+use common\models\GameSeries;
 use yii\base\ErrorException;
 use yii\helpers\ArrayHelper;
 use common\models\User;
@@ -46,7 +47,16 @@ class Notifications {
                 if ($series == null) {
                     throw new ErrorException('Ошибка передачи параметров. Параметр $series является обязательным.');
                 }
-                $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
+
+                if ($game === null) {
+                    $game_ids_by_series = GameSeries::find()->where(['series_id' => $series->id])->asArray()->all();
+                    $favorite_game_list = Favorite::find()
+                        ->where(['in', 'game_id', ArrayHelper::getColumn($game_ids_by_series, 'game_id')])
+                        ->asArray()
+                        ->all();
+                } else {
+                    $favorite_game_list = Favorite::find()->where(['game_id' => $game->id])->asArray()->all();
+                }
                 $favorite_series_list = FavoriteSeries::find()
                         ->where(['series_id' => $series->id])
                         ->andWhere(['NOT IN', 'user_uid', ArrayHelper::getColumn($favorite_game_list, 'user_uid')])

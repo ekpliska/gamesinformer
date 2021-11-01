@@ -113,7 +113,7 @@ class SeriesController extends Controller {
                     }
                 }
                 $transaction->commit();
-                Yii::$app->session->setFlash('success', ['message' => 'Серия успешно создана!']);
+                Yii::$app->session->setFlash('success', ['message' => 'Серия успешно обновлена!']);
                 return $this->redirect(['update', 'id' => $model->id]);
             } catch (\Exception $ex) {
                 $transaction->rollBack();
