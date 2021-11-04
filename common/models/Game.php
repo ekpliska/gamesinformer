@@ -172,7 +172,7 @@ class Game extends ActiveRecord {
         TagLink::deleteAll(['AND', ['type_uid' => $this->id], ['type' => TagLink::TYPE_LIST[502]]]);
     }
 
-        public static function getWaitingPublish() {
+    public static function getWaitingPublish() {
         return Game::find()
                 ->where(['published' => false])
                 ->orderBy(['publish_at' => SORT_DESC])
