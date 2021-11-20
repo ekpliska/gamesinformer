@@ -75,7 +75,7 @@ class Series extends ActiveRecord {
                 }
                 
                 if (count($new_series_list) > 0) {
-                    $game = count($new_series_ids) !== 1 ? null : Game::findOne(['id' => current($new_series_ids)]);
+                    $game = count($new_series_ids) !== 1 ? null : Game::find()->where(['AND', ['id' => current($new_series_ids)], ['published' => 1]]);
                     $series = Series::findOne(['id' => $this->id]);
                     $notification_series = new Notifications(Notifications::SERIES_TYPE, $game, $series);
                     $notification_series->createNotification();
