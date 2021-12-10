@@ -24,8 +24,8 @@ class SharesController extends Controller
         $shares = Shares::find()->all();
         if (count($shares)) {
             foreach ($shares as $key => $share) {
-                $date_end = new \DateTime($share->date_end);
-                $date_start = new \DateTime($share->date_start);
+                $date_end = new \DateTime($share->date_end, new \DateTimeZone('Europe/Moscow'));
+                $date_start = new \DateTime($share->date_start, new \DateTimeZone('Europe/Moscow'));
 
                 if (($current_date->diff($date_start)->days === 0) &&
                     ($current_date->diff($date_start)->h === 0) &&
