@@ -103,7 +103,10 @@ class User extends ActiveRecord implements IdentityInterface {
     }
     
     public function generateToken() {
-        $this->token = \Yii::$app->security->generateRandomString();
+        if ($this->token) {
+            return $this->token;
+        }
+        return $this->token = \Yii::$app->security->generateRandomString();
     }
     
     public function validatePassword($password) {
