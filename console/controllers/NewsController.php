@@ -19,8 +19,6 @@ class NewsController extends Controller {
      * Первоначальная загрузка новостей из лент
      */
     public function actionLoad() {
-
-        ini_set('max_execution_time', 60); // 1 minute
         $arr_context_options = [
             'ssl' => [
                 'verify_peer' => false,
@@ -112,8 +110,6 @@ class NewsController extends Controller {
      * каждый час
      */
     public function actionCheck() {
-        ini_set('max_execution_time', 60); // 1 minute
-
         $arr_context_options = [
             'ssl' => [
                 'verify_peer' => false,
@@ -259,20 +255,32 @@ class NewsController extends Controller {
     }
 
     private function isUrlAvailable($url) {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-        $result = curl_exec($ch);
-        $http_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        if (!$result || ($http_code == 200)) {
-            AppLogs::addLog('Ошибка чтения RSS ленты: ' . $url . ', код ответа: ' . $http_code);
+        $html_brand = $url;
+        $ch = curl_init();
+
+        $options = [
+            CURLOPT_URL => $html_brand,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_CONNECTTIMEOUT => 60,
+            CURLOPT_TIMEOUT => 60,
+            CURLOPT_MAXREDIRS => 0,
+        ];
+        curl_setopt_array( $ch, $options );
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        var_dump($httpCode);
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            AppLogs::addLog("Ошибка чтения RSS-ленты: $html_brand. Код ответа: " . $httpCode);
             return false;
         }
+
+        curl_close($ch);
         return true;
     }
 
