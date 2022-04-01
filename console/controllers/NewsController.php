@@ -260,22 +260,17 @@ class NewsController extends Controller {
 
     private function isUrlAvailable($url) {
         $ch = curl_init($url);
-        curl_setopt_array($ch, [
-            CURLOPT_POST => true,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_BINARYTRANSFER => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_FRESH_CONNECT => false,
-            CURLOPT_FORBID_REUSE => false,
-            CURLOPT_TIMEOUT => 5,
-        ]);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
         $result = curl_exec($ch);
-        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($result === false) {
-            AppLogs::addLog('Ошибка чтения RSS ленты: ' . $url . ', код ответа: ' . $code);
+        $http_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if (!$result || ($http_code == 200)) {
+            AppLogs::addLog('Ошибка чтения RSS ленты: ' . $url . ', код ответа: ' . $http_code);
             return false;
         }
         return true;
