@@ -42,5 +42,14 @@ class LogsController extends Controller {
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    public function actionDeleteAll() {
+        if (AppLogs::deleteAll()) {
+            Yii::$app->session->setFlash('error', ['message' => 'Извините, произошла ошибка. Попробуйте обновить страницу и повторите действие еще раз']);
+        } else {
+            Yii::$app->session->setFlash('success', ['message' => 'Логи успешно очищены!']);
+        }
+        return $this->redirect('/logs');
+    }
     
 }

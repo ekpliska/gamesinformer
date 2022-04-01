@@ -9,7 +9,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="user-index">
     <h3>
-        Логи 
+        Логи
+        <?= Html::a('Очистить логи', ['logs/delete-all'], ['class' => 'btn btn-danger']); ?>
     </h3>
     
     <?=
