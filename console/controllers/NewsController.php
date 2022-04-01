@@ -266,14 +266,13 @@ class NewsController extends Controller {
             CURLOPT_ENCODING => "",
             CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_CONNECTTIMEOUT => 120,
-            CURLOPT_TIMEOUT => 120,
-            CURLOPT_MAXREDIRS => 0,
+            CURLOPT_CONNECTTIMEOUT => 180,
+            CURLOPT_TIMEOUT => 180,
+            CURLOPT_MAXREDIRS => 10,
         ];
         curl_setopt_array( $ch, $options );
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        var_dump($httpCode);
 
         if ($httpCode < 200 || $httpCode >= 300) {
             AppLogs::addLog("Ошибка чтения RSS-ленты: $html_brand. Код ответа: " . $httpCode);
