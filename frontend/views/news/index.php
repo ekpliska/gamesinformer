@@ -115,6 +115,7 @@ Modal::begin([
     'closeButton' => [
         'class' => 'close modal-close-btn',
     ],
+    'size' => Modal::SIZE_LARGE,
 ]);
 
 Modal::end();
@@ -127,6 +128,7 @@ Modal::begin([
     'closeButton' => [
         'class' => 'close modal-close-btn',
     ],
+    'size' => Modal::SIZE_LARGE,
 ]);
 
 Modal::end();

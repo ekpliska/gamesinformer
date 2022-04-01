@@ -39,6 +39,7 @@ class RssChannel extends ActiveRecord {
             [[
                 'rss_channel_name', 'rss_channel_url', 'type',
                 'title_tag', 'description_tag', 'pub_date_tag', 'link_tag',
+                'item_tag',
                 ], 'required', 'on' => self::SCENARIO_FOR_NEWS_RSS,
             ],
             [['rss_channel_name', 'channel_id', 'type', 'site_url'],
@@ -46,15 +47,16 @@ class RssChannel extends ActiveRecord {
             ],
             [['rss_channel_name', 'type'], 'required'],
             [['type'], 'string', 'max' => 10],
-            [['rss_channel_name'], 'string', 'max' => 70],
+            [['rss_channel_name', 'root_tag', 'item_tag'], 'string', 'max' => 70],
             [['rss_channel_url', 'site_url'], 'string', 'max' => 255],
             [['title_tag', 'description_tag', 'pub_date_tag', 'image_tag', 'link_tag'], 'string', 'max' => 20],
             [['rss_channel_url', 'site_url'], 'url', 'message' => 'Вы указали некорректный  url адрес'],
+            [['item_tag'], 'default', 'value' => 'item'],
         ];
     }
 
     public function beforeSave($insert) {
-        if ($this->type === self::TYPE_YOUTUBE) {
+        if ($this->type == self::TYPE_YOUTUBE) {
             $this->rss_channel_url = "https://www.youtube.com/feeds/videos.xml?channel_id={$this->channel_id}";
         }
         return parent::beforeSave($insert);
@@ -92,6 +94,8 @@ class RssChannel extends ActiveRecord {
             'pub_date_tag' => 'Тег даты публикации новости',
             'image_tag' => 'Тег превью новости',
             'link_tag' => 'Тег источник новости',
+            'root_tag' => 'Корневой тег RSS-ленты',
+            'item_tag' => 'Корневой тег новости',
         ];
     }
 
@@ -106,6 +110,8 @@ class RssChannel extends ActiveRecord {
             'pub_date' => $this->pub_date_tag,
             'image' => $this->image_tag,
             'link' => $this->link_tag,
+            'root' => $this->root_tag,
+            'item' => $this->item_tag,
         ];
     }
 

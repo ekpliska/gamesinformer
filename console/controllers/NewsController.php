@@ -20,6 +20,7 @@ class NewsController extends Controller {
      */
     public function actionLoad() {
 
+        ini_set('max_execution_time', 60); // 1 minute
         $arr_context_options = [
             'ssl' => [
                 'verify_peer' => false,
@@ -31,57 +32,78 @@ class NewsController extends Controller {
             foreach ($rss_channels as $rss_channel) {
                 $url = $rss_channel->rss_channel_url;
                 $tags = $rss_channel->rssTags;
-                $feeds = file_get_contents($url, false, stream_context_create($arr_context_options));
-                if (!$feeds) {
+                if (!$this->isUrlAvailable($url)) {
                     continue;
                 }
-                $rss = @simplexml_load_string($feeds);
-                if ($rss === false) {
-                    continue;
-                }
-                foreach ($rss->channel->item as $item) {
-                    if (!array_key_exists('pub_date', $tags)) {
+                try {
+                    $feeds = file_get_contents($url, false, stream_context_create($arr_context_options));
+                    $rss = @simplexml_load_string($feeds);
+                    if ($rss === false) {
                         continue;
                     }
-                    if (!property_exists($item, $tags['pub_date'])) {
-                        continue;
+                    $xml_rss = $rss;
+                    if ($tags['root'] !== '') {
+                        $xml_rss = $rss->{$tags['root']};
                     }
-                    $date_pub = new \DateTime($item->{$tags['pub_date']});
-                    $current_date = new \DateTime('NOW');
-                    // Если разница между текущей датой и датой публикации больше $count_days дней, то такую новость не запоминаем
-                    if ($current_date->diff($date_pub)->d > $this->count_days) {
-                        continue;
+                    if ($tags['item'] !== '') {
+                        $xml_rss = $xml_rss->{$tags['item']};
                     }
-                    $news = new News();
-                    $news->rss_channel_id = $rss_channel->id;
-                    foreach ($tags as $key => $tag) {
-                        if ($key === 'pub_date') {
-                            $news->pub_date = $date_pub->format('Y-m-d H:i:s');
-                        }
-                        if (!property_exists($item, $tag)) {
+                    foreach ($xml_rss as $item) {
+                        if (!array_key_exists('pub_date', $tags)) {
                             continue;
                         }
-                        $news->{$key} = trim(Html::decode($item->{$tag}));
-                        if ($tags['image'] == null) {
-                            $description = Html::decode($item->{$tags['description']});
-                            trim(preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches));
-                            $news->image = $matches ? trim($matches[1]) : null;
-                        } elseif ($tags['image'] !== 'image') {
-                            $image_url = isset($item->{$tags['image']}['url']) 
-                                ? (string) trim($item->{$tags['image']}['url']) 
-                                : null;
-                            $news->image = trim($image_url);
+                        if (!property_exists($item, $tags['pub_date'])) {
+                            continue;
+                        }
+                        $date_pub = new \DateTime($item->{$tags['pub_date']});
+                        $current_date = new \DateTime('NOW');
+                        // Если разница между текущей датой и датой публикации больше $count_days дней, то такую новость не запоминаем
+                        if ($current_date->diff($date_pub)->d > $this->count_days) {
+                            continue;
+                        }
+                        $news = new News();
+                        $news->rss_channel_id = $rss_channel->id;
+
+                        foreach ($tags as $key => $tag) {
+                            if ($key === 'pub_date') {
+                                $news->pub_date = $date_pub->format('Y-m-d H:i:s');
+                            }
+                            if (!property_exists($item, $tag)) {
+                                continue;
+                            }
+                            $news->{$key} = trim(Html::decode($item->{$tag}));
+                            if ($tags['image'] == null) {
+                                $description = Html::decode($item->{$tags['description']});
+                                trim(preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches));
+                                $news->image = $matches ? trim($matches[1]) : null;
+                            } elseif ($tags['image'] !== 'image') {
+                                $image_url = isset($item->{$tags['image']}['url'])
+                                    ? (string) trim($item->{$tags['image']}['url'])
+                                    : null;
+                                $news->image = trim($image_url);
+                            }
+                            if ($tags['link']) {
+                                $news->link = isset($item->{$tags['link']}['href'])
+                                    ? (string) trim($item->{$tags['link']}['href'])
+                                    : (string) $item->{$tags['link']};
+                            }
+                        }
+                        if (!$news->save()) {
+                            $errors = $news->getFirstErrors();
+                            AppLogs::addLog(
+                                'Ошибка сохранения новости из ленты: ' .
+                                $rss_channel->rss_channel_name .
+                                ' Ошибка: ' . reset($errors)
+                            );
+                            continue;
                         }
                     }
-                    if (!$news->save()) {
-                        continue;
-                    }
+                } catch (\Throwable $th) {
+                    AppLogs::addLog('Ошибка чтения ленты новостей: ' . $rss_channel->rss_channel_name . 'Ошибка: ' . $th->getMessage());
+                    continue;
                 }
             }
         }
-        $new_log = new AppLogs();
-        $new_log->value_1 = 'Сформирован первоначальный список новостей на сервере';
-        $new_log->save(false);
     }
 
     /**
@@ -90,6 +112,8 @@ class NewsController extends Controller {
      * каждый час
      */
     public function actionCheck() {
+        ini_set('max_execution_time', 60); // 1 minute
+
         $arr_context_options = [
             'ssl' => [
                 'verify_peer' => false,
@@ -102,66 +126,84 @@ class NewsController extends Controller {
             foreach ($rss_channels as $rss_channel) {
                 $url = $rss_channel->rss_channel_url;
                 $tags = $rss_channel->rssTags;
-                $feeds = file_get_contents($url, false, stream_context_create($arr_context_options));
-                $rss = @simplexml_load_string($feeds);
-                if ($rss === false) {
+                if (!$this->isUrlAvailable($url)) {
                     continue;
                 }
-                foreach ($rss->channel->item as $item) {
-                    if (!array_key_exists('title', $tags)) {
+                try {
+                    $feeds = file_get_contents($url, false, stream_context_create($arr_context_options));
+                    $rss = @simplexml_load_string($feeds);
+                    if ($rss === false) {
                         continue;
                     }
-                    $title_news = $item->{$tags['title']};
-                    if (News::checkNews($title_news)) {
-                        continue;
+                    $xml_rss = $rss;
+                    if ($tags['root'] !== '') {
+                        $xml_rss = $rss->{$tags['root']};
                     }
-                    if (!array_key_exists('pub_date', $tags)) {
-                        continue;
+                    if ($tags['item'] !== '') {
+                        $xml_rss = $xml_rss->{$tags['item']};
                     }
-                    if (!property_exists($item, $tags['pub_date'])) {
-                        continue;
-                    }
-                    $date_pub = new \DateTime($item->{$tags['pub_date']});
-                    $current_date = new \DateTime('NOW');
-                    // Если разница между текущей датой и датой публикации больше count_days дней, то такую новость не запоминаем
-                    if ($current_date->diff($date_pub)->d > $this->count_days) {
-                        continue;
-                    }
-                    $news = new News();
-                    $news->rss_channel_id = $rss_channel->id;
-                    foreach ($tags as $key => $tag) {
-
-                        if ($key === 'pub_date') {
-                            $news->pub_date = $date_pub->format('Y-m-d H:i:s');
-                        }
-
-                        if (!property_exists($item, $tag)) {
+                    foreach ($xml_rss as $item) {
+                        if (!array_key_exists('title', $tags)) {
                             continue;
                         }
-                        $news->{$key} = trim(Html::decode($item->{$tag}));
-                        if ($tags['image'] == null) {
-                            $description = Html::decode($item->{$tags['description']});
-                            trim(preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches));
-                            $news->image = $matches ? trim($matches[1]) : null;
-                        } elseif ($tags['image'] !== 'image') {
-                            $image_url = isset($item->{$tags['image']}['url']) 
-                                ? (string) trim($item->{$tags['image']}['url']) 
-                                : null;
-                            $news->image = $image_url;
+                        $title_news = $item->{$tags['title']};
+                        if (News::checkNews($title_news)) {
+                            continue;
                         }
+                        if (!array_key_exists('pub_date', $tags)) {
+                            continue;
+                        }
+                        if (!property_exists($item, $tags['pub_date'])) {
+                            continue;
+                        }
+                        $date_pub = new \DateTime($item->{$tags['pub_date']});
+                        $current_date = new \DateTime('NOW');
+                        // Если разница между текущей датой и датой публикации больше count_days дней, то такую новость не запоминаем
+                        if ($current_date->diff($date_pub)->d > $this->count_days) {
+                            continue;
+                        }
+                        $news = new News();
+                        $news->rss_channel_id = $rss_channel->id;
+                        foreach ($tags as $key => $tag) {
+
+                            if ($key === 'pub_date') {
+                                $news->pub_date = $date_pub->format('Y-m-d H:i:s');
+                            }
+
+                            if (!property_exists($item, $tag)) {
+                                continue;
+                            }
+                            $news->{$key} = trim(Html::decode($item->{$tag}));
+                            if ($tags['image'] == null) {
+                                $description = Html::decode($item->{$tags['description']});
+                                trim(preg_match('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $description, $matches));
+                                $news->image = $matches ? trim($matches[1]) : null;
+                            } elseif ($tags['image'] !== 'image') {
+                                $image_url = isset($item->{$tags['image']}['url'])
+                                    ? (string) trim($item->{$tags['image']}['url'])
+                                    : null;
+                                $news->image = $image_url;
+                            }
+                            if ($tags['link']) {
+                                $news->link = isset($item->{$tags['link']}['href'])
+                                    ? (string) trim($item->{$tags['link']}['href'])
+                                    : (string) $item->{$tags['link']};
+                            }
+                        }
+                        if (!$news->save()) {
+                            continue;
+                        }
+
+                        $count_news++;
                     }
-                    if (!$news->save()) {
-                        continue;
+                    if ($count_news > 0) {
+                        AppLogs::addLog("RSS лента {$rss_channel->rss_channel_name}, обновление списка новостей, новых новостей {$count_news}");
                     }
-                    
-                    $count_news++;
+                    $count_news = 0;
+                } catch (\Throwable $th) {
+                    AppLogs::addLog('Ошибка чтения ленты новостей: ' . $rss_channel->rss_channel_name . 'Ошибка: ' . $th->getMessage());
+                    continue;
                 }
-                if ($count_news > 0) {
-                    $new_log = new AppLogs();
-                    $new_log->value_1 = "RSS лента {$rss_channel->rss_channel_name}, обновление списка новостей, новых новостей {$count_news}";
-                    $new_log->save(false);
-                }
-                $count_news = 0;
             }
         }
         $this->sendNewsNotification();
@@ -174,7 +216,7 @@ class NewsController extends Controller {
      * Для ежедневного запуска в 00:00
      */
     public function actionRemove() {
-        $news = \common\models\News::find()
+        $news = News::find()
             ->joinWith([
                 'rss' => function ($query) {
                     $query->andWhere(['type' => RssChannel::TYPE_NEWS]);
@@ -195,9 +237,7 @@ class NewsController extends Controller {
                 }
             }
             if ($count_news > 0) {
-                $new_log = new AppLogs();
-                $new_log->value_1 = "Удаление неактуальных новостей, количество {$count_news}";
-                $new_log->save(false);
+                AppLogs::addLog("Удаление неактуальных новостей, количество {$count_news}");
             }
         }
     }
@@ -216,6 +256,29 @@ class NewsController extends Controller {
         
         $notification->createNotification();
         
+    }
+
+    private function isUrlAvailable($url) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_BINARYTRANSFER => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER => false,
+            CURLOPT_FRESH_CONNECT => false,
+            CURLOPT_FORBID_REUSE => false,
+            CURLOPT_TIMEOUT => 5,
+        ]);
+        $result = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($result === false) {
+            AppLogs::addLog('Ошибка чтения RSS ленты: ' . $url . ', код ответа: ' . $code);
+            return false;
+        }
+        return true;
     }
 
 }

@@ -30,7 +30,7 @@ use yii\widgets\ActiveForm;
             <div class="col-md-8">
                 <?= $form->field($model, 'rss_channel_name')->input('text')->label() ?>
             </div>
-        </div>
+        </div>        
         <div class="row">
             <div class="col-md-12">
                 <?= $form->field($model, 'rss_channel_url')->input('text')->label() ?>
@@ -45,7 +45,24 @@ use yii\widgets\ActiveForm;
             <div class="col-md-6">
                 <?= $form->field($model, 'image_tag')->input('text')->label() ?>
                 <?= $form->field($model, 'link_tag')->input('text')->label() ?>
+                <?= $form->field($model, 'item_tag')->input('text', [
+                        'value' => $model->isNewRecord ? 'item' : $model->item_tag,
+                    ])->label()
+                ?>
             </div>
+        </div>
+        <div class="row alert alert-danger">
+            <div class="col-md-12">
+                <?= $form->field($model, 'root_tag')->input('text', [
+                        'value' => $model->isNewRecord ? 'channel' : $model->root_tag,
+                    ])->label()
+                ?>
+            </div>
+            <p>
+                <strong>Внимание!</strong> Если RSS не содержит в себе корневого тега, данное поле необходимо оставить пустым
+                <br />
+                Например: По умолчанию для корневого тега используется наименование <code>channel</code>
+            </p>
         </div>
         <div class="row alert alert-warning">
             <strong>Теги!</strong> Для настройки сбора новостей по каждой RSS-ленте необходимо указать 
