@@ -17,6 +17,7 @@ class GameSearch extends Game {
     public $geners;
     public $mode;
     public $order_by;
+    public $is_aaa;
 
     public function rules() {
         return [
@@ -24,6 +25,7 @@ class GameSearch extends Game {
                 'title', 'series',
                 'platforms', 'geners',
                 'mode', 'order_by',
+                'is_aaa',
             ], 'safe'],
         ];
     }
@@ -44,7 +46,7 @@ class GameSearch extends Game {
             ->select(['`game`.*', 'COUNT(`game_likes`.`game_id`) AS `likes_count`'])
             ->joinWith('gameLikes')
             ->groupBy('`game`.`id`');
-        
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query
         ]);
@@ -52,17 +54,17 @@ class GameSearch extends Game {
         if (!$this->validate()) {
             return $dataProvider;
         }
-        
+
         if ($is_mode_future && $is_mode_future === 'future') {
             $query->where(['published' => false]);
         } elseif ($is_mode_future && $is_mode_future === 'publish') {
             $query->where(['published' => true]);
         }
-        
+
         if (isset($params['title'])) {
             $query->andFilterWhere(['like', 'title', $params['title']]);
         }
-        
+
         // Фильтр по сериям
         if (isset($params['series'])) {
             $series_ids = $this->getSeriesId(Html::encode($params['series']));
@@ -96,9 +98,13 @@ class GameSearch extends Game {
         } else {
             $query->orderBy(['publish_at' => $order_type]);
         }
-        
+
         if (isset($params['order_by']) && $params['order_by'] == 'likes') {
             $query->orderBy(['likes_count' => SORT_DESC]);
+        }
+
+        if (isset($params['is_aaa']) && $params['is_aaa'] == 'show') {
+            $query->andWhere(['is_aaa' => true]);
         }
 
         return $dataProvider;
@@ -127,7 +133,7 @@ class GameSearch extends Game {
         }
         return $genres_ids;
     }
-    
+
     private function getSeriesId($params) {
         $series = [];
         $series_ids = [];
