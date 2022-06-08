@@ -57,7 +57,7 @@ class NewsSearch extends News {
 
         // Исключаем персональные новости из списка основных новостей
         if (count($this->personal_news_ids)) {
-            $query->andWhere(['in', 'id', $this->personal_news_ids]);
+            $query->andWhere(['NOT IN', 'id', $this->personal_news_ids]);
         }
 
         if (isset($params['order_by']) && $params['order_by'] == 'views') {
