@@ -1,9 +1,9 @@
 <?php
 
 namespace api\modules\v4\models\search;
+use api\modules\v4\models\NewsRead;
 use yii\helpers\ArrayHelper;
 use yii\base\Model;
-use yii\helpers\Html;
 use yii\data\ActiveDataProvider;
 use api\modules\v4\models\News;
 use api\modules\v4\models\RssChannel;
@@ -17,6 +17,7 @@ class NewsSearch extends News {
     public $type_list;
     public $order_by;
     public $personal_news_ids = [];
+    public $news_read_ids;
 
     public function __construct($config = array()) {
         $this->type_list = RssChannel::getTypesListApi();
@@ -26,12 +27,16 @@ class NewsSearch extends News {
         if ($news && isset($news['news']) && count($news['news'])) {
             $this->personal_news_ids = ArrayHelper::getColumn($news['news'], 'id');
         }
+
+        // Лист прочитанных новостей текущего пользователя
+        $news_read = new NewsRead();
+        $this->news_read_ids = $news_read->getReadNewsIdsByUserId();
         parent::__construct($config);
     }
 
     public function rules() {
         return [
-            [['title', 'rss_ids', 'type', 'order_by', 'day'], 'safe'],
+            [['title', 'rss_ids', 'type', 'order_by', 'day', 'read_flag'], 'safe'],
         ];
     }
 
@@ -83,6 +88,11 @@ class NewsSearch extends News {
         if (isset($params['rss_ids'])) {
             $rss_ids = $this->checkRssIds($params['rss_ids'], $type);
             $query->andWhere(['in', 'rss_channel_id', $rss_ids]);
+        }
+
+        // Скрыть прочитанные новости
+        if (isset($params['read_flag']) && $params['read_flag'] == 'hide') {
+            $query->andWhere(['NOT IN', 'id', $this->news_read_ids]);
         }
         
         return $dataProvider;
