@@ -4,13 +4,14 @@ namespace api\modules\v4\models;
 use yii\helpers\ArrayHelper;
 use common\models\News as NewsBase;
 use common\models\NewsViews;
+use common\models\NewsRead;
 use common\models\NewsLikes;
 use common\models\RssChannel;
 use common\models\Favorite;
 use common\models\TagLink;
 
 class News extends NewsBase {
-    
+
     private $_user;
     private $_news_likes = [];
 
@@ -22,15 +23,15 @@ class News extends NewsBase {
             $this->_news_likes = ArrayHelper::getColumn($likes_news, 'news_id');
         }
     }
-    
+
     public function fields() {
         return [
             'id',
-            'title', 
-            'description', 
-            'pub_date', 
-            'image', 
-            'link', 
+            'title',
+            'description',
+            'pub_date',
+            'image',
+            'link',
             'rss' => function() {
                 return $this->rss->rss_channel_name;
             },
@@ -41,6 +42,12 @@ class News extends NewsBase {
                 return $this->getNewseTagsList();
             },
             'number_views',
+            'is_read' => function() {
+                if (!$this->_user) {
+                    return null;
+                }
+                return $this->checkNewsReadByUserId($this->_user->id);
+            },
         ];
     }
 
@@ -69,18 +76,18 @@ class News extends NewsBase {
         }
         return true;
     }
-    
+
     public function like() {
         if (!$this->_user) {
             return false;
         }
-        
+
         $user_like = NewsLikes::find()->where(['AND', ['user_id' => $this->_user->id], ['news_id' => $this->id]])->one();
 
         if ($user_like) {
             return $user_like->delete() ? true : false;
         }
-        
+
         $add_like = new NewsLikes();
         $add_like->user_id = $this->_user->id;
         $add_like->news_id = $this->id;
@@ -128,11 +135,48 @@ class News extends NewsBase {
             ->all();
 
         return [
-            'success' => true, 
+            'success' => true,
             'news' => $news,
         ];
     }
-    
+
+    /**
+     * Автопрочтение новостей для текущего пользователя
+     * @param $news_ids array
+     * @return bool|void
+     */
+    public function autoRead($news_ids) {
+
+        if (!$this->_user) {
+            return false;
+        }
+
+        $ids = explode(',', $news_ids);
+
+        if (!count($ids)) {
+            return false;
+        }
+
+        $news_read = NewsRead::find()->where(['in', 'news_id', $ids])->all();
+        $news = News::find()->where(['in', 'id', $ids])->all();
+
+        if (!count($news_read) && count($news)) {
+            return NewsRead::createAutoRead($news, $this->_user->id);
+        }
+
+        if (count($news_read) && count($news)) {
+            foreach ($news_read as $item) {
+                if (!$item->updateAutoRead($item, $this->_user->id)) {
+                    continue;
+                }
+            }
+            return true;
+        }
+
+        return false;
+
+    }
+
     private function checkAuthUser() {
         $_headers = getallheaders();
         $headers = array_change_key_case($_headers);

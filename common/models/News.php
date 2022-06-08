@@ -4,6 +4,7 @@ namespace common\models;
 use yii\db\ActiveRecord;
 use Yii;
 use common\models\NewsViews;
+use common\models\NewsRead;
 use common\models\TagLink;
 
 /**
@@ -91,6 +92,10 @@ class News extends ActiveRecord {
     public function getViews() {
         return $this->hasMany(NewsViews::className(), ['news_id' => 'id']);
     }
+
+    public function getReads() {
+        return $this->hasOne(NewsRead::className(), ['news_id' => 'id']);
+    }
     
     public function getLikes() {
         return $this->hasMany(NewsLikes::className(), ['news_id' => 'id']);
@@ -109,6 +114,12 @@ class News extends ActiveRecord {
             }
         }
         return $result;
+    }
+
+    public function checkNewsReadByUserId($user_id) {
+        $reads = $this->reads;
+        $user_ids = json_decode($reads->user_ids);
+        return $reads && in_array($user_id, $user_ids);
     }
     
     public static function checkNews($title) {
