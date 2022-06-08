@@ -24,7 +24,7 @@ class NewsSearch extends News {
         $news_list = new News();
         $news = $news_list->getPersonalNewsList();
         if ($news && isset($news['news']) && count($news['news'])) {
-            $personal_news_ids = ArrayHelper::getColumn($news['news'], 'id');
+            $this->personal_news_ids = ArrayHelper::getColumn($news['news'], 'id');
         }
         parent::__construct($config);
     }
