@@ -118,8 +118,12 @@ class News extends ActiveRecord {
 
     public function checkNewsReadByUserId($user_id) {
         $reads = $this->reads;
+        if (!$this->reads) {
+            return false;
+        }
+        
         $user_ids = json_decode($reads->user_ids);
-        return $reads && in_array($user_id, $user_ids);
+        return in_array($user_id, $user_ids);
     }
     
     public static function checkNews($title) {
