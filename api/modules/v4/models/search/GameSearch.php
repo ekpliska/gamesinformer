@@ -103,10 +103,10 @@ class GameSearch extends Game {
             $query->orderBy(['likes_count' => SORT_DESC]);
         }
 
-        if (isset($params['is_aaa']) && $params['is_aaa'] == 'show') {
-            $query->andWhere(['is_aaa' => true]);
-        } else {
+        if (isset($params['is_aaa']) && $params['is_aaa'] == 'hide') {
             $query->andWhere(['is_aaa' => false]);
+        } else {
+            $query->andWhere(['is_aaa' => true]);
         }
 
         return $dataProvider;
