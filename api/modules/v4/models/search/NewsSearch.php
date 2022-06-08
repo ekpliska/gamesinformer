@@ -16,9 +16,16 @@ class NewsSearch extends News {
     public $type;
     public $type_list;
     public $order_by;
+    public $personal_news_ids = [];
 
     public function __construct($config = array()) {
         $this->type_list = RssChannel::getTypesListApi();
+
+        $news_list = new News();
+        $news = $news_list->getPersonalNewsList();
+        if ($news && isset($news['news']) && count($news['news'])) {
+            $personal_news_ids = ArrayHelper::getColumn($news['news'], 'id');
+        }
         parent::__construct($config);
     }
 
@@ -33,7 +40,6 @@ class NewsSearch extends News {
     }
 
     public function search($params) {
-        
         $rss_ids = [];
         $type = isset($params['type']) ? $params['type'] : null;
         $query = News::find();
@@ -48,6 +54,11 @@ class NewsSearch extends News {
         }
         
         $query->where(['is_block' => 0]);
+
+        // Исключаем персональные новости из списка основных новостей
+        if (count($this->personal_news_ids)) {
+            $query->andWhere(['in', 'id', $this->personal_news_ids]);
+        }
 
         if (isset($params['order_by']) && $params['order_by'] == 'views') {
             $query->orderBy(['number_views' => SORT_DESC, 'pub_date' => SORT_DESC]);
