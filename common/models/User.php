@@ -18,6 +18,7 @@ use common\models\FavoriteSeries;
  * @property string|null $photo
  * @property string|null $created_at
  * @property string|null $updated_at
+ * @property string|null $logout_at
  * @property string|null $time_alert
  * @property int $is_time_alert
  * @property int $is_advertising // Не актуальная настройка
@@ -48,7 +49,7 @@ class User extends ActiveRecord implements IdentityInterface {
     {
         return [
             [['password_hash', 'email', 'token'], 'required'],
-            [['created_at', 'updated_at', 'time_alert'], 'safe'],
+            [['created_at', 'updated_at', 'time_alert', 'logout_at'], 'safe'],
             [['status', 'aaa_notifications', 'is_time_alert', 'is_advertising', 'is_shares'], 'integer'],
             [['username', 'password_hash', 'photo'], 'string', 'max' => 255],
             [['auth_key', 'token'], 'string', 'max' => 32],
@@ -124,6 +125,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'photo' => 'Фото профиля',
             'created_at' => 'Зарегистрирован',
             'updated_at' => 'Профиль обновлен',
+            'logout_at' => 'Дата выхода из приложения',
             'status' => 'Статус',
             'time_alert' => 'Время оповещений',
             'aaa_notifications' => 'Уведомления о выходе AAA-игр',
@@ -158,6 +160,11 @@ class User extends ActiveRecord implements IdentityInterface {
         $this->is_subscription = false;
         $this->aaa_notifications = 0;
         $this->is_shares = 0;
+        return $this->save() ? true : false;
+    }
+
+    public function setLogoutDate() {
+        $this->logout_at = \Yii::$app->formatter->asDate(new \DateTime('NOW'), 'yyyy-MM-dd hh:mm:ss');;
         return $this->save() ? true : false;
     }
     

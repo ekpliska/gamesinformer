@@ -35,6 +35,7 @@ return [
             'GET /' => 'index',
             'POST /update' => 'update',
             'POST /change-password' => 'change-password',
+            'GET /logout' => 'logout',
         ]
     ],
     [

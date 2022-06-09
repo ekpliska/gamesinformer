@@ -126,7 +126,19 @@ class UserController extends Controller {
 //        $user = $this->getUserProfile();
 //        return ['success' => $user->unSubscribe()];
     }
-    
+
+    /**
+     * Выход из приложения
+     * @return bool[]
+     */
+    public function actionLogout() {
+        $user = $this->getUserProfile();
+        if ($user->setLogoutDate()) {
+            return ['success' => true];
+        }
+        return ['success' => false];
+    }
+
     private function getUserProfile() {
         return User::findOne(Yii::$app->user->id);
     }
@@ -138,6 +150,7 @@ class UserController extends Controller {
             'change-password' => ['POST'],
             'subscribe' => ['GET'],
             'unsubscribe' => ['GET'],
+            'logout' => ['GET'],
         ];
     }
 
