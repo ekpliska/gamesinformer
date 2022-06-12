@@ -104,8 +104,6 @@ class GameSearch extends Game {
         }
 
         if (isset($params['is_aaa']) && $params['is_aaa'] == 'hide') {
-            $query->andWhere(['is_aaa' => false]);
-        } else {
             $query->andWhere(['is_aaa' => true]);
         }
 

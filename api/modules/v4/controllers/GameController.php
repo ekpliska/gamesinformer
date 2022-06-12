@@ -95,7 +95,13 @@ class GameController extends ActiveController {
         
         return $game->like() ? ['success' => true] : ['success' => false];
     }
-    
+
+    public function actionPersonalFavouriteGames() {
+        return [
+            'success' => false,
+        ];
+    }
+
     public function verbs() {
         parent::verbs();
         return [
