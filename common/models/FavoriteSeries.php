@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\models\Series;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "favorite_series".
@@ -42,6 +43,10 @@ class FavoriteSeries extends ActiveRecord {
         return $this->hasOne(series_id::className(), ['id' => 'series_id']);
     }
 
+    public function getGameSeries() {
+        return $this->hasMany(GameSeries::className(), ['series_id' => 'series_id']);
+    }
+
     public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_uid']);
     }
@@ -66,6 +71,29 @@ class FavoriteSeries extends ActiveRecord {
         }
         return $favorite->delete() ? true : false;
         
+    }
+
+    static public function getGamesByUserId($user_id) {
+        if (!$user_id) {
+            return [];
+        }
+
+        $favorite = FavoriteSeries::find()
+            ->andWhere(['user_uid' => $user_id])
+            ->joinWith('gameSeries')
+            ->asArray()
+            ->all();
+
+        $ids = [];
+        if ($favorite && count($favorite)) {
+            foreach ($favorite as $item) {
+                $ids = ArrayHelper::merge($ids, ArrayHelper::getColumn($item['gameSeries'], function ($i) {
+                    return (int)$i['game_id'];
+                }));
+            }
+        }
+
+        return $ids;
     }
     
 }

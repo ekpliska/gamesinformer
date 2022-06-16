@@ -3,6 +3,7 @@
 namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "favorite".
@@ -58,13 +59,24 @@ class Favorite extends ActiveRecord {
     }
     
     static public function remove($game_id) {
-        
         $favorite = Favorite::find()->andWhere(['AND', ['user_uid' => Yii::$app->user->id], ['game_id' => $game_id]])->one();
         if (!$favorite) {
             return false;
         }
+
         return $favorite->delete() ? true : false;
-        
+    }
+
+    static public function getGamesByUserId($user_id) {
+        if (!$user_id) {
+            return [];
+        }
+
+        $favorite = Favorite::find()->andWhere(['user_uid' => $user_id])->all();
+
+        return $favorite ? ArrayHelper::getColumn($favorite, function ($e) {
+            return (int)$e['game_id'];
+        }) : [];
     }
     
 }

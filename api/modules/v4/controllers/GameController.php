@@ -96,9 +96,18 @@ class GameController extends ActiveController {
         return $game->like() ? ['success' => true] : ['success' => false];
     }
 
-    public function actionPersonalFavouriteGames() {
+    public function actionPersonalFavouriteReleases() {
+        $games = new Game();
+        if (!$games->checkUser()) {
+            return [
+                'success' => false,
+                'errors' => ['Недостаточно прав'],
+            ];
+        }
+
         return [
-            'success' => false,
+            'success' => true,
+            'data' => $games->getReleasesGamesByFavouriteCollection(),
         ];
     }
 
@@ -109,6 +118,7 @@ class GameController extends ActiveController {
             'view' => ['GET'],
             'spot-aaa-game' => ['GET'],
             'like' => ['GET'],
+            'personal-favourite-releases' => ['GET'],
         ];
     }
     

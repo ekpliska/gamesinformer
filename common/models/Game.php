@@ -334,6 +334,49 @@ class Game extends ActiveRecord {
         $add_like->game_id = $this->id;
         return $add_like->save() ? true : false;
     }
+
+    /**
+     * Список вышедших игры из избранных игр и серий
+     * с даты последнего входа пользователя
+     */
+    public function getReleasesGamesByFavouriteCollection() {
+        $today_releases = [];
+        $other_releases = [];
+
+        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $user_id = $this->_user->id;
+        $logout_date = new \DateTime($this->_user->logout_at, new \DateTimeZone('Europe/Moscow'));
+
+        $favourite_game_ids = Favorite::getGamesByUserId($user_id);
+        $favourite_game_ids_by_series = FavoriteSeries::getGamesByUserId($user_id);
+
+        $today_releases = Game::find()
+            ->where(['IN', 'id', ArrayHelper::merge($favourite_game_ids, $favourite_game_ids_by_series)])
+            ->andWhere(['publish_at' => $current_date->format('Y-m-d 00:00:00')])
+            ->orderBy(['publish_at' => SORT_DESC])
+            ->asArray()
+            ->all();
+
+        if ($current_date->diff($logout_date)->d > 1) {
+            $other_releases = Game::find()
+                ->where(['IN', 'id', ArrayHelper::merge($favourite_game_ids, $favourite_game_ids_by_series)])
+                ->andWhere([
+                    'between',
+                    'publish_at',
+                    $logout_date->format('Y-m-d H:i:s'),
+                    $current_date->modify('-1 day')->format('Y-m-d 23:59:59')
+                ])
+                ->orderBy(['publish_at' => SORT_DESC])
+                ->asArray()
+                ->all();
+        }
+
+        return [
+            'today' => $today_releases,
+            'other' => $other_releases,
+        ];
+
+    }
     
     public function attributeLabels() {
         return [
