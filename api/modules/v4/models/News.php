@@ -1,6 +1,7 @@
 <?php
 
 namespace api\modules\v4\models;
+use common\models\FavoriteSeries;
 use yii\helpers\ArrayHelper;
 use common\models\News as NewsBase;
 use common\models\NewsViews;
@@ -107,31 +108,41 @@ class News extends NewsBase {
             ];
         }
 
-        // Избранные игры текущего пользователя
-        $favorite_games = Favorite::find()->where(['user_uid' => $this->_user->id])->all();
-        if (!$favorite_games) {
+        $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
+        $user_id = $this->_user->id;
+        $logout_date = new \DateTime($this->_user->logout_at, new \DateTimeZone('Europe/Moscow'));
+
+        $favourite_game_ids = Favorite::getGamesByUserId($user_id);
+        $favourite_game_ids_by_series = FavoriteSeries::getGamesByUserId($user_id);
+
+        // IDs избранных игр и серий
+        $game_ids = ArrayHelper::merge($favourite_game_ids, $favourite_game_ids_by_series);
+
+        if (count($game_ids)) {
             return [
                 'success' => true,
                 'news' => [],
             ];
         }
 
-        $favorite_games_ids = ArrayHelper::getColumn($favorite_games, 'game_id');
-
         // Теги Игр по Избранным играм
-        $tags_link_game = TagLink::getTagsByGameIds($favorite_games_ids);
+        $tags_link_game = TagLink::getTagsByGameIds($game_ids);
         $tags_link_game_ids = ArrayHelper::getColumn($tags_link_game, 'tag_id');
 
         // Теги Новостей по Избранным играм
         $tags_link_news = TagLink::getNewsByTags($tags_link_game_ids);
         $tags_link_news_ids = ArrayHelper::getColumn($tags_link_news, 'type_uid');
 
-        $current_date = new \DateTime('NOW');
-        // Новости за текущий день по избранным играм
+        // Новости по избранным играм за диапазон [дата закрытия приложения; текущая дата]
         $news = News::find()
             ->where(['in', 'id', $tags_link_news_ids])
-            ->andWhere(['between', 'pub_date', $current_date->format('Y-m-d 00:00:00'), $current_date->format('Y-m-d 23:59:59')])
-            ->orderBy(['number_views' => SORT_DESC])
+            ->andWhere([
+                'between',
+                'pub_date',
+                $logout_date->format('Y-m-d H:i:s'),
+                $current_date->format('Y-m-d 23:59:59')
+            ])
+            ->orderBy(['pub_date' => SORT_DESC])
             ->all();
 
         return [

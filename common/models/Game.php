@@ -350,25 +350,29 @@ class Game extends ActiveRecord {
         $favourite_game_ids = Favorite::getGamesByUserId($user_id);
         $favourite_game_ids_by_series = FavoriteSeries::getGamesByUserId($user_id);
 
-        $today_releases = Game::find()
-            ->where(['IN', 'id', ArrayHelper::merge($favourite_game_ids, $favourite_game_ids_by_series)])
-            ->andWhere(['publish_at' => $current_date->format('Y-m-d 00:00:00')])
-            ->orderBy(['publish_at' => SORT_DESC])
-            ->asArray()
-            ->all();
+        $game_ids = ArrayHelper::merge($favourite_game_ids, $favourite_game_ids_by_series);
 
-        if ($current_date->diff($logout_date)->d > 1) {
-            $other_releases = Game::find()
-                ->where(['IN', 'id', ArrayHelper::merge($favourite_game_ids, $favourite_game_ids_by_series)])
-                ->andWhere([
-                    'between',
-                    'publish_at',
-                    $logout_date->format('Y-m-d H:i:s'),
-                    $current_date->modify('-1 day')->format('Y-m-d 23:59:59')
-                ])
+        if (count($game_ids)) {
+            $today_releases = Game::find()
+                ->where(['IN', 'id', $game_ids])
+                ->andWhere(['publish_at' => $current_date->format('Y-m-d 00:00:00')])
                 ->orderBy(['publish_at' => SORT_DESC])
                 ->asArray()
                 ->all();
+
+            if ($current_date->diff($logout_date)->d > 1) {
+                $other_releases = Game::find()
+                    ->where(['IN', 'id', $game_ids])
+                    ->andWhere([
+                        'between',
+                        'publish_at',
+                        $logout_date->format('Y-m-d H:i:s'),
+                        $current_date->modify('-1 day')->format('Y-m-d 23:59:59')
+                    ])
+                    ->orderBy(['publish_at' => SORT_DESC])
+                    ->asArray()
+                    ->all();
+            }
         }
 
         return [
