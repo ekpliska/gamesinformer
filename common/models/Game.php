@@ -368,7 +368,7 @@ class Game extends ActiveRecord {
                     ->andWhere([
                         'between',
                         'publish_at',
-                        $logout_date->format('Y-m-d H:i:s'),
+                        $logout_date->format($this->_user->logout_at ? 'Y-m-d H:i:s' : 'Y-m-d 00:00:00'),
                         $current_date->modify('-1 day')->format('Y-m-d 23:59:59')
                     ])
                     ->orderBy(['publish_at' => SORT_DESC])

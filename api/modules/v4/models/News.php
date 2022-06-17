@@ -141,7 +141,7 @@ class News extends NewsBase {
             ->andWhere([
                 'between',
                 'pub_date',
-                $logout_date->format('Y-m-d H:i:s'),
+                $logout_date->format($this->_user->logout_at ? 'Y-m-d H:i:s' : 'Y-m-d 00:00:00'),
                 $current_date->format('Y-m-d 23:59:59')
             ])
             ->orderBy(['pub_date' => SORT_DESC])
