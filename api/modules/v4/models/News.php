@@ -120,7 +120,7 @@ class News extends NewsBase {
         // IDs избранных игр и серий
         $game_ids = ArrayHelper::merge($favourite_game_ids, $favourite_game_ids_by_series);
 
-        if (count($game_ids)) {
+        if (!count($game_ids)) {
             return [
                 'success' => true,
                 'news' => [],
