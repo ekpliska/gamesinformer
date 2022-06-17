@@ -110,7 +110,9 @@ class News extends NewsBase {
 
         $current_date = new \DateTime('NOW', new \DateTimeZone('Europe/Moscow'));
         $user_id = $this->_user->id;
-        $logout_date = new \DateTime($this->_user->logout_at, new \DateTimeZone('Europe/Moscow'));
+        $logout_date = $this->_user->logout_at ?
+            new \DateTime($this->_user->logout_at, new \DateTimeZone('Europe/Moscow')) :
+            $current_date;
 
         $favourite_game_ids = Favorite::getGamesByUserId($user_id);
         $favourite_game_ids_by_series = FavoriteSeries::getGamesByUserId($user_id);
