@@ -83,6 +83,22 @@ $this->params['breadcrumbs'][] = ['label' => $user->username ? $user->username :
                             <?= $user->email ?>
                         </p>
                     </div>
+                    <div class="col-xs-6">
+                        <label for="first_name">
+                            <h4>Дата последнего открытия приложения</h4>
+                        </label>
+                        <p>
+                            <?= \Yii::$app->formatter->asDate($user->login_at, 'yyyy-MM-dd hh:mm:ss') ?>
+                        </p>
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="first_name">
+                            <h4>Дата последнего открытия приложения</h4>
+                        </label>
+                        <p>
+                            <?= \Yii::$app->formatter->asDate($user->logout_at, 'yyyy-MM-dd hh:mm:ss') ?>
+                        </p>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="favorite">
                     <ul class="list-group">

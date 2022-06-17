@@ -128,6 +128,18 @@ class UserController extends Controller {
     }
 
     /**
+     * Вход в приложение
+     * @return bool[]
+     */
+    public function actionLogin() {
+        $user = $this->getUserProfile();
+        if ($user->setLogoutDate()) {
+            return ['success' => true];
+        }
+        return ['success' => false];
+    }
+
+    /**
      * Выход из приложения
      * @return bool[]
      */
