@@ -37,6 +37,7 @@ class SignInForm extends Model {
         if ($this->validate()) {
             $user = $this->_user;
             $user->generateToken();
+            $user->login_at = \Yii::$app->formatter->asDate(new \DateTime('NOW'), 'yyyy-MM-dd hh:mm:ss');
             return $user->save() ? $user->token : false;
         }
         

@@ -19,6 +19,7 @@ return [
     'basePath' => dirname(__DIR__),    
     'bootstrap' => ['log'],
     'language' => 'ru',
+    'timeZone' => 'UTC',
     'modules' => [
         'v1' => [
             'basePath' => '@app/modules/v1',

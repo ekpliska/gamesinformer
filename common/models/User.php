@@ -166,12 +166,12 @@ class User extends ActiveRecord implements IdentityInterface {
     }
 
     public function setLoginDate() {
-        $this->login_at = \Yii::$app->formatter->asDate(new \DateTime('NOW'), 'yyyy-MM-dd hh:mm:ss');;
+        $this->login_at = \Yii::$app->formatter->asDate(new \DateTime('NOW'), 'yyyy-MM-dd hh:mm:ss');
         return $this->save() ? true : false;
     }
 
-    public function setLogoutDate() {
-        $this->logout_at = \Yii::$app->formatter->asDate(new \DateTime('NOW'), 'yyyy-MM-dd hh:mm:ss');;
+    public function setLogoutDate($date) {
+        $this->logout_at = \Yii::$app->formatter->asDate($date ? $date : new \DateTime('NOW'), 'yyyy-MM-dd hh:mm:ss');
         return $this->save() ? true : false;
     }
     

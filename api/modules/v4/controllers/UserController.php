@@ -128,27 +128,23 @@ class UserController extends Controller {
     }
 
     /**
-     * Вход в приложение
+     * Дата закрытия приложения
      * @return bool[]
      */
-    public function actionLogin() {
-        $user = $this->getUserProfile();
-        if ($user->setLogoutDate()) {
+    public function actionTurnOffApplication($date = null) {
+        try {
+            $_date = $date ? \Yii::$app->formatter->asDatetime($date, 'yyyy-MM-dd hh:mm:ss') : null;
+            $user = $this->getUserProfile();
+            if ($user->setLogoutDate($_date)) {
             return ['success' => true];
         }
-        return ['success' => false];
-    }
 
-    /**
-     * Выход из приложения
-     * @return bool[]
-     */
-    public function actionLogout() {
-        $user = $this->getUserProfile();
-        if ($user->setLogoutDate()) {
-            return ['success' => true];
+        } catch (\Exception $ex) {
+            return [
+                'success' => false,
+                'message' => 'Неверый формат даты',
+            ];
         }
-        return ['success' => false];
     }
 
     private function getUserProfile() {
@@ -162,7 +158,7 @@ class UserController extends Controller {
             'change-password' => ['POST'],
             'subscribe' => ['GET'],
             'unsubscribe' => ['GET'],
-            'logout' => ['GET'],
+            'turn-off-application' => ['GET'],
         ];
     }
 
