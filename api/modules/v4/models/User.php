@@ -84,6 +84,8 @@ class User extends UserBase {
                     'comments' => $game->getCommentsList(),
                     'is_aaa' => $game->is_aaa ? true : false,
                     'tags' => $game->getGametagsList(),
+                    'only_year' => $game->only_year ? true : false,
+                    },
                 ];
             }
         }
