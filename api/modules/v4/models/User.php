@@ -52,6 +52,9 @@ class User extends UserBase {
             'is_subscription' => function() {
                 return $this->is_subscription ? true : false;
             },
+            'tern_off_att' => function() {
+                return $this->logout_at;
+            },
         ];
     }
 
