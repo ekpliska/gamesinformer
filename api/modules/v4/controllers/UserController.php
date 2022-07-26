@@ -135,7 +135,7 @@ class UserController extends Controller {
         try {
             $_date = $date ? \Yii::$app->formatter->asDatetime($date, 'yyyy-MM-dd hh:mm:ss') : null;
             $user = $this->getUserProfile();
-            if ($user->setLogoutDate($_date)) {
+            if ($user && $user->setLogoutDate($_date)) {
             return ['success' => true];
         }
 
@@ -145,6 +145,22 @@ class UserController extends Controller {
                 'message' => 'Неверый формат даты',
             ];
         }
+    }
+
+    /**
+     * Выход из приложения
+     * @return bool[]
+     */
+    public function actionLogout() {
+        $user = $this->getUserProfile();
+        if ($user && $user->setLogoutDate()) {
+            return ['success' => true];
+        } catch (\Exception $ex) {
+            return [
+                'success' => false
+            ];
+        }
+        return ['success' => false];
     }
 
     private function getUserProfile() {
@@ -159,6 +175,7 @@ class UserController extends Controller {
             'subscribe' => ['GET'],
             'unsubscribe' => ['GET'],
             'turn-off-application' => ['GET'],
+            'logout' => ['GET'],
         ];
     }
 
