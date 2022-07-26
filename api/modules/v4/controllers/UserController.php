@@ -171,6 +171,7 @@ class UserController extends Controller {
             'subscribe' => ['GET'],
             'unsubscribe' => ['GET'],
             'turn-off-application' => ['GET'],
+            'logout' => ['GET'],
         ];
     }
 
