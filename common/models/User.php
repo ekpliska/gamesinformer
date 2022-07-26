@@ -170,7 +170,7 @@ class User extends ActiveRecord implements IdentityInterface {
         return $this->save() ? true : false;
     }
 
-    public function setLogoutDate($date) {
+    public function setLogoutDate($date = null) {
         $this->logout_at = \Yii::$app->formatter->asDate($date ? $date : new \DateTime('NOW'), 'yyyy-MM-dd hh:mm:ss');
         return $this->save() ? true : false;
     }
