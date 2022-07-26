@@ -155,10 +155,6 @@ class UserController extends Controller {
         $user = $this->getUserProfile();
         if ($user && $user->setLogoutDate()) {
             return ['success' => true];
-        } catch (\Exception $ex) {
-            return [
-                'success' => false
-            ];
         }
         return ['success' => false];
     }
@@ -175,7 +171,6 @@ class UserController extends Controller {
             'subscribe' => ['GET'],
             'unsubscribe' => ['GET'],
             'turn-off-application' => ['GET'],
-            'logout' => ['GET'],
         ];
     }
 
